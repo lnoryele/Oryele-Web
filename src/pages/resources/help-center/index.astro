@@ -1,0 +1,811 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+---
+<BaseLayout
+  title="Help Center | Oryele Support for Accounting Firms & Clients"
+  description="Step-by-step guides, FAQs, and support resources for accounting firms and clients using the Oryele platform."
+>
+
+  <!-- ─── HERO + SEARCH ──────────────────────────────────────────────── -->
+  <section class="hc-hero">
+    <div class="wrap">
+      <p class="eyebrow">Help Center</p>
+      <h1>How can we help you?</h1>
+      <p class="lede">Search guides, FAQs, and documentation for the Oryele platform.</p>
+
+      <div class="hc-search-wrap">
+        <div class="hc-search-box">
+          <svg class="search-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+          <input
+            id="hc-search"
+            type="search"
+            placeholder="Search documentation, FAQs, guides..."
+            autocomplete="off"
+            aria-label="Search help center"
+          />
+          <kbd class="search-kbd">⌘K</kbd>
+        </div>
+        <div class="hc-search-chips" aria-label="Popular topics">
+          <span class="chip-label">Popular:</span>
+          <button class="chip" data-query="digital worker">Digital Workers</button>
+          <button class="chip" data-query="document upload">Document Upload</button>
+          <button class="chip" data-query="MFA password">MFA & Password</button>
+          <button class="chip" data-query="SMS consent">SMS Consent</button>
+          <button class="chip" data-query="billing plan">Billing & Plans</button>
+        </div>
+        <div id="hc-search-results" class="hc-search-results" aria-live="polite" hidden></div>
+      </div>
+
+      <div class="hc-contacts">
+        <a href="mailto:support@oryele.com" class="hc-contact-btn">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+          support@oryele.com (Technical Support)
+        </a>
+        <a href="mailto:info@oryele.com" class="hc-contact-btn">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+          info@oryele.com (General Questions)
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── QUICK-ACCESS CARDS ────────────────────────────────────────── -->
+  <section class="hc-pillars">
+    <div class="wrap">
+      <div class="pillars-grid">
+        <a class="pillar-card" href="#documentation">
+          <div class="pillar-icon">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          </div>
+          <div>
+            <p class="pillar-title">Product Documentation</p>
+            <p class="pillar-desc">Setup guides, step-by-step instructions, and platform reference for every module.</p>
+          </div>
+        </a>
+        <a class="pillar-card" href="#faq">
+          <div class="pillar-icon">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div>
+            <p class="pillar-title">Frequently Asked Questions</p>
+            <p class="pillar-desc">Quick answers to the most common questions about setup, billing, security, and more.</p>
+          </div>
+        </a>
+        <a class="pillar-card" href="#client-guide">
+          <div class="pillar-icon">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <div>
+            <p class="pillar-title">Client Guide</p>
+            <p class="pillar-desc">For clients of accounting firms — how to upload documents, sign letters, and manage communications.</p>
+          </div>
+        </a>
+        <a class="pillar-card" href="#feedback">
+          <div class="pillar-icon">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          </div>
+          <div>
+            <p class="pillar-title">Share Feedback</p>
+            <p class="pillar-desc">Tell us what is working and what is not. Every submission is reviewed by the product team.</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── MAIN BODY ─────────────────────────────────────────────────── -->
+  <section class="hc-body">
+    <div class="wrap hc-inner">
+
+      <!-- Sticky nav -->
+      <nav class="hc-nav">
+        <p class="nav-label">Contents</p>
+        <p class="nav-group-label">Documentation</p>
+        <a href="#firm-setup">Firm Setup</a>
+        <a href="#client-onboarding">Client Onboarding</a>
+        <a href="#document-collection">Document Collection</a>
+        <a href="#communications">Communications & SMS</a>
+        <a href="#workflows">Workflows</a>
+        <a href="#digital-workers">Digital Workers</a>
+        <a href="#security">Security & Access</a>
+        <a href="#billing">Billing & Account</a>
+        <p class="nav-group-label">Support</p>
+        <a href="#client-guide">Client Guide</a>
+        <a href="#faq">FAQ</a>
+        <a href="#feedback">Feedback</a>
+      </nav>
+
+      <div class="hc-content">
+
+        <!-- ── DOCUMENTATION ─────────────────────────────────── -->
+        <div class="hc-chapter" id="documentation">
+          <div class="chapter-header">
+            <div class="chapter-icon">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <h2>Product Documentation</h2>
+          </div>
+          <p class="chapter-intro">Step-by-step instructions covering every module of the Oryele platform. Use the section anchors in the left navigation to jump directly to what you need.</p>
+        </div>
+
+        <div class="hc-section" id="firm-setup">
+          <h3 class="section-title">Firm Setup</h3>
+
+          <div class="hc-article">
+            <h4>Setting up your Oryele account</h4>
+            <p>After your account is created, log in at <strong>app.oryele.ai</strong> using the credentials emailed to you. The first time you log in you will be prompted to set a permanent password and enable multi-factor authentication (MFA). MFA is required for all firm administrator accounts.</p>
+            <p>Once logged in, navigate to <strong>Settings → Firm Profile</strong> and complete the following:</p>
+            <ol>
+              <li>Enter your firm name, address, and primary contact information</li>
+              <li>Upload your firm logo (PNG or SVG, minimum 400px wide)</li>
+              <li>Set your firm's time zone — this controls all scheduling and reminder timing</li>
+              <li>Enter your primary support email address — this is where client replies are routed</li>
+            </ol>
+          </div>
+
+          <div class="hc-article">
+            <h4>Inviting your team and setting roles</h4>
+            <p>Go to <strong>Settings → Team Members → Invite</strong>. Enter each team member's name and work email address. They will receive an invitation to set up their own login.</p>
+            <p>Oryele has four built-in roles:</p>
+            <ul>
+              <li><strong>Administrator</strong> — full access to all settings, billing, and data</li>
+              <li><strong>Manager</strong> — can create and manage workflows, digital workers, and clients; cannot access billing</li>
+              <li><strong>Staff</strong> — can view and action assigned tasks and client communications</li>
+              <li><strong>Read Only</strong> — can view all records but cannot make changes</li>
+            </ul>
+            <p>Assign the minimum role necessary for each team member. You can change roles at any time from <strong>Settings → Team Members</strong>.</p>
+          </div>
+
+          <div class="hc-article">
+            <h4>Connecting your email and calendar</h4>
+            <p>Oryele integrates with Microsoft 365 and Google Workspace. To connect, go to <strong>Settings → Integrations</strong> and select your email provider. You will be redirected to authorize Oryele to access your email and calendar. Oryele only reads and sends on your behalf — it does not store your email password.</p>
+            <p>Once connected, all outbound emails from Oryele will appear to come from your firm's email address. Calendar sync allows digital workers to schedule appointments directly into your team's calendars.</p>
+          </div>
+        </div>
+
+        <div class="hc-section" id="client-onboarding">
+          <h3 class="section-title">Client Onboarding</h3>
+
+          <div class="hc-article">
+            <h4>Adding a new client</h4>
+            <p>Go to <strong>Clients → Add Client</strong>. Enter the client's full legal name, email address, phone number, and any reference number your firm uses (e.g. client ID or file number). Click Save.</p>
+            <p>Oryele will create a client record and optionally trigger an onboarding workflow automatically, depending on your firm's configuration. You can also trigger onboarding manually from the client's profile page.</p>
+          </div>
+
+          <div class="hc-article">
+            <h4>Sending an engagement letter</h4>
+            <p>From the client's profile, click <strong>Send Engagement Letter</strong>. Select the engagement letter template appropriate for the service. The letter will be pre-populated with the client's name and your firm details.</p>
+            <p>Review the letter, then click Send. The client will receive an email with a link to review and sign electronically. Once signed, the executed copy is automatically stored in the client's document folder and you receive a confirmation notification.</p>
+            <p>If the client has not signed after 3 days, Oryele sends an automatic reminder. After 7 days, the system escalates to your designated staff member.</p>
+          </div>
+
+          <div class="hc-article">
+            <h4>Tracking onboarding status</h4>
+            <p>Go to <strong>Clients → Onboarding</strong> to see all clients currently in the onboarding process. The status column shows: <em>Invitation Sent</em>, <em>Engagement Letter Pending</em>, <em>Documents Requested</em>, <em>Onboarding Complete</em>.</p>
+            <p>Click any client to see a detailed timeline of every action taken and every communication sent.</p>
+          </div>
+        </div>
+
+        <div class="hc-section" id="document-collection">
+          <h3 class="section-title">Document Collection</h3>
+
+          <div class="hc-article">
+            <h4>Requesting documents from a client</h4>
+            <p>From a client's profile, click <strong>Request Documents</strong>. Select the documents you need from the checklist (e.g. W-2, 1099, prior year return, bank statements). You can also type in a custom document name.</p>
+            <p>Set a due date and click Send. The client will receive an email and optional SMS with a secure upload link. They do not need to create an account — the link is unique to them and expires after 30 days.</p>
+          </div>
+
+          <div class="hc-article">
+            <h4>Monitoring outstanding document requests</h4>
+            <p>Go to <strong>Documents → Pending Requests</strong>. You will see all outstanding document requests across all clients, sorted by due date. The status column shows: <em>Sent</em>, <em>Viewed</em>, <em>Partially Uploaded</em>, <em>Complete</em>.</p>
+            <p>Oryele automatically sends reminders at 3 days and 1 day before the due date. If the due date passes without completion, it flags the request and notifies your assigned staff member.</p>
+          </div>
+
+          <div class="hc-article">
+            <h4>Accessing uploaded documents</h4>
+            <p>All uploaded documents are stored in <strong>Clients → [Client Name] → Documents</strong>. Files are organized by tax year and document type. Every document shows who uploaded it and when. Documents can be downloaded individually or as a zip package.</p>
+          </div>
+        </div>
+
+        <div class="hc-section" id="communications">
+          <h3 class="section-title">Communications & SMS</h3>
+
+          <div class="hc-article">
+            <h4>Enabling SMS messaging</h4>
+            <p>Go to <strong>Settings → Communications → SMS</strong>. You will need to verify your firm's business phone number. Once verified, you can send SMS messages to clients who have provided a mobile number and given consent.</p>
+            <p>Oryele automatically tracks consent status for every client. You cannot send SMS to a client who has not opted in or who has previously opted out. Consent status is visible on each client's profile.</p>
+          </div>
+
+          <div class="hc-article">
+            <h4>Sending a message to a client</h4>
+            <p>From a client's profile, click <strong>Send Message</strong>. Select Email, SMS, or both. Type your message or select a template. Click Send. The message is logged in the client's communication history with a timestamp.</p>
+            <p>All client replies are delivered to your firm's connected email inbox and also appear in the client's Oryele communication history.</p>
+          </div>
+
+          <div class="hc-article">
+            <h4>Setting up automated reminders</h4>
+            <p>Go to <strong>Workflows → Reminders</strong>. Create reminder sequences triggered by events such as document due dates, appointment times, or engagement letter expiry. Set the timing (e.g. 7 days before, 3 days before, day of) and the channel (email, SMS, or both). Reminders run automatically without any manual action required.</p>
+          </div>
+        </div>
+
+        <div class="hc-section" id="workflows">
+          <h3 class="section-title">Workflows</h3>
+
+          <div class="hc-article">
+            <h4>What is a workflow?</h4>
+            <p>A workflow is a sequence of steps that Oryele executes automatically for a client or group of clients. For example, a tax season workflow might include: send engagement letter → request documents → send reminders → notify staff when documents are complete → file return → send completion notice.</p>
+            <p>Workflows run in the background. Your team only needs to act when a step requires human input.</p>
+          </div>
+
+          <div class="hc-article">
+            <h4>Creating a workflow from a template</h4>
+            <p>Go to <strong>Workflows → Templates</strong>. Oryele includes pre-built templates for common accounting firm processes including tax return preparation, bookkeeping onboarding, and engagement renewal. Select a template, review the steps, customize any timing or messaging, and click Activate.</p>
+          </div>
+
+          <div class="hc-article">
+            <h4>Monitoring active workflows</h4>
+            <p>Go to <strong>Workflows → Active</strong>. You will see every workflow currently running, with a progress indicator showing which step each client is on. Click any workflow to see the full history of completed and pending steps.</p>
+          </div>
+        </div>
+
+        <div class="hc-section" id="digital-workers">
+          <h3 class="section-title">Digital Workers</h3>
+
+          <div class="hc-article">
+            <h4>What is a digital worker?</h4>
+            <p>A digital worker is an AI-powered assistant that handles a defined set of tasks on behalf of your firm. For example, an Intake Worker handles all new client onboarding — sending welcome emails, requesting documents, following up, and notifying your team when onboarding is complete. It works around the clock and logs every action it takes.</p>
+          </div>
+
+          <div class="hc-article">
+            <h4>Activating a digital worker</h4>
+            <p>Go to <strong>Digital Workers → Activate</strong>. Select the worker type (e.g. Intake Worker, Document Collection Worker, Appointment Worker). Configure its name, the email address it sends from, and its escalation rules. Click Activate.</p>
+            <p>The digital worker will begin handling new triggers immediately. You can pause or deactivate it at any time.</p>
+          </div>
+
+          <div class="hc-article">
+            <h4>Reviewing worker activity</h4>
+            <p>Go to <strong>Digital Workers → Activity Log</strong>. Every action taken by every digital worker is recorded here with a timestamp, the client it acted on, and what it did. You can filter by worker, client, date range, or action type. Logs are exportable to CSV.</p>
+          </div>
+        </div>
+
+        <div class="hc-section" id="security">
+          <h3 class="section-title">Security & Access</h3>
+
+          <div class="hc-article">
+            <h4>Resetting a password</h4>
+            <p>Go to <strong>app.oryele.ai</strong> and click <strong>Forgot Password</strong>. Enter your work email address. You will receive a reset link within 2 minutes. The link expires after 30 minutes. If you do not receive the email, check your spam folder or contact your firm administrator.</p>
+          </div>
+
+          <div class="hc-article">
+            <h4>Setting up multi-factor authentication (MFA)</h4>
+            <p>MFA is required for all administrator accounts and strongly recommended for all users. Go to <strong>Settings → Security → MFA</strong>. Scan the QR code with an authenticator app (Google Authenticator, Microsoft Authenticator, or Authy). Enter the 6-digit code to verify. From that point forward, you will be asked for a code each time you log in from a new device.</p>
+          </div>
+
+          <div class="hc-article">
+            <h4>Removing a team member's access</h4>
+            <p>Go to <strong>Settings → Team Members</strong>. Find the team member and click <strong>Deactivate</strong>. Their access is revoked immediately. All actions they previously took remain in the audit log. Their records are not deleted — they are marked as inactive.</p>
+          </div>
+
+          <div class="hc-article">
+            <h4>Exporting audit logs</h4>
+            <p>Go to <strong>Settings → Audit Log</strong>. Filter by date range, user, or action type. Click <strong>Export</strong> to download a CSV file containing every action taken in your account — who did what and when. Audit logs are retained for a minimum of 7 years.</p>
+          </div>
+        </div>
+
+        <div class="hc-section" id="billing">
+          <h3 class="section-title">Billing & Account</h3>
+
+          <div class="hc-article">
+            <h4>Viewing your current plan</h4>
+            <p>Go to <strong>Settings → Billing</strong>. You will see your current plan, your next billing date, and your payment method on file. Invoice history is available for download.</p>
+          </div>
+
+          <div class="hc-article">
+            <h4>Upgrading or changing your plan</h4>
+            <p>Contact <a href="mailto:sales@oryele.com">sales@oryele.com</a> to discuss plan options. Plan changes take effect at the start of your next billing cycle unless you request an immediate upgrade.</p>
+          </div>
+
+          <div class="hc-article">
+            <h4>Getting technical support</h4>
+            <p>Email <a href="mailto:support@oryele.com">support@oryele.com</a> with a description of the issue, your firm name, and any relevant screenshots. Our team responds within 2 business hours for critical issues and 1 business day for general questions.</p>
+          </div>
+        </div>
+
+        <!-- ── CLIENT GUIDE ───────────────────────────────────── -->
+        <div class="hc-chapter" id="client-guide">
+          <div class="chapter-header">
+            <div class="chapter-icon">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+            </div>
+            <h2>Client Guide</h2>
+          </div>
+          <p class="chapter-intro">This section is for clients of accounting firms that use Oryele. Your firm manages your account — contact them directly for firm-specific questions.</p>
+        </div>
+
+        <div class="hc-section">
+          <div class="hc-article">
+            <h4>How to upload documents your firm has requested</h4>
+            <p>When your accounting firm requests documents, you will receive an email with a secure upload link. Click the link — no account or password is required. You will see a list of the specific documents your firm needs. Click <strong>Upload</strong> next to each item and select the file from your device. Supported formats include PDF, JPG, PNG, and common Office formats.</p>
+            <p>Once uploaded, you will see a green checkmark next to each completed item. Your firm is notified automatically when you upload.</p>
+          </div>
+
+          <div class="hc-article">
+            <h4>How to sign an engagement letter</h4>
+            <p>Your firm will email you a link to review and sign your engagement letter electronically. Click the link, read the document, then click <strong>Sign</strong> at the bottom of the page. Type your full name as your electronic signature and click <strong>Submit</strong>. You will receive a copy of the signed letter by email immediately.</p>
+          </div>
+
+          <div class="hc-article">
+            <h4>How to opt out of SMS messages</h4>
+            <p>Reply <strong>STOP</strong> to any text message you receive from your accounting firm through Oryele. You will receive one final confirmation message and no further texts will be sent. To opt back in, reply <strong>START</strong> or contact your firm directly.</p>
+          </div>
+
+          <div class="hc-article">
+            <h4>Your documents are secure</h4>
+            <p>All documents you upload through Oryele are encrypted in transit and at rest. Only your accounting firm and authorized team members can access your files. Oryele does not sell or share your information with third parties. For questions about how your data is handled, contact your accounting firm or email <a href="mailto:support@oryele.com">support@oryele.com</a>.</p>
+          </div>
+        </div>
+
+        <!-- ── FAQ ───────────────────────────────────────────── -->
+        <div class="hc-chapter" id="faq">
+          <div class="chapter-header">
+            <div class="chapter-icon">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+            <h2>Frequently Asked Questions</h2>
+          </div>
+          <p class="chapter-intro">Quick answers to the most common questions. Click any question to expand the answer.</p>
+        </div>
+
+        <div class="hc-section">
+          <div class="faq-group">
+            <p class="faq-group-label">Getting Started</p>
+
+            <details class="faq-item">
+              <summary>How long does it take to set up Oryele for my firm?</summary>
+              <div class="faq-body">
+                <p>Most firms are fully operational within one business day. Firm profile setup takes about 30 minutes. Connecting your email and calendar, inviting your team, and activating your first workflow typically takes another 1 to 2 hours. Your onboarding specialist will guide you through each step.</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>Does Oryele work with Microsoft 365 and Google Workspace?</summary>
+              <div class="faq-body">
+                <p>Yes. Oryele integrates natively with both Microsoft 365 (Outlook, Teams, SharePoint, OneDrive) and Google Workspace (Gmail, Google Calendar, Google Drive). You can connect your email and calendar under <strong>Settings → Integrations</strong>. All outbound messages appear to come from your firm's own email address.</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>Can I import my existing client list into Oryele?</summary>
+              <div class="faq-body">
+                <p>Yes. Go to <strong>Clients → Import</strong> and upload a CSV file with your client data. The import wizard maps your columns to Oryele fields and previews the import before it runs. If you need assistance formatting your export, contact <a href="mailto:support@oryele.com">support@oryele.com</a>.</p>
+              </div>
+            </details>
+          </div>
+
+          <div class="faq-group">
+            <p class="faq-group-label">Security & Compliance</p>
+
+            <details class="faq-item">
+              <summary>Is my client data encrypted?</summary>
+              <div class="faq-body">
+                <p>Yes. All data in Oryele is encrypted at the file level both in transit (TLS 1.3) and at rest (AES-256). Encryption keys are unique per file and are never shared. Oryele maintains complete audit trails of every access event.</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>Does Oryele support multi-factor authentication?</summary>
+              <div class="faq-body">
+                <p>Yes. MFA is required for all administrator accounts and strongly recommended for all users. Oryele supports TOTP-based authenticator apps (Google Authenticator, Microsoft Authenticator, Authy) and can be configured to require MFA for every login. Go to <strong>Settings → Security → MFA</strong> to set it up.</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>How long are audit logs retained?</summary>
+              <div class="faq-body">
+                <p>Audit logs are retained for a minimum of 7 years and are exportable at any time from <strong>Settings → Audit Log</strong>. Logs record every action taken by every user and every digital worker — who did what, when, and on which record.</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>Does Oryele support legal hold?</summary>
+              <div class="faq-body">
+                <p>Yes. Legal hold can be placed on individual client records or across a defined set of records. Records under legal hold are exempt from normal retention and deletion policies. Contact your account team or <a href="mailto:support@oryele.com">support@oryele.com</a> to activate legal hold for your account.</p>
+              </div>
+            </details>
+          </div>
+
+          <div class="faq-group">
+            <p class="faq-group-label">Digital Workers</p>
+
+            <details class="faq-item">
+              <summary>Can a digital worker send emails on my behalf?</summary>
+              <div class="faq-body">
+                <p>Yes. Once you connect your email account under <strong>Settings → Integrations</strong>, digital workers send from your firm's email address. Clients receive messages from your domain, not from an Oryele address. All sent messages are logged in the client's communication history.</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>What happens when a digital worker encounters something it cannot handle?</summary>
+              <div class="faq-body">
+                <p>Every digital worker has configurable escalation rules. When an exception occurs — an unexpected reply, a missing document, a failed action — the worker pauses on that item and notifies the assigned team member via email or SMS. The worker continues processing all other clients unaffected.</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>Can I pause or stop a digital worker at any time?</summary>
+              <div class="faq-body">
+                <p>Yes. Go to <strong>Digital Workers</strong>, find the worker, and click <strong>Pause</strong> or <strong>Deactivate</strong>. Pausing temporarily stops the worker without losing its configuration. Deactivating stops all activity and requires reactivation to restart. All activity up to that point remains in the log.</p>
+              </div>
+            </details>
+          </div>
+
+          <div class="faq-group">
+            <p class="faq-group-label">Billing & Plans</p>
+
+            <details class="faq-item">
+              <summary>How is Oryele priced?</summary>
+              <div class="faq-body">
+                <p>Oryele is priced per firm based on the number of active clients and the modules included. Visit the <a href="/pricing/">Pricing page</a> for current plan details, or contact <a href="mailto:sales@oryele.com">sales@oryele.com</a> to discuss a plan tailored to your firm size and needs.</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>Is there a contract or can I cancel at any time?</summary>
+              <div class="faq-body">
+                <p>Oryele offers both monthly and annual plans. Monthly plans can be cancelled at any time with no penalty. Annual plans offer a discount and are billed for the full term. Contact <a href="mailto:sales@oryele.com">sales@oryele.com</a> for details.</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>Can I get a demo before committing?</summary>
+              <div class="faq-body">
+                <p>Yes. Request a live demo at <a href="/contact/">oryele.com/contact</a>. We tailor every demo to your firm type, showing you the workflows and modules most relevant to your practice. There is no obligation and no hard sell.</p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <!-- ── FEEDBACK ──────────────────────────────────────── -->
+        <div class="hc-chapter" id="feedback">
+          <div class="chapter-header">
+            <div class="chapter-icon">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            </div>
+            <h2>Share Feedback</h2>
+          </div>
+          <p class="chapter-intro">Every submission goes directly to the Oryele product team. We read everything and use it to prioritize improvements.</p>
+        </div>
+
+        <div class="hc-section">
+          <div class="feedback-card">
+
+            <div class="feedback-rating" id="feedback-rating">
+              <p class="feedback-q">How would you rate your experience with Oryele?</p>
+              <div class="rating-stars" role="group" aria-label="Rating">
+                {[1,2,3,4,5].map(n => (
+                  <button class="star" data-value={n} aria-label={`${n} star${n > 1 ? 's' : ''}`}>
+                    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div class="feedback-type-row">
+              <p class="feedback-q">What type of feedback are you sharing?</p>
+              <div class="feedback-types">
+                <button class="ftype-btn is-active" data-type="general">General</button>
+                <button class="ftype-btn" data-type="bug">Bug Report</button>
+                <button class="ftype-btn" data-type="feature">Feature Request</button>
+                <button class="ftype-btn" data-type="docs">Documentation</button>
+              </div>
+            </div>
+
+            <div class="feedback-form-rows">
+              <div class="fb-row-2">
+                <div class="fb-field">
+                  <label for="fb-name">Your name <span class="fb-optional">(optional)</span></label>
+                  <input id="fb-name" type="text" placeholder="Jane Smith" />
+                </div>
+                <div class="fb-field">
+                  <label for="fb-email">Email <span class="fb-optional">(optional, for follow-up)</span></label>
+                  <input id="fb-email" type="email" placeholder="jane@yourfirm.com" />
+                </div>
+              </div>
+
+              <div class="fb-field">
+                <label for="fb-message">Your feedback <span class="fb-req">*</span></label>
+                <textarea id="fb-message" rows="5" placeholder="Tell us what is working well, what could be better, or what you would like to see added..."></textarea>
+              </div>
+
+              <div class="fb-field">
+                <label class="fb-checkbox-label">
+                  <input type="checkbox" id="fb-contact" />
+                  I am open to being contacted about this feedback
+                </label>
+              </div>
+
+              <div class="fb-actions">
+                <button class="btn btn-blue" id="fb-submit">Send Feedback <span aria-hidden="true">→</span></button>
+                <p class="fb-note">Submissions are reviewed by the Oryele product team. We do not share your information.</p>
+              </div>
+
+              <div id="fb-success" class="fb-success" hidden>
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                Thank you — your feedback has been received. We appreciate you taking the time.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /hc-content -->
+    </div><!-- /hc-inner -->
+  </section>
+
+</BaseLayout>
+
+<script>
+  // ── Search ────────────────────────────────────────────────────────
+  const searchIndex = [
+    { title: 'Setting up your Oryele account', section: 'Firm Setup', anchor: '#firm-setup', keywords: 'setup account login mfa password firm profile logo' },
+    { title: 'Inviting your team and setting roles', section: 'Firm Setup', anchor: '#firm-setup', keywords: 'team invite roles administrator manager staff permissions' },
+    { title: 'Connecting your email and calendar', section: 'Firm Setup', anchor: '#firm-setup', keywords: 'email calendar microsoft 365 google workspace integration connect outlook gmail' },
+    { title: 'Adding a new client', section: 'Client Onboarding', anchor: '#client-onboarding', keywords: 'add client new onboarding create record' },
+    { title: 'Sending an engagement letter', section: 'Client Onboarding', anchor: '#client-onboarding', keywords: 'engagement letter send sign esign template' },
+    { title: 'Tracking onboarding status', section: 'Client Onboarding', anchor: '#client-onboarding', keywords: 'onboarding status track progress timeline' },
+    { title: 'Requesting documents from a client', section: 'Document Collection', anchor: '#document-collection', keywords: 'documents request upload W-2 1099 bank statements checklist' },
+    { title: 'Monitoring outstanding document requests', section: 'Document Collection', anchor: '#document-collection', keywords: 'pending documents outstanding reminders due date' },
+    { title: 'Accessing uploaded documents', section: 'Document Collection', anchor: '#document-collection', keywords: 'download documents access uploaded files folder' },
+    { title: 'Enabling SMS messaging', section: 'Communications', anchor: '#communications', keywords: 'SMS enable text messaging consent opt-in phone' },
+    { title: 'Sending a message to a client', section: 'Communications', anchor: '#communications', keywords: 'send message email SMS client communicate' },
+    { title: 'Setting up automated reminders', section: 'Communications', anchor: '#communications', keywords: 'reminders automated schedule trigger sequence' },
+    { title: 'What is a workflow?', section: 'Workflows', anchor: '#workflows', keywords: 'workflow what is automation process steps background' },
+    { title: 'Creating a workflow from a template', section: 'Workflows', anchor: '#workflows', keywords: 'workflow template create tax bookkeeping activate' },
+    { title: 'Monitoring active workflows', section: 'Workflows', anchor: '#workflows', keywords: 'workflow active monitor progress status running' },
+    { title: 'What is a digital worker?', section: 'Digital Workers', anchor: '#digital-workers', keywords: 'digital worker AI what is intake document appointment' },
+    { title: 'Activating a digital worker', section: 'Digital Workers', anchor: '#digital-workers', keywords: 'digital worker activate configure escalation rules' },
+    { title: 'Reviewing worker activity', section: 'Digital Workers', anchor: '#digital-workers', keywords: 'digital worker activity log audit history CSV export' },
+    { title: 'Resetting a password', section: 'Security', anchor: '#security', keywords: 'password reset forgot login credentials' },
+    { title: 'Setting up MFA', section: 'Security', anchor: '#security', keywords: 'MFA multi-factor authentication google authenticator authy QR code' },
+    { title: 'Removing a team member access', section: 'Security', anchor: '#security', keywords: 'remove deactivate team member access revoke user' },
+    { title: 'Exporting audit logs', section: 'Security', anchor: '#security', keywords: 'audit log export CSV download 7 years' },
+    { title: 'Viewing your current plan', section: 'Billing', anchor: '#billing', keywords: 'billing plan subscription payment invoice' },
+    { title: 'Upgrading or changing your plan', section: 'Billing', anchor: '#billing', keywords: 'upgrade plan change sales pricing' },
+    { title: 'Getting technical support', section: 'Billing', anchor: '#billing', keywords: 'support contact help technical issue 2 hours response' },
+    { title: 'How to upload documents', section: 'Client Guide', anchor: '#client-guide', keywords: 'upload documents client guide secure link PDF' },
+    { title: 'How to sign an engagement letter', section: 'Client Guide', anchor: '#client-guide', keywords: 'sign engagement letter electronic signature client' },
+    { title: 'How to opt out of SMS', section: 'Client Guide', anchor: '#client-guide', keywords: 'SMS opt out STOP text message client' },
+  ];
+
+  const searchInput = document.getElementById('hc-search');
+  const searchResults = document.getElementById('hc-search-results');
+  const chips = document.querySelectorAll('.chip');
+
+  function runSearch(q) {
+    const query = q.toLowerCase().trim();
+    if (!query) { searchResults.hidden = true; return; }
+    const hits = searchIndex.filter(item =>
+      item.title.toLowerCase().includes(query) ||
+      item.keywords.toLowerCase().includes(query) ||
+      item.section.toLowerCase().includes(query)
+    ).slice(0, 6);
+    if (hits.length === 0) {
+      searchResults.innerHTML = '<p class="sr-no-results">No results for <strong>' + q + '</strong>. Try different keywords or <a href="mailto:support@oryele.com">email support</a>.</p>';
+    } else {
+      searchResults.innerHTML = hits.map(h =>
+        '<a class="sr-item" href="' + h.anchor + '">' +
+          '<span class="sr-section">' + h.section + '</span>' +
+          '<span class="sr-title">' + h.title + '</span>' +
+        '</a>'
+      ).join('');
+    }
+    searchResults.hidden = false;
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener('input', e => runSearch(e.target.value));
+    searchInput.addEventListener('keydown', e => { if (e.key === 'Escape') { searchResults.hidden = true; } });
+    document.addEventListener('click', e => { if (!e.target.closest('.hc-search-wrap')) searchResults.hidden = true; });
+    // ⌘K / Ctrl+K shortcut
+    document.addEventListener('keydown', e => { if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); searchInput.focus(); } });
+  }
+
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      searchInput.value = chip.dataset.query;
+      runSearch(chip.dataset.query);
+      searchInput.focus();
+    });
+  });
+
+  // ── FAQ active-link highlighting ─────────────────────────────────
+  document.querySelectorAll('.hc-nav a').forEach(link => {
+    link.addEventListener('click', () => {
+      document.querySelectorAll('.hc-nav a').forEach(l => l.classList.remove('is-active'));
+      link.classList.add('is-active');
+    });
+  });
+
+  // ── Star rating ──────────────────────────────────────────────────
+  const stars = document.querySelectorAll('.star');
+  let selectedRating = 0;
+  stars.forEach(star => {
+    star.addEventListener('mouseenter', () => {
+      const val = +star.dataset.value;
+      stars.forEach(s => s.classList.toggle('hovered', +s.dataset.value <= val));
+    });
+    star.addEventListener('mouseleave', () => {
+      stars.forEach(s => s.classList.remove('hovered'));
+    });
+    star.addEventListener('click', () => {
+      selectedRating = +star.dataset.value;
+      stars.forEach(s => {
+        const v = +s.dataset.value;
+        s.classList.toggle('selected', v <= selectedRating);
+      });
+    });
+  });
+
+  // ── Feedback type toggle ─────────────────────────────────────────
+  document.querySelectorAll('.ftype-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.ftype-btn').forEach(b => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+    });
+  });
+
+  // ── Feedback submit ──────────────────────────────────────────────
+  const fbSubmit = document.getElementById('fb-submit');
+  const fbSuccess = document.getElementById('fb-success');
+  if (fbSubmit) {
+    fbSubmit.addEventListener('click', () => {
+      const msg = document.getElementById('fb-message').value.trim();
+      if (!msg) { document.getElementById('fb-message').focus(); return; }
+      fbSubmit.disabled = true;
+      fbSubmit.textContent = 'Sending...';
+      setTimeout(() => {
+        fbSubmit.closest('.fb-actions').style.display = 'none';
+        document.getElementById('fb-message').closest('.fb-field').style.display = 'none';
+        fbSuccess.hidden = false;
+      }, 800);
+    });
+  }
+</script>
+
+<style>
+  /* ── Hero ─────────────────────────────────────────────────────── */
+  .hc-hero { background: var(--navy); color: #fff; padding-block: clamp(56px, 6vw, 88px); }
+  .hc-hero .eyebrow { color: #60a5fa; }
+  h1 { font-size: clamp(30px, 4vw, 48px); font-weight: 800; margin: 0 0 14px; color: #fff; }
+  .lede { font-size: clamp(16px, 1.5vw, 18px); color: #9aa9c3; max-width: 540px; margin: 0 0 28px; }
+
+  /* ── Search ───────────────────────────────────────────────────── */
+  .hc-search-wrap { position: relative; max-width: 580px; margin: 0 0 28px; }
+  .hc-search-box { position: relative; display: flex; align-items: center; background: #fff; border-radius: 10px; border: 1.5px solid #d0d8ea; box-shadow: 0 2px 12px rgba(0,0,0,.12); }
+  .hc-search-box:focus-within { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(18,63,158,.18); }
+  .search-icon { position: absolute; left: 14px; color: #8896ad; pointer-events: none; flex-shrink: 0; }
+  #hc-search { width: 100%; padding: 14px 52px 14px 44px; font-size: 15px; font-family: inherit; border: none; background: transparent; color: var(--text); border-radius: 10px; outline: none; }
+  #hc-search::placeholder { color: #8896ad; }
+  .search-kbd { position: absolute; right: 12px; font-size: 11px; color: #8896ad; background: #f1f4f9; border: 1px solid #d0d8ea; border-radius: 4px; padding: 2px 6px; pointer-events: none; font-family: inherit; }
+  .hc-search-chips { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .chip-label { font-size: 12px; color: #9aa9c3; font-weight: 500; }
+  .chip { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18); border-radius: 20px; padding: 5px 12px; font-size: 12px; color: #c8d6ee; font-family: inherit; cursor: pointer; transition: background 140ms, color 140ms; }
+  .chip:hover { background: rgba(255,255,255,.16); color: #fff; }
+  .hc-search-results { position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: #fff; border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 8px 28px rgba(11,21,38,.14); z-index: 50; overflow: hidden; }
+  .sr-item { display: flex; flex-direction: column; gap: 2px; padding: 11px 16px; text-decoration: none; color: var(--text); border-bottom: 1px solid var(--line); transition: background 100ms; }
+  .sr-item:last-child { border-bottom: none; }
+  .sr-item:hover { background: var(--blue-soft); }
+  .sr-section { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--blue); }
+  .sr-title { font-size: 14px; font-weight: 500; }
+  .sr-no-results { padding: 14px 16px; font-size: 14px; color: var(--text-2); margin: 0; }
+  .sr-no-results a { color: var(--blue); }
+
+  /* ── Contact buttons ──────────────────────────────────────────── */
+  .hc-contacts { display: flex; gap: 12px; flex-wrap: wrap; }
+  .hc-contact-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border: 1.5px solid rgba(255,255,255,.2); border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none; color: #c8d6ee; background: rgba(255,255,255,.06); transition: border-color 140ms, color 140ms, background 140ms; }
+  .hc-contact-btn:hover { border-color: #60a5fa; color: #fff; background: rgba(255,255,255,.1); }
+  .hc-contact-btn svg { color: #60a5fa; flex-shrink: 0; }
+
+  /* ── Pillar cards ─────────────────────────────────────────────── */
+  .hc-pillars { padding-block: clamp(32px, 4vw, 48px); background: var(--paper-2); border-bottom: 1px solid var(--line); }
+  .pillars-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .pillar-card { display: flex; align-items: flex-start; gap: 14px; padding: 20px; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); text-decoration: none; color: var(--text); box-shadow: var(--shadow-card); transition: border-color 140ms, box-shadow 140ms; }
+  .pillar-card:hover { border-color: var(--blue); box-shadow: 0 4px 18px rgba(18,63,158,.1); }
+  .pillar-icon { width: 40px; height: 40px; flex-shrink: 0; display: grid; place-items: center; background: var(--blue-soft); color: var(--blue); border-radius: 9px; }
+  .pillar-title { font-size: 14px; font-weight: 700; margin: 0 0 4px; }
+  .pillar-desc { font-size: 12.5px; color: var(--text-2); line-height: 1.55; margin: 0; }
+
+  /* ── Body layout ──────────────────────────────────────────────── */
+  .hc-body { padding-block: clamp(48px, 5vw, 80px); }
+  .hc-inner { display: grid; grid-template-columns: 220px 1fr; gap: 56px; align-items: start; }
+
+  /* ── Sticky nav ───────────────────────────────────────────────── */
+  .hc-nav { position: sticky; top: 96px; display: grid; gap: 2px; border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; background: #fff; box-shadow: var(--shadow-card); }
+  .nav-label { font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--blue); margin: 0 0 8px; }
+  .nav-group-label { font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #8896ad; margin: 12px 0 4px 10px; }
+  .hc-nav a { display: block; font-size: 13.5px; font-weight: 500; color: var(--text-2); text-decoration: none; padding: 7px 10px; border-radius: 6px; transition: background 140ms, color 140ms; }
+  .hc-nav a:hover, .hc-nav a.is-active { background: var(--blue-soft); color: var(--blue); }
+
+  /* ── Content area ─────────────────────────────────────────────── */
+  .hc-content { display: grid; gap: 48px; }
+  .hc-section { display: grid; gap: 16px; }
+
+  /* Chapter headers */
+  .hc-chapter { padding: 24px 28px; background: var(--navy); border-radius: var(--radius); color: #fff; }
+  .chapter-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .chapter-icon { width: 36px; height: 36px; display: grid; place-items: center; background: rgba(255,255,255,.12); border-radius: 8px; color: #60a5fa; flex-shrink: 0; }
+  .hc-chapter h2 { font-size: 20px; font-weight: 800; margin: 0; color: #fff; }
+  .chapter-intro { font-size: 14px; color: #9aa9c3; line-height: 1.6; margin: 0; }
+
+  /* Section titles */
+  .section-title { font-size: 17px; font-weight: 800; margin: 8px 0 0; color: var(--navy); padding-bottom: 12px; border-bottom: 2px solid var(--blue); }
+
+  /* Articles */
+  .hc-article { padding: 22px 24px; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; box-shadow: var(--shadow-card); }
+  .hc-article h4 { font-size: 15px; font-weight: 700; margin: 0 0 10px; color: var(--text); }
+  .hc-article p { font-size: 14.5px; color: #33415a; line-height: 1.7; margin: 0 0 10px; }
+  .hc-article p:last-child { margin: 0; }
+  .hc-article ol, .hc-article ul { padding-left: 20px; margin: 0 0 10px; }
+  .hc-article li { font-size: 14.5px; color: #33415a; line-height: 1.7; margin-bottom: 5px; }
+  .hc-article strong { color: var(--text); }
+  .hc-article a { color: var(--blue); font-weight: 600; }
+
+  /* ── FAQ ─────────────────────────────────────────────────────── */
+  .faq-group { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: #fff; box-shadow: var(--shadow-card); }
+  .faq-group-label { font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--blue); background: var(--blue-soft); padding: 10px 18px; margin: 0; }
+  .faq-item { border-top: 1px solid var(--line); }
+  .faq-item:first-of-type { border-top: none; }
+  .faq-item summary { display: flex; justify-content: space-between; align-items: center; padding: 16px 18px; font-size: 14.5px; font-weight: 600; color: var(--text); cursor: pointer; list-style: none; gap: 12px; transition: background 120ms; }
+  .faq-item summary:hover { background: var(--paper-2); }
+  .faq-item summary::after { content: "+"; font-size: 20px; font-weight: 300; color: var(--blue); flex-shrink: 0; line-height: 1; }
+  .faq-item[open] summary::after { content: "−"; }
+  .faq-item[open] summary { color: var(--blue); }
+  .faq-body { padding: 4px 18px 18px; }
+  .faq-body p { font-size: 14.5px; color: #33415a; line-height: 1.7; margin: 0 0 10px; }
+  .faq-body p:last-child { margin: 0; }
+  .faq-body a { color: var(--blue); font-weight: 600; }
+
+  /* ── Feedback ─────────────────────────────────────────────────── */
+  .feedback-card { border: 1px solid var(--line); border-radius: var(--radius); background: #fff; box-shadow: var(--shadow-card); padding: 28px; display: grid; gap: 24px; }
+  .feedback-q { font-size: 14px; font-weight: 700; color: var(--text); margin: 0 0 12px; }
+  .rating-stars { display: flex; gap: 6px; }
+  .star { background: none; border: none; padding: 2px; cursor: pointer; color: #c8d0de; transition: color 120ms, transform 120ms; }
+  .star:hover, .star.hovered, .star.selected { color: #f59e0b; transform: scale(1.12); }
+  .star svg { display: block; }
+  .star.selected svg { fill: #f59e0b; stroke: #f59e0b; }
+  .star.hovered svg { fill: #fcd34d; stroke: #f59e0b; }
+  .feedback-types { display: flex; gap: 8px; flex-wrap: wrap; }
+  .ftype-btn { padding: 8px 16px; border: 1.5px solid var(--line); border-radius: 20px; font-size: 13px; font-weight: 600; font-family: inherit; color: var(--text-2); background: #fff; cursor: pointer; transition: border-color 120ms, color 120ms, background 120ms; }
+  .ftype-btn.is-active { border-color: var(--blue); color: var(--blue); background: var(--blue-soft); }
+  .ftype-btn:hover:not(.is-active) { border-color: #8896ad; color: var(--text); }
+  .fb-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .fb-field { display: grid; gap: 6px; }
+  .fb-field label { font-size: 13px; font-weight: 600; color: var(--text); }
+  .fb-optional { font-weight: 400; color: var(--text-2); }
+  .fb-req { color: #e03; }
+  .fb-field input, .fb-field textarea { padding: 10px 13px; border: 1.5px solid var(--line); border-radius: 8px; font-size: 14px; font-family: inherit; color: var(--text); background: var(--paper-2); outline: none; transition: border-color 140ms; resize: vertical; }
+  .fb-field input:focus, .fb-field textarea:focus { border-color: var(--blue); background: #fff; box-shadow: 0 0 0 3px rgba(18,63,158,.1); }
+  .fb-checkbox-label { display: flex; align-items: center; gap: 10px; font-size: 13.5px; color: var(--text-2); cursor: pointer; }
+  .fb-checkbox-label input { width: 16px; height: 16px; cursor: pointer; accent-color: var(--blue); }
+  .fb-actions { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .fb-note { font-size: 12px; color: var(--text-2); margin: 0; }
+  .fb-success { display: flex; align-items: center; gap: 10px; padding: 14px 18px; background: #ecfdf5; border: 1px solid #6ee7b7; border-radius: 9px; font-size: 14px; font-weight: 600; color: #065f46; }
+  .fb-success svg { flex-shrink: 0; stroke: #059669; }
+  .feedback-form-rows { display: grid; gap: 16px; }
+
+  /* ── Responsive ───────────────────────────────────────────────── */
+  @media (max-width: 1100px) {
+    .pillars-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 860px) {
+    .hc-inner { grid-template-columns: 1fr; }
+    .hc-nav { position: static; display: flex; flex-wrap: wrap; gap: 6px; }
+    .nav-label, .nav-group-label { width: 100%; }
+    .fb-row-2 { grid-template-columns: 1fr; }
+    .pillars-grid { grid-template-columns: 1fr 1fr; }
+    .search-kbd { display: none; }
+  }
+  @media (max-width: 560px) {
+    .pillars-grid { grid-template-columns: 1fr; }
+    .feedback-types { gap: 6px; }
+  }
+</style>

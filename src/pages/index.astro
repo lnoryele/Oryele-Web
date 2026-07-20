@@ -1,0 +1,29 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import ValueProps from "../components/ValueProps.astro";
+---
+<BaseLayout
+  title="Oryele | AI Workflow Automation Platform for Professional Services"
+  description="Oryele orchestrates people, processes, communications, documents, knowledge, and AI across accounting, legal, and insurance firms. Drive outcomes that matter."
+>
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Oryele",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "availability": "https://schema.org/InStock"
+    },
+    "description": "AI-powered workflow automation and digital workers platform for professional services firms including accounting, legal, and insurance.",
+    "url": "https://www.oryele.ai",
+    "provider": {
+      "@type": "Organization",
+      "name": "Oryele LLC"
+    }
+  })}></script>
+  <Hero />
+  <ValueProps />
+</BaseLayout>

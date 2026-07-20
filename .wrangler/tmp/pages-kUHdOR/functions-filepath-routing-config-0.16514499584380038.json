@@ -1,0 +1,37 @@
+{
+  "routes": [
+    {
+      "routePath": "/api/chat",
+      "mountPath": "/api",
+      "method": "OPTIONS",
+      "module": [
+        "api/chat.js:onRequestOptions"
+      ]
+    },
+    {
+      "routePath": "/api/chat",
+      "mountPath": "/api",
+      "method": "POST",
+      "module": [
+        "api/chat.js:onRequestPost"
+      ]
+    },
+    {
+      "routePath": "/api/subscribe",
+      "mountPath": "/api",
+      "method": "OPTIONS",
+      "module": [
+        "api/subscribe.js:onRequestOptions"
+      ]
+    },
+    {
+      "routePath": "/api/subscribe",
+      "mountPath": "/api",
+      "method": "POST",
+      "module": [
+        "api/subscribe.js:onRequestPost"
+      ]
+    }
+  ],
+  "baseURL": "/"
+}

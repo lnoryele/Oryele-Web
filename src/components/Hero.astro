@@ -1,0 +1,136 @@
+---
+const capabilities = [
+  {
+    slug: 'digital-workforce', title: 'Digital Workforce', kicker: 'Add governed capacity without adding operational drag.',
+    detail: 'Deploy AI-powered workers with defined roles, scoped permissions, reusable templates, human escalation paths, and a complete audit history for every action.',
+    proof: ['Role-based workers', 'Human escalation', 'Isolated permissions', 'Immutable activity history'],
+    metrics: [['24/7','Operational capacity'],['100%','Action traceability'],['Human','Escalation built in'],['Scoped','Permission model']]
+  },
+  {
+    slug: 'workflow-engine', title: 'Workflow Engine', kicker: 'Turn complex processes into controlled execution.',
+    detail: 'Model work visually with triggers, conditional rules, parallel actions, approval gates, human handoffs, exception handling, and live process monitoring.',
+    proof: ['Visual orchestration', 'Rules and branching', 'Approval gates', 'Real-time monitoring'],
+    metrics: [['Live','Process visibility'],['Rules','Conditional routing'],['Human','Approval gates'],['API','Event triggers']]
+  },
+  {
+    slug: 'communications', title: 'Communications', kicker: 'Coordinate every channel from one execution layer.',
+    detail: 'Connect email, SMS, voice, and calendar activity to the work itself, with consent controls, delivery tracking, call routing, and synchronized scheduling.',
+    proof: ['Email automation', 'SMS consent controls', 'Voice routing', 'Calendar synchronization'],
+    metrics: [['4','Core channels'],['Live','Delivery tracking'],['Built-in','Consent controls'],['Synced','Calendars']]
+  },
+  {
+    slug: 'knowledge', title: 'Knowledge', kicker: 'Give people and AI trusted answers in context.',
+    detail: 'Centralize curated, versioned, permission-aware knowledge so every worker and team member operates from approved information with traceable sources.',
+    proof: ['Curated knowledge', 'Version control', 'Permission-aware access', 'Traceable sources'],
+    metrics: [['One','Trusted source'],['Versioned','Content controls'],['Scoped','Access'],['Traceable','Sources']]
+  },
+  {
+    slug: 'governance', title: 'Governance', kicker: 'Build security and compliance into every action.',
+    detail: 'Apply role-based access, audit trails, retention policies, legal hold, SSO, MFA, and enforceable controls consistently across the entire platform.',
+    proof: ['RBAC', 'Audit trails', 'Legal hold', 'SSO and MFA'],
+    metrics: [['RBAC','Access control'],['Immutable','Audit trails'],['Legal','Hold controls'],['SSO','And MFA']]
+  },
+  {
+    slug: 'analytics', title: 'Analytics', kicker: 'See how work performs while it is happening.',
+    detail: 'Measure throughput, service levels, bottlenecks, exceptions, escalation rates, worker performance, and business outcomes in real time.',
+    proof: ['Live throughput', 'SLA visibility', 'Bottleneck analysis', 'Outcome reporting'],
+    metrics: [['Live','Throughput'],['SLA','Visibility'],['Fast','Bottleneck analysis'],['Clear','Outcome reporting']]
+  }
+];
+---
+<section class="hero" id="platform">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">Enterprise Execution Platform</p>
+      <h1>Run the business.<br/><span>Oryele runs the work.</span></h1>
+      <p class="lede">Unify AI, people, workflows, communications, knowledge, governance, and analytics in one intelligent execution platform.</p>
+      <div class="actions">
+        <a class="btn btn-blue" href="/contact/">Request a Demo <span aria-hidden="true">→</span></a>
+        <a class="btn btn-outline-blue" href="/platform/">Explore Platform</a>
+      </div>
+      <p class="security-line">Enterprise security, end-to-end encryption, legal hold, and compliance controls—built into every layer.</p>
+    </div>
+
+    <div class="interactive-platform" data-platform-interactive>
+      <img class="platform-art" src="/platform-interactive.png" alt="Oryele platform layers connected to Digital Workforce, Workflow Engine, Communications, Knowledge, Governance, and Analytics" width="1528" height="1029" />
+
+      <div class="detail-panel" aria-live="polite">
+        <p class="detail-label">Platform capability</p>
+        <p class="detail-title">Explore the Oryele platform</p>
+        <p class="detail-kicker">Move over a capability to see how it works.</p>
+        <p class="detail-copy">Each layer is connected, governed, and designed to move work from intent to outcome.</p>
+        <div class="detail-proof" aria-label="Capability highlights">
+          <span>Connected execution</span><span>Enterprise controls</span><span>Real-time visibility</span><span>Human oversight</span>
+        </div>
+        <a class="detail-link" href="/platform/">Explore the full platform <span aria-hidden="true">→</span></a>
+      </div>
+
+      <div class="hotspots" aria-label="Platform capability details">
+        {capabilities.map((c, i) => (
+          <a class="hotspot" href={`/platform/${c.slug}/`} data-index={i} data-title={c.title} data-kicker={c.kicker} data-detail={c.detail} data-proof={JSON.stringify(c.proof)} data-metrics={JSON.stringify(c.metrics)} aria-label={`Learn more about ${c.title}`}><span class="sr-only">{c.title}</span></a>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('[data-platform-interactive]').forEach((root) => {
+    const panel = root.querySelector('.detail-panel');
+    const title = root.querySelector('.detail-title');
+    const kicker = root.querySelector('.detail-kicker');
+    const copy = root.querySelector('.detail-copy');
+    const proof = root.querySelector('.detail-proof');
+    const link = root.querySelector('.detail-link');
+    const hotspots = [...root.querySelectorAll('.hotspot')];
+
+    const activate = (item) => {
+      hotspots.forEach(h => h.classList.toggle('is-active', h === item));
+      title.textContent = item.dataset.title || '';
+      kicker.textContent = item.dataset.kicker || '';
+      copy.textContent = item.dataset.detail || '';
+      proof.innerHTML = '';
+      JSON.parse(item.dataset.proof || '[]').forEach((entry) => {
+        const row = document.createElement('span'); row.textContent = entry; proof.appendChild(row);
+      });
+      link.href = item.getAttribute('href');
+      link.firstChild.textContent = `Explore ${item.dataset.title} `;
+      panel.classList.add('is-visible');
+    };
+
+    hotspots.forEach((item) => {
+      item.addEventListener('mouseenter', () => activate(item));
+      item.addEventListener('focus', () => activate(item));
+      item.addEventListener('click', (event) => {
+        if (window.matchMedia('(hover: none)').matches && !item.classList.contains('is-active')) { event.preventDefault(); activate(item); }
+      });
+    });
+    root.addEventListener('mouseleave', () => {
+      if (!root.matches(':focus-within')) { panel.classList.remove('is-visible'); hotspots.forEach(h => h.classList.remove('is-active')); }
+    });
+  });
+</script>
+
+<style>
+.hero{padding-block:clamp(68px,7vw,108px);overflow:hidden;background:#fff}
+.hero-grid{display:grid;grid-template-columns:minmax(330px,.76fr) minmax(660px,1.45fr);gap:clamp(36px,4.5vw,74px);align-items:center;background:#fff}
+.hero-copy{max-width:570px}.hero h1{font-size:clamp(48px,5.15vw,76px);line-height:.98;letter-spacing:-.045em;margin:0 0 26px}.hero h1 span{color:var(--blue)}.lede{font-size:clamp(18px,1.5vw,21px);line-height:1.65;color:#3d4d68;margin:0 0 30px;max-width:570px}.actions{display:flex;gap:14px;flex-wrap:wrap}.security-line{margin:38px 0 0;padding-top:24px;border-top:1px solid var(--line);font-size:14px;line-height:1.6;color:#4a5b74;max-width:565px}
+.interactive-platform{position:relative;width:100%;max-width:900px;margin-inline:auto;isolation:isolate;overflow:visible;background:#fff}.platform-art{display:block;width:100%;height:auto;background:#fff}.hotspots{position:absolute;inset:0;z-index:3;pointer-events:none}.hotspot{position:absolute;left:50.7%;width:45%;height:13.25%;pointer-events:auto;border-radius:18px;outline:none}.hotspot:nth-child(1){top:6.6%}.hotspot:nth-child(2){top:21.3%}.hotspot:nth-child(3){top:36.1%}.hotspot:nth-child(4){top:50.9%}.hotspot:nth-child(5){top:65.7%}.hotspot:nth-child(6){top:80.5%}
+.hotspot::after{content:"";position:absolute;inset:-2px;border-radius:20px;border:2px solid transparent;box-shadow:none;transition:border-color .16s ease,box-shadow .16s ease,transform .16s ease}.hotspot:hover::after,.hotspot:focus-visible::after,.hotspot.is-active::after{border-color:#2563eb;box-shadow:0 8px 18px rgba(37,99,235,.12);transform:translateY(-1px)}
+.detail-panel{position:absolute;z-index:4;left:8%;top:26%;width:214px;max-width:214px;padding:13px 14px 12px;border:1px solid #d0d8ea;border-radius:12px;background:#fff;box-shadow:0 10px 28px rgba(3,32,78,.18);color:#0b1526;opacity:0;transform:translate(-4px,2px) scale(.985);pointer-events:none;transition:opacity .14s ease,transform .16s ease;box-sizing:border-box;font-family:Inter,Arial,Helvetica,sans-serif;font-size:12px;font-weight:500;line-height:1.45;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision}
+.detail-panel.is-visible{opacity:1;transform:none;pointer-events:auto}
+.detail-panel .detail-label{margin:0 0 6px;font-family:Inter,Arial,Helvetica,sans-serif;font-size:12px;font-weight:500;line-height:1.45;letter-spacing:.12em;text-transform:uppercase;color:#123f9e}
+.detail-panel .detail-title{margin:0 0 7px;font-family:Inter,Arial,Helvetica,sans-serif;font-size:18px;font-weight:700;line-height:1.45;letter-spacing:-.015em;color:#0b1526}
+.detail-panel .detail-kicker,.detail-panel .detail-copy,.detail-panel .detail-proof span,.detail-panel .detail-link{font-family:Inter,Arial,Helvetica,sans-serif;font-size:12px;font-weight:500;line-height:1.45;letter-spacing:0;text-transform:none;color:#33415a}
+.detail-panel .detail-kicker{margin:0 0 6px}
+.detail-panel .detail-copy{margin:0 0 7px}
+.detail-panel .detail-proof{display:grid;grid-template-columns:1fr;gap:3px;margin:0 0 8px;padding:0}
+.detail-panel .detail-proof span{display:block;position:relative;padding-left:10px;margin:0}
+.detail-panel .detail-proof span::before{content:"•";position:absolute;left:0;top:0;color:#123f9e}
+.detail-panel .detail-link{display:inline-block;text-decoration:none;color:#123f9e;border-bottom:1px solid rgba(18,63,158,.35);padding-bottom:1px;margin:0}
+.detail-panel .detail-link:hover{border-color:#123f9e}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(max-width:1220px){.hero-grid{grid-template-columns:1fr}.hero-copy{max-width:760px}.interactive-platform{max-width:980px}}
+@media(max-width:720px){.interactive-platform{overflow:hidden}.detail-panel{left:4%;top:18%;width:198px;max-width:198px;padding:12px 13px}.hotspot{left:49%;width:49%}}
+@media(prefers-reduced-motion:reduce){.detail-panel,.hotspot::after{transition:none}}
+</style>

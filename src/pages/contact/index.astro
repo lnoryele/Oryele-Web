@@ -1,0 +1,172 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const reasons = [
+  { label: "Request a Demo", desc: "See Oryele in action with a live walkthrough tailored to your firm." },
+  { label: "Talk to Sales", desc: "Get pricing, ask hard questions, and understand fit before you commit." },
+  { label: "Technical Questions", desc: "Speak with an engineer about integrations, security, or architecture." },
+  { label: "Partner Inquiry", desc: "Explore technology or referral partnership opportunities." },
+];
+---
+<BaseLayout
+  title="Contact Oryele | Request a Demo or Get Support"
+  description="Get in touch with the Oryele team to request a demo, ask questions, or explore a partnership."
+>
+  <section class="contact-hero">
+    <div class="wrap">
+      <p class="eyebrow">Contact</p>
+      <h1>Let's Talk</h1>
+      <p class="lede">Whether you're evaluating Oryele, have a technical question, or want to explore a partnership reach out and we'll get back to you within one business day.</p>
+    </div>
+  </section>
+
+  <section class="contact-body">
+    <div class="wrap contact-inner">
+      <div class="contact-form-wrap">
+        <h2>Send us a message</h2>
+        <form
+          class="contact-form"
+          action="mailto:info@oryele.com"
+          method="POST"
+          enctype="text/plain"
+        >
+          <div class="field-row">
+            <div class="field">
+              <label for="first">First Name</label>
+              <input type="text" id="first" name="First Name" placeholder="Jane" required />
+            </div>
+            <div class="field">
+              <label for="last">Last Name</label>
+              <input type="text" id="last" name="Last Name" placeholder="Smith" required />
+            </div>
+          </div>
+          <div class="field">
+            <label for="email">Work Email</label>
+            <input type="email" id="email" name="Email" placeholder="jane@yourfirm.com" required />
+          </div>
+          <div class="field">
+            <label for="firm">Firm / Company</label>
+            <input type="text" id="firm" name="Firm" placeholder="Smith & Associates" />
+          </div>
+          <div class="field">
+            <label for="reason">How can we help?</label>
+            <select id="reason" name="Reason">
+              <option value="">Select a reason…</option>
+              <option>Request a Demo</option>
+              <option>Talk to Sales</option>
+              <option>Technical Question</option>
+              <option>Partner Inquiry</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="message">Message</label>
+            <textarea id="message" name="Message" rows="5" placeholder="Tell us about your firm and what you're looking to solve…"></textarea>
+          </div>
+          <button type="submit" class="btn btn-blue submit-btn">Send Message <span class="arrow">→</span></button>
+        </form>
+      </div>
+
+      <div class="contact-sidebar">
+        <div class="direct-contact">
+          <h3>Reach us directly</h3>
+          <a href="mailto:info@oryele.com" class="contact-link">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+            info@oryele.com (General and Sales)
+          </a>
+          <a href="mailto:support@oryele.com" class="contact-link">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+            support@oryele.com (Support)
+          </a>
+          <a href="mailto:sales@oryele.com" class="contact-link">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+            sales@oryele.com (Sales)
+          </a>
+          <a href="https://www.linkedin.com/company/oryele" class="contact-link" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.62 0-3.02 2.05-3.02 4.16V23H8V8z"/></svg>
+            LinkedIn
+          </a>
+        </div>
+
+        <div class="why-cards">
+          <h3>What to expect</h3>
+          {reasons.map((r) => (
+            <div class="why-card">
+              <p class="why-label">{r.label}</p>
+              <p class="why-desc">{r.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact-hero {
+    background: var(--paper-2);
+    border-bottom: 1px solid var(--line);
+    padding-block: clamp(52px, 6vw, 88px);
+  }
+  h1 { font-size: clamp(32px, 4vw, 50px); font-weight: 800; margin: 0 0 18px; }
+  .lede { font-size: clamp(16px, 1.5vw, 18px); color: #33415a; max-width: 580px; margin: 0; }
+
+  .contact-body { padding-block: clamp(52px, 6vw, 88px); }
+  .contact-inner {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: clamp(40px, 5vw, 72px);
+    align-items: start;
+  }
+
+  h2 { font-size: 24px; font-weight: 800; margin: 0 0 28px; }
+  h3 { font-size: 17px; font-weight: 700; margin: 0 0 18px; }
+
+  .contact-form { display: grid; gap: 20px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .field { display: grid; gap: 6px; }
+  label { font-size: 13.5px; font-weight: 600; color: var(--text); }
+  input, select, textarea {
+    font-family: inherit;
+    font-size: 15px;
+    color: var(--text);
+    border: 1.5px solid var(--line);
+    border-radius: 9px;
+    padding: 13px 16px;
+    background: #fff;
+    transition: border-color 140ms;
+    width: 100%;
+  }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--blue); }
+  input::placeholder, textarea::placeholder { color: #aab4c6; }
+  textarea { resize: vertical; }
+  .submit-btn { justify-self: start; padding: 15px 28px; }
+
+  .contact-sidebar { display: grid; gap: 32px; }
+  .direct-contact {
+    border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 24px; background: #fff; box-shadow: var(--shadow-card);
+    display: grid; gap: 14px;
+  }
+  .contact-link {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none; color: var(--text);
+    font-size: 15px; font-weight: 500;
+    transition: color 140ms;
+  }
+  .contact-link:hover { color: var(--blue); }
+  .contact-link svg { color: var(--blue); flex-shrink: 0; }
+
+  .why-cards { display: grid; gap: 12px; }
+  .why-card {
+    border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 18px 20px; background: #fff; box-shadow: var(--shadow-card);
+  }
+  .why-label { font-size: 14px; font-weight: 700; margin: 0 0 4px; }
+  .why-desc { font-size: 13.5px; color: #33415a; line-height: 1.55; margin: 0; }
+
+  @media (max-width: 860px) {
+    .contact-inner { grid-template-columns: 1fr; }
+    .field-row { grid-template-columns: 1fr; }
+  }
+</style>

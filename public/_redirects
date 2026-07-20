@@ -1,0 +1,17 @@
+# Redirect non-www to www (canonical domain)
+https://oryele.ai/* https://www.oryele.ai/:splat 301
+
+# Redirect http to https
+http://oryele.ai/* https://www.oryele.ai/:splat 301
+http://www.oryele.ai/* https://www.oryele.ai/:splat 301
+
+# Fix 404s: sms-policy pages redirect to sms-consent
+/sms-policy https://www.oryele.ai/sms-consent.html 301
+/sms-policy.html https://www.oryele.ai/sms-consent.html 301
+
+# Redirect /index.html to root
+/index.html / 301
+
+# Redirect removed case studies to white papers
+/resources/case-studies/ /resources/white-papers/ 301
+/resources/case-studies /resources/white-papers/ 301

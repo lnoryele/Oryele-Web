@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ModuleIcon from './ModuleIcon.astro';
+import { modules, type Module } from '../data/modules';
+interface Props { module: Module }
+const { module } = Astro.props;
+const others = modules.filter((m) => m.slug !== module.slug);
+---
+<BaseLayout title={`${module.title} | Oryele Platform`} description={module.summary}>
+  <section class="mod-hero">
+    <div class="wrap hero-grid">
+      <div>
+        <nav class="breadcrumb"><a href="/platform/">Platform</a><span> / </span><span>{module.title}</span></nav>
+        <p class="eyebrow">Enterprise Execution Platform</p>
+        <div class="mod-title"><span class="mod-icon"><ModuleIcon icon={module.icon} size={32}/></span><h1>{module.title}</h1></div>
+        <p class="mod-lede">{module.summary}</p>
+        <div class="actions"><a class="btn btn-blue" href="/contact/">Request a Demo →</a><a class="btn btn-outline-blue" href="#capabilities">Explore Capabilities</a></div>
+      </div>
+      <aside class="outcome-panel">
+        <p class="panel-label">Business outcomes</p>
+        {module.outcomes.map((o) => <div class="outcome"><span>✓</span><p>{o}</p></div>)}
+      </aside>
+    </div>
+  </section>
+
+  <section class="section" id="capabilities"><div class="wrap">
+    <p class="eyebrow">Capabilities</p><h2>Everything required to make {module.title.toLowerCase()} operational.</h2>
+    <div class="cap-grid">{module.points.map((p, i) => <article class="cap-card"><span class="num">{String(i+1).padStart(2,'0')}</span><p>{p}</p></article>)}</div>
+  </div></section>
+
+  <section class="section process"><div class="wrap">
+    <p class="eyebrow">How it works</p><h2>From operating intent to governed execution.</h2>
+    <div class="process-grid">{module.workflow.map((w) => <article class="process-card"><span>{w.step}</span><h3>{w.title}</h3><p>{w.body}</p></article>)}</div>
+  </div></section>
+
+  <section class="section"><div class="wrap use-layout">
+    <div><p class="eyebrow">Practical applications</p><h2>Designed for real work, not isolated demonstrations.</h2><p class="section-lede">Use Oryele as the execution layer that connects your operating model to day-to-day delivery.</p></div>
+    <div class="use-grid">{module.useCases.map((u) => <article class="use-card"><h3>{u.title}</h3><p>{u.body}</p></article>)}</div>
+  </div></section>
+
+  <section class="section control"><div class="wrap control-grid">
+    <div><p class="eyebrow">Governed by design</p><h2>Control remains part of the workflow.</h2><p>Oryele combines automation with explicit permissions, evidence, and human oversight so scale does not require sacrificing accountability.</p></div>
+    <div class="control-list">{module.controls.map((c) => <div><span>✓</span>{c}</div>)}</div>
+  </div></section>
+
+  <section class="section explore"><div class="wrap"><p class="eyebrow">Explore the platform</p><h2>One connected execution environment.</h2><div class="others">{others.map((o) => <a class="other" href={`/platform/${o.slug}/`}><span><ModuleIcon icon={o.icon} size={20}/></span><strong>{o.title}</strong><b>→</b></a>)}</div></div></section>
+
+  <section class="final"><div class="wrap"><h2>See {module.title} in your operating environment.</h2><p>We will map the platform to a real process and show how Oryele improves execution, control, and visibility.</p><a class="btn btn-blue" href="/contact/">Request a Demo →</a></div></section>
+</BaseLayout>
+<style>
+.breadcrumb{font-size:13px;color:var(--text-2);margin-bottom:24px}.breadcrumb a{color:var(--blue)}
+.mod-hero{background:linear-gradient(135deg,var(--paper-2),#fff);border-bottom:1px solid var(--line);padding-block:clamp(58px,7vw,96px)}.hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:64px;align-items:center}.mod-title{display:flex;gap:16px;align-items:center}.mod-icon{width:62px;height:62px;border-radius:16px;background:var(--blue-soft);color:var(--blue);display:grid;place-items:center}h1{font-size:clamp(38px,5vw,62px);margin:0}.mod-lede{font-size:19px;line-height:1.7;color:#33415a;max-width:720px;margin:24px 0 30px}.actions{display:flex;gap:14px;flex-wrap:wrap}.outcome-panel{background:var(--navy);color:#fff;border-radius:18px;padding:30px;box-shadow:0 18px 50px rgba(8,25,55,.18)}.panel-label{font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:#8fb4ff;font-weight:800}.outcome{display:flex;gap:12px;border-top:1px solid rgba(255,255,255,.12);padding:16px 0}.outcome span{color:#79a7ff}.outcome p{margin:0;color:#e4ebf7;line-height:1.5}
+.section{padding-block:clamp(64px,7vw,100px)}h2{font-size:clamp(28px,3.4vw,44px);margin:0 0 36px;max-width:760px}.cap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.cap-card{border:1px solid var(--line);border-radius:14px;padding:24px;background:#fff;box-shadow:var(--shadow-card)}.cap-card .num{font-size:11px;letter-spacing:.12em;color:var(--blue);font-weight:800}.cap-card p{font-size:15px;line-height:1.6;color:#33415a;margin:14px 0 0}.process{background:var(--navy);color:#fff}.process .eyebrow{color:#79a7ff}.process-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.process-card{border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:28px;background:rgba(255,255,255,.04)}.process-card span{font-size:12px;color:#79a7ff;font-weight:800}.process-card h3{font-size:20px;margin:16px 0 10px}.process-card p{color:#b8c6da;line-height:1.65;margin:0}.use-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:70px}.section-lede{font-size:17px;color:#33415a;line-height:1.7}.use-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.use-card{padding:24px;border-left:3px solid var(--blue);background:var(--paper-2);border-radius:0 12px 12px 0}.use-card h3{margin:0 0 8px;font-size:17px}.use-card p{margin:0;color:#33415a;line-height:1.6}.control{background:var(--paper-2);border-block:1px solid var(--line)}.control-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center}.control-grid p{color:#33415a;line-height:1.7}.control-list{display:grid;grid-template-columns:1fr 1fr;gap:14px}.control-list div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px;font-weight:700}.control-list span{color:var(--blue);margin-right:10px}.others{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.other{border:1px solid var(--line);border-radius:12px;padding:18px;text-decoration:none;display:grid;gap:12px}.other span,.other b{color:var(--blue)}.other b{justify-self:end}.final{text-align:center;padding-block:80px;background:#f7f9fd}.final h2{margin-inline:auto;margin-bottom:14px}.final p{max-width:650px;margin:0 auto 26px;color:#33415a}
+@media(max-width:900px){.hero-grid,.use-layout,.control-grid{grid-template-columns:1fr}.cap-grid,.process-grid{grid-template-columns:1fr 1fr}.others{grid-template-columns:1fr 1fr}.control-list{grid-template-columns:1fr}}@media(max-width:620px){.cap-grid,.process-grid,.use-grid,.others{grid-template-columns:1fr}}
+</style>

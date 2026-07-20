@@ -1,0 +1,5 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+const links=[['Home','/'],['Platform','/platform/'],['Solutions','/solutions/'],['Why Oryele','/company/'],['Careers','/careers/'],['Resources','/resources/'],['Pricing','/pricing/'],['Contact','/contact/'],['Privacy Policy','/privacy/'],['Terms & Conditions','/terms/'],['SMS Consent','/sms-consent/'],['Cookie Policy','/cookie-policy/'],['Support','/support/'],['Trust Center','/trust/']];
+---
+<BaseLayout title="Sitemap | Oryele" description="Browse the main pages of the Oryele website."><section class="map"><div class="wrap"><h1>Sitemap</h1><div>{links.map(l=><a href={l[1]}>{l[0]} <span>→</span></a>)}</div></div></section></BaseLayout><style>.map{padding-block:90px}.map h1{font-size:clamp(44px,6vw,68px)}.map div div{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.map a{display:flex;justify-content:space-between;border:1px solid var(--line);border-radius:12px;padding:17px 19px;text-decoration:none;color:#17243b;background:#fff}.map a:hover{border-color:#2b68d7;color:#174db0}@media(max-width:650px){.map div div{grid-template-columns:1fr}}</style>

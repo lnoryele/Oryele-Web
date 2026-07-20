@@ -1,0 +1,113 @@
+---
+import Logo from "./Logo.astro";
+import { modules } from "../data/modules";
+
+const currentPath = Astro.url.pathname;
+const links = [
+  { href: "/solutions/", label: "Solutions" },
+  { href: "/pricing/", label: "Pricing" },
+  { href: "/company/", label: "Company" },
+  { href: "/support/", label: "Help Center" },
+  { href: "/contact/", label: "Contact" },
+];
+const resources = [
+  { href: "/resources/documentation/", label: "Documentation", icon: "▣", description: "Product guides, setup, administration, and platform operations." },
+  { href: "/resources/white-papers/", label: "White Papers", icon: "◇", description: "Architecture, AI, security, governance, and industry insight." },
+  { href: "/resources/help-center/", label: "Help Center", icon: "?", description: "Answers, troubleshooting, FAQs, and support resources." },
+];
+const isActive = (href: string) => href === "/" ? currentPath === "/" : currentPath.startsWith(href);
+---
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="/" aria-label="Oryele home"><Logo variant="light" height={52} /></a>
+
+    <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-hidden="true" />
+    <label for="nav-toggle" class="nav-burger" aria-label="Open or close navigation menu">
+      <span></span><span></span><span></span>
+    </label>
+
+    <div class="nav-menu">
+      <nav class="nav-links" aria-label="Main navigation">
+        <div class="dropdown">
+          <a class:list={["dropdown-trigger", { active: currentPath.startsWith("/platform/") }]} href="/platform/" aria-haspopup="true" aria-current={currentPath.startsWith("/platform/") ? "page" : undefined}>Platform<svg class="caret" viewBox="0 0 10 6" width="10" height="6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></a>
+          <div class="dropdown-menu platform-menu">
+            <a href="/platform/">Platform Overview</a>
+            {modules.map((m) => <a href={`/platform/${m.slug}/`}>{m.title}</a>)}
+          </div>
+        </div>
+
+        <a class:list={{ active: isActive(links[0].href) }} href={links[0].href} aria-current={isActive(links[0].href) ? "page" : undefined}>{links[0].label}</a>
+
+        <div class="dropdown">
+          <a class:list={["dropdown-trigger", { active: currentPath.startsWith("/resources/") }]} href="/resources/documentation/" aria-haspopup="true" aria-current={currentPath.startsWith("/resources/") ? "page" : undefined}>Resources<svg class="caret" viewBox="0 0 10 6" width="10" height="6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></a>
+          <div class="dropdown-menu resources-menu">
+            {resources.map((r) => <a class="resource-item" href={r.href}><span class="resource-icon" aria-hidden="true">{r.icon}</span><span class="resource-copy"><strong>{r.label}</strong><small>{r.description}</small></span><span class="resource-arrow" aria-hidden="true">→</span></a>)}
+          </div>
+        </div>
+
+        {links.slice(1).map((l) => (
+          <a class:list={{ active: isActive(l.href) }} href={l.href} aria-current={isActive(l.href) ? "page" : undefined}>{l.label}</a>
+        ))}
+      </nav>
+      <div class="nav-actions">
+        <a class="btn btn-outline-inv nav-btn" href="https://app.oryele.com" rel="noopener noreferrer">Login</a>
+        <a class="btn btn-blue nav-btn" href="/contact/">Request a Demo <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .nav { position: sticky; top: 0; z-index: 50; background: var(--navy); color: #fff; border-bottom: 1px solid rgba(255,255,255,.04); }
+  .nav-inner { display: flex; align-items: center; height: 80px; gap: 20px; }
+  .brand { text-decoration: none; color: #fff; display: inline-flex; align-items: center; flex-shrink: 0; }
+  .nav-menu { display: flex; align-items: center; flex: 1; gap: 24px; }
+  .nav-links { display: flex; align-items: center; gap: 24px; margin-inline: auto; }
+  .nav-links > a, .dropdown-trigger { position: relative; display: inline-flex; align-items: center; gap: 7px; color: #e6ecf7; text-decoration: none; font-size: 15px; font-weight: 600; }
+  .nav-links > a::after, .dropdown-trigger::after { content: ""; position: absolute; left: 0; right: 0; bottom: -10px; height: 2px; border-radius: 2px; background: #4d7de0; transform: scaleX(0); transition: transform 160ms ease; }
+  .nav-links > a:hover, .dropdown-trigger:hover, .nav-links .active { color: #fff; }
+  .nav-links > a:hover::after, .dropdown-trigger:hover::after, .nav-links .active::after { transform: scaleX(1); }
+  .caret { opacity: 0.75; }
+  .dropdown { position: relative; }
+  .dropdown-trigger { padding-block: 28px; }
+  .dropdown-menu { position: absolute; top: calc(100% - 2px); left: 50%; transform: translateX(-50%) translateY(6px); min-width: 210px; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 18px 48px rgba(11,21,38,.18); padding: 8px; opacity: 0; visibility: hidden; transition: opacity 160ms ease, transform 160ms ease, visibility 160ms ease; }
+  .platform-menu { min-width: 230px; }
+  .resources-menu { min-width: 430px; padding: 12px; border-radius: 18px; }
+  .resources-menu .resource-item { display:grid; grid-template-columns:44px 1fr 18px; align-items:center; gap:14px; min-height:74px; padding:13px 14px; border-radius:14px; }
+  .resource-icon{display:grid;place-items:center;width:44px;height:44px;border-radius:12px;background:var(--blue-soft);color:var(--blue);font-size:18px;font-weight:800}
+  .resource-copy{display:flex;flex-direction:column;gap:4px}.resource-copy strong{font-size:15px;line-height:1.2}.resource-copy small{font-size:12px;line-height:1.35;color:#657690;font-weight:500}.resource-arrow{color:#7890b5;font-size:17px;transition:transform 160ms ease}.resource-item:hover .resource-arrow,.resource-item:focus-visible .resource-arrow{transform:translateX(3px)}
+  .dropdown:hover .dropdown-menu, .dropdown:focus-within .dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+  .dropdown-menu a { display: flex; align-items:center; justify-content:space-between; gap:14px; color: var(--text); text-decoration: none; font-size: 14px; font-weight: 600; padding: 10px 12px; border-radius: 8px; }
+  .external-mark{font-size:12px;color:#6f83a3}
+  .dropdown-menu a:hover, .dropdown-menu a:focus-visible { background: var(--blue-soft); color: var(--blue); }
+  .resources-menu .resource-item:hover .resource-copy small,.resources-menu .resource-item:focus-visible .resource-copy small{color:#4e6590}
+  .nav-actions { display: flex; align-items: center; gap: 12px; }
+  .nav-btn { padding: 13px 21px; font-size: 14px; white-space: nowrap; }
+  .nav-toggle, .nav-burger { display: none; }
+
+  @media (max-width: 1160px) {
+    .nav-links { gap: 18px; }
+    .nav-links > a, .dropdown-trigger { font-size: 14px; }
+  }
+  @media (max-width: 1080px) {
+    .nav-inner { justify-content: space-between; }
+    .nav-burger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 10px; border-radius: 8px; }
+    .nav-burger span { width: 24px; height: 2px; background: #fff; transition: transform 160ms ease, opacity 160ms ease; }
+    .nav-menu { display: none; position: absolute; top: 80px; left: 0; right: 0; max-height: calc(100vh - 80px); overflow-y: auto; flex-direction: column; align-items: stretch; gap: 8px; background: var(--navy); padding: 12px var(--pad) 24px; border-bottom: 1px solid var(--navy-line); box-shadow: 0 20px 40px rgba(0,0,0,.18); }
+    .nav-links { flex-direction: column; align-items: flex-start; gap: 0; margin: 0; }
+    .nav-links > a, .dropdown-trigger { padding: 12px 0; width: 100%; }
+    .nav-links > a::after, .dropdown-trigger::after { display: none; }
+    .dropdown { width: 100%; }
+    .dropdown-menu { position: static; transform: none; opacity: 1; visibility: visible; display: grid; background: transparent; border: none; box-shadow: none; padding: 0 0 4px 16px; min-width: 0; }
+    .dropdown:hover .dropdown-menu, .dropdown:focus-within .dropdown-menu { transform: none; }
+    .dropdown-menu a { color: #b7c3d8; padding: 8px 0; }
+    .resources-menu .resource-item{display:grid;grid-template-columns:36px 1fr 16px;min-height:auto;padding:10px 0}.resource-icon{width:36px;height:36px}.resource-copy small{color:#8fa0bb}
+    .dropdown-menu a:hover { background: transparent; color: #fff; }
+    .nav-actions { flex-direction: column; align-items: stretch; margin-top: 8px; }
+    .nav-btn { justify-content: center; }
+    .nav-toggle:checked ~ .nav-menu { display: flex; }
+    .nav-toggle:checked + .nav-burger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle:checked + .nav-burger span:nth-child(2) { opacity: 0; }
+    .nav-toggle:checked + .nav-burger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  }
+</style>

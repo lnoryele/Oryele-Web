@@ -1,0 +1,80 @@
+---
+const props = [
+  { icon: "bolt", title: "Execute Faster", body: "Automate and orchestrate work across people, systems, and data." },
+  { icon: "dollar", title: "Reduce Costs", body: "Eliminate manual work so teams can focus on impact." },
+  { icon: "shield", title: "Stay Compliant", body: "Built in governance, audit trails, and role-based access." },
+  { icon: "trend", title: "Drive Outcomes", body: "Real time visibility into work, performance, and results." },
+  { icon: "spark", title: "Powered by AI", body: "Embedded AI across the platform to accelerate every outcome." },
+];
+---
+<section class="vprops">
+  <div class="wrap">
+    <div class="vprops-band">
+      {props.map((p) => (
+        <div class="vprop">
+          <span class="vprop-icon">
+            <!-- #9 icon size increased ~30% from 26 to 34 -->
+            <svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              {p.icon === "bolt" && <path d="M13 2L5 13h5l-1 9 8-11h-5l1-9z"/>}
+              {p.icon === "dollar" && <g><circle cx="12" cy="12" r="9"/><path d="M12 6.5v11M15 8.8c-.6-1-1.7-1.5-3-1.5-1.7 0-3 .9-3 2.3 0 3 6 1.7 6 4.7 0 1.4-1.3 2.3-3 2.3-1.3 0-2.4-.5-3-1.5"/></g>}
+              {p.icon === "shield" && <g><path d="M12 3l7 3v5c0 4.8-3 8-7 10-4-2-7-5.2-7-10V6l7-3z"/><path d="M9.2 12l2 2 3.6-3.8"/></g>}
+              {p.icon === "trend" && <g><path d="M4 20h16"/><path d="M4 15l4.5-4.5 3 3L18 7"/><path d="M14.5 7H18v3.5"/></g>}
+              {p.icon === "spark" && <g><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8L19 15z"/></g>}
+            </svg>
+          </span>
+          <div class="vprop-text">
+            <p class="vprop-title">{p.title}</p>
+            <p class="vprop-body">{p.body}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* #9 more vertical padding, hover states */
+  .vprops { padding-block: 8px clamp(48px, 6vw, 72px); background: var(--paper); }
+  .vprops-band {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: 0 2px 8px rgba(11,21,38,0.07), 0 8px 28px rgba(11,21,38,0.06);
+    background: #fff;
+    overflow: hidden;
+  }
+  .vprop {
+    display: flex; flex-direction: column; gap: 14px; align-items: flex-start;
+    /* #9 more vertical padding */
+    padding: 32px 22px;
+    transition: background 200ms ease, box-shadow 200ms ease;
+    cursor: default;
+  }
+  /* #9 hover state */
+  .vprop:hover {
+    background: var(--blue-soft);
+  }
+  .vprop:hover .vprop-icon { color: var(--blue-dark); transform: scale(1.1); }
+  .vprop + .vprop { border-left: 1px solid var(--line); }
+  .vprop-icon {
+    color: var(--blue);
+    flex-shrink: 0;
+    transition: transform 200ms ease, color 200ms ease;
+  }
+  .vprop-title {
+    margin: 0 0 6px;
+    font-size: 13px; font-weight: 800;
+    letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .vprop-body { margin: 0; font-size: 13.5px; color: var(--text-2); line-height: 1.5; }
+
+  @media (max-width: 1080px) {
+    .vprops-band { grid-template-columns: 1fr; }
+    .vprop + .vprop { border-left: none; border-top: 1px solid var(--line); }
+    .vprop { flex-direction: row; align-items: center; padding: 22px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .vprop, .vprop-icon { transition: none; }
+  }
+</style>

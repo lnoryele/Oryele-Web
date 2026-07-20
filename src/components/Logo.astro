@@ -1,0 +1,10 @@
+---
+interface Props { variant?: "light" | "dark"; height?: number }
+const { variant = "light", height = 36 } = Astro.props;
+const src = variant === "light" ? "/logo-light.png" : "/logo-dark.png";
+const width = Math.round(height * (839 / 443));
+---
+<img class="logo" src={src} alt="Oryele" width={width} height={height} loading="eager" decoding="async" />
+<style>
+  .logo { display: block; height: auto; }
+</style>
