@@ -549,15 +549,49 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   var fbMsgField = document.getElementById('fb-message');
 
   if (fbSubmit && fbSuccess && fbMsgField && fbFormBody) {
-    fbSubmit.addEventListener('click', function () {
+    fbSubmit.addEventListener('click', async function () {
       var msg = fbMsgField.value.trim();
       if (!msg) { fbMsgField.focus(); return; }
+
+      var name    = document.getElementById('fb-name') ? document.getElementById('fb-name').value.trim() : '';
+      var email   = document.getElementById('fb-email') ? document.getElementById('fb-email').value.trim() : '';
+      var contact = document.getElementById('fb-contact') ? document.getElementById('fb-contact').checked : false;
+      var ftype   = document.querySelector('.ftype-btn.is-active');
+      var type    = ftype ? ftype.dataset.type : 'general';
+      var ratingEl = document.querySelector('.star.selected:last-of-type');
+      var rating  = ratingEl ? ratingEl.dataset.value : 'not rated';
+
       fbSubmit.disabled = true;
       fbSubmit.textContent = 'Sending...';
-      setTimeout(function () {
-        fbFormBody.style.display = 'none';
-        fbSuccess.classList.remove('fb-success--hidden');
-      }, 700);
+
+      try {
+        var fd = new FormData();
+        fd.append('_subject', 'Help Center Feedback: ' + type + ' from ' + (name || 'anonymous'));
+        fd.append('_captcha', 'false');
+        fd.append('Name', name || 'Anonymous');
+        fd.append('Email', email || 'Not provided');
+        fd.append('Type', type);
+        fd.append('Rating', rating + ' stars');
+        fd.append('Message', msg);
+        fd.append('Open to contact', contact ? 'Yes' : 'No');
+
+        var res = await fetch('https://formsubmit.co/ajax/info@oryele.com', {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' },
+          body: fd,
+        });
+        var data = await res.json();
+        if (data.success === 'true' || data.success === true) {
+          fbFormBody.style.display = 'none';
+          fbSuccess.classList.remove('fb-success--hidden');
+        } else {
+          throw new Error('Failed');
+        }
+      } catch (err) {
+        fbSubmit.disabled = false;
+        fbSubmit.innerHTML = 'Send Feedback <span aria-hidden="true">&#8594;</span>';
+        alert('Something went wrong. Please email support@oryele.com directly.');
+      }
     });
   }
 

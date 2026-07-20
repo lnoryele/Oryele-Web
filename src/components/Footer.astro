@@ -53,15 +53,15 @@ const links = [
     btn.disabled = true;
     btn.textContent = 'Subscribing...';
     try {
+      var fd = new FormData();
+      fd.append('_subject', 'New newsletter subscriber: ' + email);
+      fd.append('_captcha', 'false');
+      fd.append('Email', email);
+      fd.append('Source', 'Newsletter footer');
       var res = await fetch('https://formsubmit.co/ajax/info@oryele.com', {
         method: 'POST',
         headers: { 'Accept': 'application/json' },
-        body: JSON.stringify({
-          email: email,
-          source: 'newsletter',
-          _subject: 'New newsletter subscriber: ' + email,
-          _captcha: 'false',
-        }),
+        body: fd,
       });
       var data = await res.json();
       if (data.success === 'true' || data.success === true) {
