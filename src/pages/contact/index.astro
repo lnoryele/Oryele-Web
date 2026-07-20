@@ -24,34 +24,36 @@ const reasons = [
     <div class="wrap contact-inner">
       <div class="contact-form-wrap">
         <h2>Send us a message</h2>
-        <form
-          class="contact-form"
-          action="mailto:info@oryele.com"
-          method="POST"
-          enctype="text/plain"
-        >
+        <div id="contact-success" class="contact-success contact-success--hidden">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          <div>
+            <p class="success-title">Message sent</p>
+            <p class="success-sub">We will get back to you within one business day.</p>
+          </div>
+        </div>
+        <form class="contact-form" id="contact-form" novalidate>
           <div class="field-row">
             <div class="field">
               <label for="first">First Name</label>
-              <input type="text" id="first" name="First Name" placeholder="Jane" required />
+              <input type="text" id="first" name="first" placeholder="Jane" required />
             </div>
             <div class="field">
               <label for="last">Last Name</label>
-              <input type="text" id="last" name="Last Name" placeholder="Smith" required />
+              <input type="text" id="last" name="last" placeholder="Smith" required />
             </div>
           </div>
           <div class="field">
             <label for="email">Work Email</label>
-            <input type="email" id="email" name="Email" placeholder="jane@yourfirm.com" required />
+            <input type="email" id="email" name="email" placeholder="jane@yourfirm.com" required />
           </div>
           <div class="field">
             <label for="firm">Firm / Company</label>
-            <input type="text" id="firm" name="Firm" placeholder="Smith & Associates" />
+            <input type="text" id="firm" name="firm" placeholder="Smith and Associates" />
           </div>
           <div class="field">
             <label for="reason">How can we help?</label>
-            <select id="reason" name="Reason">
-              <option value="">Select a reason…</option>
+            <select id="reason" name="reason">
+              <option value="">Select a reason</option>
               <option>Request a Demo</option>
               <option>Talk to Sales</option>
               <option>Technical Question</option>
@@ -61,9 +63,10 @@ const reasons = [
           </div>
           <div class="field">
             <label for="message">Message</label>
-            <textarea id="message" name="Message" rows="5" placeholder="Tell us about your firm and what you're looking to solve…"></textarea>
+            <textarea id="message" name="message" rows="5" placeholder="Tell us about your firm and what you are looking to solve..."></textarea>
           </div>
-          <button type="submit" class="btn btn-blue submit-btn">Send Message <span class="arrow">→</span></button>
+          <p id="contact-error" class="contact-error" hidden></p>
+          <button type="submit" class="btn btn-blue submit-btn" id="contact-submit">Send Message <span class="arrow">&#8594;</span></button>
         </form>
       </div>
 
@@ -165,8 +168,71 @@ const reasons = [
   .why-label { font-size: 14px; font-weight: 700; margin: 0 0 4px; }
   .why-desc { font-size: 13.5px; color: #33415a; line-height: 1.55; margin: 0; }
 
+  .contact-success { display: flex; align-items: flex-start; gap: 14px; padding: 20px 22px; background: #ecfdf5; border: 1px solid #6ee7b7; border-radius: 10px; margin-bottom: 24px; }
+  .contact-success--hidden { display: none; }
+  .contact-success svg { stroke: #059669; flex-shrink: 0; margin-top: 2px; }
+  .success-title { font-size: 15px; font-weight: 700; color: #065f46; margin: 0 0 3px; }
+  .success-sub { font-size: 13.5px; color: #047857; margin: 0; }
+  .contact-error { font-size: 13.5px; color: #dc2626; margin: 0; padding: 10px 14px; background: #fef2f2; border: 1px solid #fca5a5; border-radius: 8px; }
+
   @media (max-width: 860px) {
     .contact-inner { grid-template-columns: 1fr; }
     .field-row { grid-template-columns: 1fr; }
   }
 </style>
+
+<script is:inline>
+(function () {
+  var form    = document.getElementById('contact-form');
+  var submit  = document.getElementById('contact-submit');
+  var success = document.getElementById('contact-success');
+  var errBox  = document.getElementById('contact-error');
+
+  if (!form) return;
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    if (errBox) errBox.hidden = true;
+
+    var first   = document.getElementById('first').value.trim();
+    var last    = document.getElementById('last').value.trim();
+    var email   = document.getElementById('email').value.trim();
+    var firm    = document.getElementById('firm').value.trim();
+    var reason  = document.getElementById('reason').value;
+    var message = document.getElementById('message').value.trim();
+
+    if (!first || !email) {
+      showError('Please enter your first name and email address.');
+      return;
+    }
+
+    submit.disabled = true;
+    submit.textContent = 'Sending...';
+
+    try {
+      var res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ first, last, email, firm, reason, message }),
+      });
+      var data = await res.json();
+      if (res.ok && data.ok) {
+        form.style.display = 'none';
+        if (success) success.classList.remove('contact-success--hidden');
+      } else {
+        throw new Error(data.error || 'Unknown error');
+      }
+    } catch (err) {
+      submit.disabled = false;
+      submit.innerHTML = 'Send Message <span class="arrow">&#8594;</span>';
+      showError(err.message || 'Something went wrong. Please email info@oryele.com directly.');
+    }
+  });
+
+  function showError(msg) {
+    if (!errBox) return;
+    errBox.textContent = msg;
+    errBox.hidden = false;
+  }
+}());
+</script>
