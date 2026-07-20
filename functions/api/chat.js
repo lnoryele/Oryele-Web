@@ -1,16 +1,10 @@
 // Cloudflare Pages Function: /api/chat
-// Proxies to Mistral on AWS EC2 at 52.87.253.29:8001 (OpenAI-compatible API).
+// Proxies to Mistral on AWS EC2 via ALB (OpenAI-compatible API).
 //
 // For local dev with wrangler pages dev, set MISTRAL_LOCAL=true in .dev.vars
-// so the function hits localhost:8001 instead of the EC2 IP.
-//
-// Optional auth: add MISTRAL_API_KEY secret in Cloudflare dashboard if your
-// Mistral server requires a bearer token.
-//
-// AWS Security Group sg-091d3bfdc02eb52ab: add all Cloudflare IPv4 CIDRs
-// on port 8001 so the CF edge can reach the server in production.
+// so the function hits localhost:8000 instead of the ALB.
 
-const MISTRAL_URL       = 'http://[2600:1f18:1a10:bfa7:be6b:5cc1:2a8c:69c2]:8000/v1/chat/completions';
+const MISTRAL_URL       = 'http://oryele-mistral-alb-1544237830.us-east-1.elb.amazonaws.com/v1/chat/completions';
 const MISTRAL_URL_LOCAL = 'http://localhost:8000/v1/chat/completions';
 const MISTRAL_MODEL     = 'mistral';
 
