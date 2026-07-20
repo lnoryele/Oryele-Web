@@ -10,8 +10,8 @@
 // AWS Security Group sg-091d3bfdc02eb52ab: add all Cloudflare IPv4 CIDRs
 // on port 8001 so the CF edge can reach the server in production.
 
-const MISTRAL_URL       = 'http://52.87.253.29:8001/v1/chat/completions';
-const MISTRAL_URL_LOCAL = 'http://localhost:8001/v1/chat/completions';
+const MISTRAL_URL       = 'http://52.87.253.29:8000/v1/chat/completions';
+const MISTRAL_URL_LOCAL = 'http://localhost:8000/v1/chat/completions';
 const MISTRAL_MODEL     = 'mistral';
 
 export async function onRequestPost(context) {
