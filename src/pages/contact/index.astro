@@ -220,7 +220,11 @@ const reasons = [
         body: JSON.stringify({ first, last, email, firm, reason, message }),
       });
       var data = await res.json();
+      console.log('Contact API response:', JSON.stringify(data));
       if (res.ok && data.ok) {
+        if (!data.email_ok) {
+          console.warn('Email failed:', data.email_status, data.email_error);
+        }
         form.style.display = 'none';
         if (success) success.classList.remove('contact-success--hidden');
       } else {

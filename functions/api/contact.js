@@ -1,10 +1,5 @@
 // Cloudflare Pages Function: /api/contact
-// Stores submissions in KV and emails via MailChannels.
-// 
-// For emails to work, you need this DNS record on oryele.ai:
-//   Type: TXT  Name: _mailchannels  Value: v=mc1 cfid=oryele-website.pages.dev
-//
-// KV binding: same SUBSCRIBERS namespace — submissions stored as contact:<ts>:<email>
+// Sends via Resend (resend.com) — requires RESEND_API_KEY secret in CF dashboard.
 
 export async function onRequestPost(context) {
   const { request, env } = context;
@@ -17,16 +12,15 @@ export async function onRequestPost(context) {
       return json({ error: 'Please provide your name and a valid email address.' }, 400, request);
     }
 
-    const ts  = new Date().toISOString();
-    const key = 'contact:' + ts + ':' + email.toLowerCase();
+    const ts     = new Date().toISOString();
+    const key    = 'contact:' + ts + ':' + email.toLowerCase();
     const record = { first, last, email, firm, reason, message, submittedAt: ts };
 
-    // Always store in KV first — this never fails silently
+    // Store in KV
     if (env.SUBSCRIBERS) {
-      await env.SUBSCRIBERS.put(key, JSON.stringify(record));
+      try { await env.SUBSCRIBERS.put(key, JSON.stringify(record)); } catch (_) {}
     }
 
-    // Send notification email
     const text = [
       'New contact form submission from oryele.ai',
       '',
@@ -39,23 +33,28 @@ export async function onRequestPost(context) {
       'Submitted: ' + ts,
     ].join('\n');
 
-    await fetch('https://api.mailchannels.net/tx/v1/send', {
+    const res = await fetch('https://api.resend.com/emails', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + env.RESEND_API_KEY,
+      },
       body: JSON.stringify({
-        personalizations: [{ to: [{ email: 'info@oryele.com', name: 'Oryele' }] }],
-        from: { email: 'noreply@oryele.ai', name: 'Oryele Website' },
-        reply_to: { email, name: (first + ' ' + (last || '')).trim() },
+        from: 'Oryele Website <noreply@oryele.ai>',
+        to: ['info@oryele.com'],
+        reply_to: email,
         subject: 'Contact: ' + (reason || 'General') + ' from ' + first + ' ' + (last || ''),
-        content: [{ type: 'text/plain', value: text }],
+        text,
       }),
     });
 
-    // Always return success — submission is saved in KV regardless of email
-    return json({ ok: true }, 200, request);
+    const resData = await res.json();
+    console.log('Resend response:', res.status, JSON.stringify(resData));
+
+    return json({ ok: true, email_status: res.status, email_ok: res.ok }, 200, request);
 
   } catch (err) {
-    return json({ error: 'Server error. Please email info@oryele.com directly.' }, 500, request);
+    return json({ error: 'Server error: ' + (err.message || err) }, 500, request);
   }
 }
 
