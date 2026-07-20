@@ -686,6 +686,9 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   });
   if (aiClose) aiClose.addEventListener('click', function (e) { e.stopPropagation(); closeWidget(); });
 
+  // Auto-open on page load
+  openWidget();
+
   // Nav sidebar link and pillar card open the widget
   if (navAiLink) {
     navAiLink.addEventListener('click', function (e) {
