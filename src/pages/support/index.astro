@@ -684,7 +684,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   if (aiToggle) aiToggle.addEventListener('click', function () {
     aiWidget.classList.contains('is-open') ? closeWidget() : openWidget();
   });
-  if (aiClose) aiClose.addEventListener('click', closeWidget);
+  if (aiClose) aiClose.addEventListener('click', function (e) { e.stopPropagation(); closeWidget(); });
 
   // Nav sidebar link and pillar card open the widget
   if (navAiLink) {
@@ -830,7 +830,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     .hc-contacts { flex-direction: column; align-items: flex-start; gap: 8px; }
   }
   /* ── Floating AI Widget ───────────────────────────────────────── */
-  .ai-widget { position: fixed; bottom: 140px; right: 28px; z-index: 999; display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
+  .ai-widget { position: fixed; bottom: 180px; right: 28px; z-index: 999; display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
 
   /* Toggle button */
   .ai-toggle { display: flex; align-items: center; gap: 9px; padding: 13px 20px 13px 16px; background: var(--navy); color: #fff; border: none; border-radius: 40px; font-size: 14px; font-weight: 700; font-family: inherit; cursor: pointer; box-shadow: 0 4px 20px rgba(11,21,38,.32); transition: background 140ms, transform 120ms; position: relative; }
@@ -883,7 +883,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   .ai-disclaimer a { color: var(--blue); }
 
   @media (max-width: 480px) {
-    .ai-widget { bottom: 100px; right: 16px; }
+    .ai-widget { bottom: 130px; right: 16px; }
     .ai-panel { width: calc(100vw - 32px); }
     .ai-toggle-label { display: none; }
     .ai-toggle { padding: 13px; border-radius: 50%; }
