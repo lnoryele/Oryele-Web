@@ -396,7 +396,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     <span id="ai-unread" class="ai-unread" hidden>1</span>
   </button>
 
-  <div id="ai-panel" class="ai-panel" role="dialog" aria-label="Oryele AI Assistant" hidden>
+  <div id="ai-panel" class="ai-panel ai-panel--hidden" role="dialog" aria-label="Oryele AI Assistant">
     <div class="ai-panel-header">
       <div class="ai-panel-title">
         <div class="ai-panel-avatar"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="3" y="3" width="18" height="14" rx="3"/><path d="M8 21h8M12 17v4"/></svg></div>
@@ -668,7 +668,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   function openWidget() {
     if (!aiWidget || !aiPanel || !aiToggle) return;
     aiWidget.classList.add('is-open');
-    aiPanel.hidden = false;
+    aiPanel.classList.remove('ai-panel--hidden');
     aiToggle.setAttribute('aria-expanded', 'true');
     if (aiUnread) aiUnread.hidden = true;
     if (aiInput) { setTimeout(function () { aiInput.focus(); }, 120); }
@@ -677,7 +677,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   function closeWidget() {
     if (!aiWidget || !aiPanel || !aiToggle) return;
     aiWidget.classList.remove('is-open');
-    aiPanel.hidden = true;
+    aiPanel.classList.add('ai-panel--hidden');
     aiToggle.setAttribute('aria-expanded', 'false');
   }
 
@@ -725,7 +725,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   .chip { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18); border-radius: 20px; padding: 5px 12px; font-size: 12px; color: #c8d6ee; font-family: inherit; cursor: pointer; transition: background 140ms, color 140ms; }
   .chip:hover { background: rgba(255,255,255,.16); color: #fff; }
   .hc-search-results { display: none; position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: #fff; border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 8px 28px rgba(11,21,38,.18); z-index: 200; overflow: hidden; }
-  .hc-search-results.is-open { display: block; }  .sr-item { display: flex; flex-direction: column; gap: 2px; padding: 11px 16px; text-decoration: none; color: var(--text); border-bottom: 1px solid var(--line); transition: background 100ms; }
+  .hc-search-results.is-open { display: block; }
+  .sr-item { display: flex; flex-direction: column; gap: 2px; padding: 11px 16px; text-decoration: none; color: var(--text); border-bottom: 1px solid var(--line); transition: background 100ms; }
   .sr-item:last-child { border-bottom: none; }
   .sr-item:hover { background: var(--blue-soft); }
   .sr-section { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--blue); }
@@ -830,7 +831,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     .hc-contacts { flex-direction: column; align-items: flex-start; gap: 8px; }
   }
   /* ── Floating AI Widget ───────────────────────────────────────── */
-  .ai-widget { position: fixed; bottom: 180px; right: 28px; z-index: 999; display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
+  .ai-widget { position: fixed; top: 80px; right: 28px; z-index: 999; display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
 
   /* Toggle button */
   .ai-toggle { display: flex; align-items: center; gap: 9px; padding: 13px 20px 13px 16px; background: var(--navy); color: #fff; border: none; border-radius: 40px; font-size: 14px; font-weight: 700; font-family: inherit; cursor: pointer; box-shadow: 0 4px 20px rgba(11,21,38,.32); transition: background 140ms, transform 120ms; position: relative; }
@@ -844,6 +845,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
   /* Panel */
   .ai-panel { width: 360px; background: #fff; border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 12px 40px rgba(11,21,38,.22); overflow: hidden; display: flex; flex-direction: column; max-height: 540px; }
+  .ai-panel--hidden { display: none; }
   .ai-panel-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; background: var(--navy); color: #fff; flex-shrink: 0; }
   .ai-panel-title { display: flex; align-items: center; gap: 10px; }
   .ai-panel-avatar { width: 34px; height: 34px; background: rgba(255,255,255,.12); border-radius: 50%; display: grid; place-items: center; color: #60a5fa; flex-shrink: 0; }
@@ -883,7 +885,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   .ai-disclaimer a { color: var(--blue); }
 
   @media (max-width: 480px) {
-    .ai-widget { bottom: 130px; right: 16px; }
+    .ai-widget { top: 70px; right: 16px; bottom: auto; }
     .ai-panel { width: calc(100vw - 32px); }
     .ai-toggle-label { display: none; }
     .ai-toggle { padding: 13px; border-radius: 50%; }

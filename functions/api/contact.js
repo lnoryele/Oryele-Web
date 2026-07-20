@@ -40,7 +40,7 @@ export async function onRequestPost(context) {
         'Authorization': 'Bearer ' + env.RESEND_API_KEY,
       },
       body: JSON.stringify({
-        from: 'Oryele Website <noreply@oryele.ai>',
+        from: 'Oryele Website <onboarding@resend.dev>',
         to: ['info@oryele.com'],
         reply_to: email,
         subject: 'Contact: ' + (reason || 'General') + ' from ' + first + ' ' + (last || ''),
