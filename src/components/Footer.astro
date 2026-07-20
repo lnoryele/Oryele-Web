@@ -53,18 +53,23 @@ const links = [
     btn.disabled = true;
     btn.textContent = 'Subscribing...';
     try {
-      var res = await fetch('/api/subscribe', {
+      var res = await fetch('https://formsubmit.co/ajax/info@oryele.com', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email, source: 'footer' }),
+        headers: { 'Accept': 'application/json' },
+        body: JSON.stringify({
+          email: email,
+          source: 'newsletter',
+          _subject: 'New newsletter subscriber: ' + email,
+          _captcha: 'false',
+        }),
       });
       var data = await res.json();
-      if (res.ok || data.ok) {
+      if (data.success === 'true' || data.success === true) {
         showMsg('You are subscribed. Welcome aboard.', 'ok');
         if (input) input.value = '';
         btn.textContent = 'Subscribed';
       } else {
-        throw new Error(data.error || 'Unknown error');
+        throw new Error('Failed');
       }
     } catch (err) {
       btn.disabled = false;

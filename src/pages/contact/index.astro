@@ -32,27 +32,30 @@ const reasons = [
           </div>
         </div>
         <form class="contact-form" id="contact-form" novalidate>
+          <input type="hidden" name="_subject" value="New contact form submission from oryele.ai" />
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="hidden" name="_template" value="table" />
           <div class="field-row">
             <div class="field">
               <label for="first">First Name</label>
-              <input type="text" id="first" name="first" placeholder="Jane" required />
+              <input type="text" id="first" name="First Name" placeholder="Jane" required />
             </div>
             <div class="field">
               <label for="last">Last Name</label>
-              <input type="text" id="last" name="last" placeholder="Smith" required />
+              <input type="text" id="last" name="Last Name" placeholder="Smith" required />
             </div>
           </div>
           <div class="field">
             <label for="email">Work Email</label>
-            <input type="email" id="email" name="email" placeholder="jane@yourfirm.com" required />
+            <input type="email" id="email" name="Email" placeholder="jane@yourfirm.com" required />
           </div>
           <div class="field">
             <label for="firm">Firm / Company</label>
-            <input type="text" id="firm" name="firm" placeholder="Smith and Associates" />
+            <input type="text" id="firm" name="Firm" placeholder="Smith and Associates" />
           </div>
           <div class="field">
             <label for="reason">How can we help?</label>
-            <select id="reason" name="reason">
+            <select id="reason" name="Reason">
               <option value="">Select a reason</option>
               <option>Request a Demo</option>
               <option>Talk to Sales</option>
@@ -63,7 +66,7 @@ const reasons = [
           </div>
           <div class="field">
             <label for="message">Message</label>
-            <textarea id="message" name="message" rows="5" placeholder="Tell us about your firm and what you are looking to solve..."></textarea>
+            <textarea id="message" name="Message" rows="5" placeholder="Tell us about your firm and what you are looking to solve..."></textarea>
           </div>
           <p id="contact-error" class="contact-error" hidden></p>
           <button type="submit" class="btn btn-blue submit-btn" id="contact-submit">Send Message <span class="arrow">&#8594;</span></button>
@@ -113,12 +116,12 @@ const reasons = [
   .contact-hero {
     background: var(--paper-2);
     border-bottom: 1px solid var(--line);
-    padding-block: clamp(52px, 6vw, 88px);
+    padding-block: clamp(24px, 3vw, 40px);
   }
   h1 { font-size: clamp(32px, 4vw, 50px); font-weight: 800; margin: 0 0 18px; }
   .lede { font-size: clamp(16px, 1.5vw, 18px); color: #33415a; max-width: 580px; margin: 0; }
 
-  .contact-body { padding-block: clamp(52px, 6vw, 88px); }
+  .contact-body { padding-block: clamp(24px, 3vw, 40px); }
   .contact-inner {
     display: grid;
     grid-template-columns: 1fr 380px;
@@ -198,12 +201,8 @@ const reasons = [
     e.preventDefault();
     if (errBox) errBox.hidden = true;
 
-    var first   = document.getElementById('first').value.trim();
-    var last    = document.getElementById('last').value.trim();
-    var email   = document.getElementById('email').value.trim();
-    var firm    = document.getElementById('firm').value.trim();
-    var reason  = document.getElementById('reason').value;
-    var message = document.getElementById('message').value.trim();
+    var first = document.getElementById('first').value.trim();
+    var email = document.getElementById('email').value.trim();
 
     if (!first || !email) {
       showError('Please enter your first name and email address.');
@@ -214,26 +213,23 @@ const reasons = [
     submit.textContent = 'Sending...';
 
     try {
-      var res = await fetch('/api/contact', {
+      var formData = new FormData(form);
+      var res = await fetch('https://formsubmit.co/ajax/info@oryele.com', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ first, last, email, firm, reason, message }),
+        headers: { 'Accept': 'application/json' },
+        body: formData,
       });
       var data = await res.json();
-      console.log('Contact API response:', JSON.stringify(data));
-      if (res.ok && data.ok) {
-        if (!data.email_ok) {
-          console.warn('Email failed:', data.email_status, data.email_error);
-        }
+      if (data.success === 'true' || data.success === true) {
         form.style.display = 'none';
         if (success) success.classList.remove('contact-success--hidden');
       } else {
-        throw new Error(data.error || 'Unknown error');
+        throw new Error('Submission failed');
       }
     } catch (err) {
       submit.disabled = false;
       submit.innerHTML = 'Send Message <span class="arrow">&#8594;</span>';
-      showError(err.message || 'Something went wrong. Please email info@oryele.com directly.');
+      showError('Something went wrong. Please email info@oryele.com directly.');
     }
   });
 
