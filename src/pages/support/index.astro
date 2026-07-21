@@ -412,7 +412,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     <div class="ai-chat-messages" id="ai-messages" aria-live="polite">
       <div class="ai-msg ai-msg--assistant">
         <div class="ai-msg-header"><div class="ai-avatar" aria-hidden="true"><img src="/elle-avatar.png" alt="Elle" style="width:26px;height:26px;border-radius:50%;object-fit:cover;"/></div><div class="ai-sender-label">Elle · Assistant</div></div>
-        <div class="ai-bubble"><p>Hi, I am Elle, your Oryele assistant. Ask me anything about the platform including setup, workflows, digital workers, billing, and security.</p></div>
+        <div class="ai-bubble"><p>Hi! How can I help you today?</p></div>
       </div>
     </div>
     <div class="ai-suggestions" id="ai-suggestions">
@@ -901,7 +901,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   .ai-msg--assistant .ai-avatar { background: var(--navy); color: #60a5fa; }
   .ai-msg--user .ai-avatar { background: var(--blue); color: #fff; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; flex-shrink: 0; overflow: hidden; } .ai-msg--user .ai-avatar svg { width: 14px; height: 14px; }
   .ai-bubble { max-width: 85%; }
-  .ai-sender-label { font-size: 11px !important; font-weight: 700; color: #60a5fa; margin: 0 0 4px 0 !important; background: none !important; border: none !important; padding: 0 !important; border-radius: 0 !important; display: block; line-height: 26px; } .ai-bubble p { margin: 0 !important; font-size: 13px !important; line-height: 1.6 !important; color: var(--text); background: var(--paper-2); border: 1px solid var(--line); border-radius: 10px; padding: 8px 11px !important; white-space: pre-wrap; }
+  .ai-sender-label { font-size: 11px; font-weight: 700; color: #60a5fa; margin: 0; background: none; border: none; padding: 0; border-radius: 0; display: inline-flex; align-items: center; line-height: 26px; } .ai-bubble p { margin: 0 !important; font-size: 13px !important; line-height: 1.6 !important; color: var(--text); background: var(--paper-2); border: 1px solid var(--line); border-radius: 10px; padding: 8px 11px !important; white-space: pre-wrap; }
   .ai-msg--user .ai-bubble p { background: #e8f0fe; color: #1a2a4a; border-color: #c7d9fd; border-radius: 10px 10px 2px 10px; }
   .ai-msg--assistant .ai-bubble p { border-radius: 2px 10px 10px 10px; }
   .typing-dot { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: #8896ad; margin: 0 2px; animation: blink 1.2s infinite; }
