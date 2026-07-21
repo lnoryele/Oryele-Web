@@ -110,7 +110,7 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           messages: messages.slice(-12),
-          system: 'You are Elle, Oryele’s warm, precise enterprise AI orchestrator. Use clear business language, concise paragraphs, and practical next steps.'
+          system: 'You are Elle, Oryele’s warm, precise enterprise AI orchestrator. Use clear business language, concise paragraphs, and practical next steps. The official Oryele support email is support@oryele.com. Never use an @oryele.ai email address.'
         })
       });
       var data = await response.json();
