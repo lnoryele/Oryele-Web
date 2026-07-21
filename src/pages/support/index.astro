@@ -649,7 +649,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     var wrap = document.createElement('div');
     wrap.className = 'ai-msg ai-msg--assistant';
     wrap.id = 'ai-typing';
-    wrap.innerHTML = '<div class="ai-avatar" aria-hidden="true"><img src="/elle-avatar.png" alt="Elle" style="width:26px;height:26px;border-radius:50%;object-fit:cover;"/></div><div class="ai-bubble"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>';
+    wrap.innerHTML = '<div class="ai-msg-header"><div class="ai-avatar" aria-hidden="true"><img src="/elle-avatar.png" alt="Elle" style="width:26px;height:26px;border-radius:50%;object-fit:cover;"/></div><div class="ai-sender-label">Elle · Assistant</div></div><div class="ai-bubble"><div style="background:var(--paper-2);border:1px solid var(--line);border-radius:2px 10px 10px 10px;padding:8px 11px;display:inline-block;"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div></div>';
     aiMessages.appendChild(wrap);
     aiMessages.scrollTop = aiMessages.scrollHeight;
   }
