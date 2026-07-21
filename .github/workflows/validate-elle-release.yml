@@ -1,0 +1,37 @@
+name: Validate Elle Release
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [feature/elle-knowledge-v1]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Astro site
+        run: npm run build
+
+      - name: Verify Elle production files
+        run: |
+          test -f src/components/ElleAssistant.astro
+          test -f functions/api/chat.js
+          test -f functions/api/elle-feedback.js
+          grep -q 'ElleAssistant' src/layouts/BaseLayout.astro
