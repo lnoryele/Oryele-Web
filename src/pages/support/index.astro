@@ -412,7 +412,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     <div class="ai-chat-messages" id="ai-messages" aria-live="polite">
       <div class="ai-msg ai-msg--assistant">
         <div class="ai-avatar" aria-hidden="true"><img src="/elle-avatar.png" alt="Elle" style="width:26px;height:26px;border-radius:50%;object-fit:cover;"/></div>
-        <div class="ai-bubble"><p>Hi, I am Elle, your Oryele assistant. Ask me anything about the platform including setup, workflows, digital workers, billing, and security.</p></div>
+        <div class="ai-bubble"><p class="ai-sender-label">Elle · Assistant</p><p>Hi, I am Elle, your Oryele assistant. Ask me anything about the platform including setup, workflows, digital workers, billing, and security.</p></div>
       </div>
     </div>
     <div class="ai-suggestions" id="ai-suggestions">
@@ -625,6 +625,12 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       : '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
     var bubble = document.createElement('div');
     bubble.className = 'ai-bubble';
+    if (role === 'assistant') {
+      var label = document.createElement('p');
+      label.className = 'ai-sender-label';
+      label.textContent = 'Elle · Assistant';
+      bubble.appendChild(label);
+    }
     var p = document.createElement('p');
     p.textContent = text;
     bubble.appendChild(p);
@@ -899,7 +905,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   .ai-msg--assistant .ai-avatar { background: var(--navy); color: #60a5fa; }
   .ai-msg--user .ai-avatar { background: var(--blue); color: #fff; }
   .ai-bubble { max-width: 85%; }
-  .ai-bubble p { margin: 0; font-size: 13px; line-height: 1.6; color: var(--text); background: var(--paper-2); border: 1px solid var(--line); border-radius: 10px; padding: 8px 11px; white-space: pre-wrap; }
+  .ai-sender-label { font-size: 10px; font-weight: 700; color: #60a5fa; margin: 0 0 4px 2px; background: none; border: none; padding: 0; border-radius: 0; } .ai-bubble p { margin: 0; font-size: 13px; line-height: 1.6; color: var(--text); background: var(--paper-2); border: 1px solid var(--line); border-radius: 10px; padding: 8px 11px; white-space: pre-wrap; }
   .ai-msg--user .ai-bubble p { background: var(--blue); color: #fff; border-color: var(--blue); border-radius: 10px 10px 2px 10px; }
   .ai-msg--assistant .ai-bubble p { border-radius: 2px 10px 10px 10px; }
   .typing-dot { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: #8896ad; margin: 0 2px; animation: blink 1.2s infinite; }
