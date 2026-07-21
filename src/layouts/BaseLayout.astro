@@ -11,6 +11,7 @@ interface Props {
   datePublished?: string;
   dateModified?: string;
   type?: "website" | "article";
+  showElle?: boolean;
 }
 
 const {
@@ -20,6 +21,7 @@ const {
   datePublished,
   dateModified,
   type = "website",
+  showElle = true,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, 'https://oryele.com');
@@ -135,7 +137,7 @@ const breadcrumbSchema = {
       <slot />
     </main>
     <Footer />
-    <ElleAssistant />
+    {showElle && <ElleAssistant />}
     <script>
       // Scroll reveal
       const observer = new IntersectionObserver(
