@@ -595,7 +595,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   // ── AI Assistant ─────────────────────────────────────────────────
   var SYSTEM_PROMPT =
     'You are Elle, a helpful support assistant for Oryele, an AI-powered workflow automation and digital workers platform for professional services firms. ' +
-    'Never introduce yourself or describe the platform unless directly asked. Never list all modules unprompted. ' +
+    'When you receive the message "__greeting__" respond with a brief friendly greeting only — 1 sentence max, no platform overview. ' +
     'Respond naturally and conversationally. If someone greets you, greet them back briefly. ' +
     'Only give detailed information when specifically asked. Keep answers short and to the point. ' +
     'You know every Oryele module: Digital Workforce, Workflow Engine, Communications, Knowledge, Governance, Analytics. ' +
@@ -702,6 +702,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     if (!aiWidget || !aiPanel || !aiToggle) return;
     aiWidget.classList.add('is-open');
     aiPanel.classList.remove('ai-panel--hidden');
+    if (chatHistory.length === 0) { showTyping(); fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ system: SYSTEM_PROMPT, messages: [{ role: 'user', content: '__greeting__' }] }) }).then(r => r.json()).then(d => { hideTyping(); var t = (d.content && d.content[0] && d.content[0].text) ? d.content[0].text : 'Hi! How can I help you today?'; addBubble('assistant', t); }).catch(() => { hideTyping(); addBubble('assistant', 'Hi! How can I help you today?'); }); }
     aiToggle.setAttribute('aria-expanded', 'true');
     if (aiUnread) aiUnread.hidden = true;
     if (aiInput) { setTimeout(function () { aiInput.focus(); }, 120); }
