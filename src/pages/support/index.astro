@@ -633,6 +633,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     }
     var p = document.createElement('p');
     p.textContent = text;
+    p.style.cssText = 'margin:0;font-size:13px;line-height:1.6;border-radius:10px;padding:8px 11px;white-space:pre-wrap;display:block;';
+    if (role === 'user') { p.style.background = 'var(--blue)'; p.style.color = '#fff'; p.style.borderRadius = '10px 10px 2px 10px'; } else { p.style.background = 'var(--paper-2)'; p.style.color = 'var(--text)'; p.style.border = '1px solid var(--line)'; p.style.borderRadius = '2px 10px 10px 10px'; }
     bubble.appendChild(p);
     wrap.appendChild(avatar);
     wrap.appendChild(bubble);
