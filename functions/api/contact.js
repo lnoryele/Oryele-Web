@@ -22,7 +22,7 @@ export async function onRequestPost(context) {
     }
 
     const text = [
-      'New contact form submission from oryele.ai',
+      'New contact form submission from oryele.com',
       '',
       'Name:    ' + (first || '') + ' ' + (last || ''),
       'Email:   ' + email,

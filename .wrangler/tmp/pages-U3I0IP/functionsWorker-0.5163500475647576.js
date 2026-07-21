@@ -84,7 +84,7 @@ async function onRequestPost2(context) {
       }
     }
     const text = [
-      "New contact form submission from oryele.ai",
+      "New contact form submission from oryele.com",
       "",
       "Name:    " + (first || "") + " " + (last || ""),
       "Email:   " + email,
@@ -101,7 +101,7 @@ async function onRequestPost2(context) {
         "Authorization": "Bearer " + env.RESEND_API_KEY
       },
       body: JSON.stringify({
-        from: "Oryele Website <noreply@oryele.ai>",
+        from: "Oryele Website <noreply@oryele.com>",
         to: ["info@oryele.com"],
         reply_to: email,
         subject: "Contact: " + (reason || "General") + " from " + first + " " + (last || ""),
@@ -167,7 +167,7 @@ async function onRequestPost3(context) {
         "Authorization": "Bearer " + env.RESEND_API_KEY
       },
       body: JSON.stringify({
-        from: "Oryele Website <noreply@oryele.ai>",
+        from: "Oryele Website <noreply@oryele.com>",
         to: ["info@oryele.com"],
         subject: "New newsletter subscriber: " + email,
         text: "New subscriber:\n\nEmail: " + email + "\nSource: " + source + "\nTime: " + ts

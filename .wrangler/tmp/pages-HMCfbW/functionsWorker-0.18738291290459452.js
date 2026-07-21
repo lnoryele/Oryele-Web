@@ -81,7 +81,7 @@ async function onRequestPost2(context) {
       await env.SUBSCRIBERS.put(key, JSON.stringify(record));
     }
     const text = [
-      "New contact form submission from oryele.ai",
+      "New contact form submission from oryele.com",
       "",
       "Name:    " + (first || "") + " " + (last || ""),
       "Email:   " + email,
@@ -96,7 +96,7 @@ async function onRequestPost2(context) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         personalizations: [{ to: [{ email: "info@oryele.com", name: "Oryele" }] }],
-        from: { email: "noreply@oryele.ai", name: "Oryele Website" },
+        from: { email: "noreply@oryele.com", name: "Oryele Website" },
         reply_to: { email, name: (first + " " + (last || "")).trim() },
         subject: "Contact: " + (reason || "General") + " from " + first + " " + (last || ""),
         content: [{ type: "text/plain", value: text }]

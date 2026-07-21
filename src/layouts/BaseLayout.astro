@@ -22,17 +22,17 @@ const {
   type = "website",
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, 'https://oryele.ai');
-const ogImageURL = new URL(ogImage, 'https://oryele.ai');
+const canonicalURL = new URL(Astro.url.pathname, 'https://oryele.com');
+const ogImageURL = new URL(ogImage, 'https://oryele.com');
 
 const orgSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
   "name": "Oryele",
-  "url": "https://oryele.ai",
-  "logo": "https://oryele.ai/logo-dark.png",
+  "url": "https://oryele.com",
+  "logo": "https://oryele.com/logo-dark.png",
   "description": "AI-powered workflow automation and digital workers platform for professional services firms.",
-  "email": "info@oryele.ai",
+  "email": "info@oryele.com",
   "sameAs": [
     "https://www.linkedin.com/company/oryele",
     "https://www.youtube.com/@Oryele"
@@ -40,12 +40,12 @@ const orgSchema = {
   "contactPoint": [
     {
       "@type": "ContactPoint",
-      "email": "support@oryele.ai",
+      "email": "support@oryele.com",
       "contactType": "customer support"
     },
     {
       "@type": "ContactPoint",
-      "email": "sales@oryele.ai",
+      "email": "sales@oryele.com",
       "contactType": "sales"
     }
   ]
@@ -55,17 +55,17 @@ const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   "name": "Oryele",
-  "url": "https://oryele.ai",
+  "url": "https://oryele.com",
 };
 
 const pathParts = Astro.url.pathname.split("/").filter(Boolean);
 const breadcrumbItems = [
-  { "@type": "ListItem", position: 1, name: "Home", item: "https://oryele.ai/" },
+  { "@type": "ListItem", position: 1, name: "Home", item: "https://oryele.com/" },
   ...pathParts.map((part, index) => ({
     "@type": "ListItem",
     position: index + 2,
     name: part.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
-    item: `https://oryele.ai/${pathParts.slice(0, index + 1).join("/")}/`,
+    item: `https://oryele.com/${pathParts.slice(0, index + 1).join("/")}/`,
   })),
 ];
 const breadcrumbSchema = {

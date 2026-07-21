@@ -66,7 +66,7 @@ const links = [
       fd.append('_captcha', 'false');
       fd.append('Email', email);
       fd.append('Source', 'Newsletter footer');
-      var res = await fetch('https://formsubmit.co/ajax/info@oryele.ai', {
+      var res = await fetch('https://formsubmit.co/ajax/info@oryele.com', {
         method: 'POST',
         headers: { 'Accept': 'application/json' },
         body: fd,
@@ -82,7 +82,7 @@ const links = [
     } catch (err) {
       btn.disabled = false;
       btn.textContent = 'Subscribe';
-      showMsg('Something went wrong. Please try again or email info@oryele.ai.', 'error');
+      showMsg('Something went wrong. Please try again or email info@oryele.com.', 'error');
     }
   });
 
