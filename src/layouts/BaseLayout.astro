@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import Navbar from "../components/Navbar.astro";
 import Footer from "../components/Footer.astro";
+import ElleAssistant from "../components/ElleAssistant.astro";
 
 interface Props {
   title: string;
@@ -117,7 +118,7 @@ const breadcrumbSchema = {
 
     <!-- Preload critical assets -->
     <link rel="preload" href="/logo-light.png" as="image" />
-        <link
+    <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
@@ -134,6 +135,7 @@ const breadcrumbSchema = {
       <slot />
     </main>
     <Footer />
+    <ElleAssistant />
     <script>
       // Scroll reveal
       const observer = new IntersectionObserver(
