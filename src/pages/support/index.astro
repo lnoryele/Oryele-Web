@@ -617,26 +617,29 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   function addBubble(role, text) {
     var wrap = document.createElement('div');
     wrap.className = 'ai-msg ai-msg--' + role;
+    var header = document.createElement('div');
+    header.className = 'ai-msg-header';
     var avatar = document.createElement('div');
     avatar.className = 'ai-avatar';
     avatar.setAttribute('aria-hidden', 'true');
     avatar.innerHTML = role === 'assistant'
       ? '<img src="/elle-avatar.png" alt="Elle" style="width:26px;height:26px;border-radius:50%;object-fit:cover;"/>'
       : '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
-    var bubble = document.createElement('div');
-    bubble.className = 'ai-bubble';
+    header.appendChild(avatar);
     if (role === 'assistant') {
       var label = document.createElement('p');
       label.className = 'ai-sender-label';
       label.textContent = 'Elle · Assistant';
-      bubble.appendChild(label);
+      header.appendChild(label);
     }
+    var bubble = document.createElement('div');
+    bubble.className = 'ai-bubble';
     var p = document.createElement('p');
     p.textContent = text;
     p.style.cssText = 'margin:0;font-size:13px;line-height:1.6;border-radius:10px;padding:8px 11px;white-space:pre-wrap;display:block;';
     if (role === 'user') { p.style.background = 'var(--blue)'; p.style.color = '#fff'; p.style.borderRadius = '10px 10px 2px 10px'; } else { p.style.background = 'var(--paper-2)'; p.style.color = 'var(--text)'; p.style.border = '1px solid var(--line)'; p.style.borderRadius = '2px 10px 10px 10px'; }
     bubble.appendChild(p);
-    wrap.appendChild(avatar);
+    wrap.appendChild(header);
     wrap.appendChild(bubble);
     aiMessages.appendChild(wrap);
     aiMessages.scrollTop = aiMessages.scrollHeight;
