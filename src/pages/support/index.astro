@@ -637,7 +637,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     var p = document.createElement('p');
     p.textContent = text;
     p.style.cssText = 'margin:0;font-size:13px;line-height:1.6;border-radius:10px;padding:8px 11px;white-space:pre-wrap;display:block;';
-    if (role === 'user') { p.style.background = 'var(--blue)'; p.style.color = '#fff'; p.style.borderRadius = '10px 10px 2px 10px'; } else { p.style.background = 'var(--paper-2)'; p.style.color = 'var(--text)'; p.style.border = '1px solid var(--line)'; p.style.borderRadius = '2px 10px 10px 10px'; }
+    if (role === 'user') { p.style.background = '#e8f0fe'; p.style.color = '#1a2a4a'; p.style.border = '1px solid #c7d9fd'; p.style.borderRadius = '10px 10px 2px 10px'; } else { p.style.background = 'var(--paper-2)'; p.style.color = 'var(--text)'; p.style.border = '1px solid var(--line)'; p.style.borderRadius = '2px 10px 10px 10px'; }
     bubble.appendChild(p);
     wrap.appendChild(header);
     wrap.appendChild(bubble);
@@ -911,7 +911,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   .ai-msg--user .ai-avatar { background: var(--blue); color: #fff; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; flex-shrink: 0; overflow: hidden; } .ai-msg--user .ai-avatar svg { width: 14px; height: 14px; }
   .ai-bubble { max-width: 85%; }
   .ai-sender-label { font-size: 11px !important; font-weight: 700; color: #60a5fa; margin: 0 0 4px 0 !important; background: none !important; border: none !important; padding: 0 !important; border-radius: 0 !important; display: block; line-height: 26px; } .ai-bubble p { margin: 0 !important; font-size: 13px !important; line-height: 1.6 !important; color: var(--text); background: var(--paper-2); border: 1px solid var(--line); border-radius: 10px; padding: 8px 11px !important; white-space: pre-wrap; }
-  .ai-msg--user .ai-bubble p { background: var(--blue); color: #fff; border-color: var(--blue); border-radius: 10px 10px 2px 10px; }
+  .ai-msg--user .ai-bubble p { background: #e8f0fe; color: #1a2a4a; border-color: #c7d9fd; border-radius: 10px 10px 2px 10px; }
   .ai-msg--assistant .ai-bubble p { border-radius: 2px 10px 10px 10px; }
   .typing-dot { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: #8896ad; margin: 0 2px; animation: blink 1.2s infinite; }
   .typing-dot:nth-child(2) { animation-delay: .2s; }
