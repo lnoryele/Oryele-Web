@@ -32,7 +32,10 @@ export async function onRequestPost(context) {
     headers['Authorization'] = `Bearer ${env.MISTRAL_API_KEY}`;
   }
 
-  const url = env.MISTRAL_LOCAL ? MISTRAL_URL_LOCAL : MISTRAL_URL;
+  const url =
+    String(env.MISTRAL_LOCAL || '').toLowerCase() === 'true'
+      ? MISTRAL_URL_LOCAL
+      : MISTRAL_URL;
 
   try {
     const upstream = await fetch(url, {
@@ -41,8 +44,8 @@ export async function onRequestPost(context) {
       body: JSON.stringify({
         model: MISTRAL_MODEL,
         messages: fullMessages,
-        max_tokens: 1000,
-        temperature: 0.4,
+        max_tokens: 300,
+        temperature: 0.3,
       }),
     });
 

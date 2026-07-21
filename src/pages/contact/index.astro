@@ -76,23 +76,23 @@ const reasons = [
       <div class="contact-sidebar">
         <div class="direct-contact">
           <h3>Reach us directly</h3>
-          <a href="mailto:info@oryele.com" class="contact-link">
+          <a href="mailto:info@oryele.ai" class="contact-link">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
-            info@oryele.com (General and Sales)
+            info@oryele.ai (General and Sales)
           </a>
-          <a href="mailto:support@oryele.com" class="contact-link">
+          <a href="mailto:support@oryele.ai" class="contact-link">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
-            support@oryele.com (Support)
+            support@oryele.ai (Support)
           </a>
-          <a href="mailto:sales@oryele.com" class="contact-link">
+          <a href="mailto:sales@oryele.ai" class="contact-link">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
-            sales@oryele.com (Sales)
+            sales@oryele.ai (Sales)
           </a>
           <a href="https://www.linkedin.com/company/oryele" class="contact-link" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.62 0-3.02 2.05-3.02 4.16V23H8V8z"/></svg>
             LinkedIn
           </a>
-          <a href="https://www.youtube.com/@oryele" class="contact-link" target="_blank" rel="noopener">
+          <a href="https://www.youtube.com/@Oryele" class="contact-link" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2s-.2-1.6-.9-2.3c-.9-.9-1.9-.9-2.3-1C17.1 2.7 12 2.7 12 2.7s-5.1 0-8.3.2c-.4 0-1.4.1-2.3 1-.7.7-.9 2.3-.9 2.3S.3 8 .3 9.8v1.7c0 1.8.2 3.6.2 3.6s.2 1.6.9 2.3c.9.9 2 .9 2.5 1 1.8.2 7.6.2 7.6.2s5.1 0 8.3-.2c.4 0 1.4-.1 2.3-1 .7-.7.9-2.3.9-2.3s.2-1.8.2-3.6V9.8c0-1.8-.2-3.6-.2-3.6zM9.7 14.6V8.4l6.3 3.1-6.3 3.1z"/></svg>
             YouTube
           </a>
@@ -214,7 +214,7 @@ const reasons = [
 
     try {
       var formData = new FormData(form);
-      var res = await fetch('https://formsubmit.co/ajax/info@oryele.com', {
+      var res = await fetch('https://formsubmit.co/ajax/info@oryele.ai', {
         method: 'POST',
         headers: { 'Accept': 'application/json' },
         body: formData,
@@ -229,7 +229,7 @@ const reasons = [
     } catch (err) {
       submit.disabled = false;
       submit.innerHTML = 'Send Message <span class="arrow">&#8594;</span>';
-      showError('Something went wrong. Please email info@oryele.com directly.');
+      showError('Something went wrong. Please email info@oryele.ai directly.');
     }
   });
 

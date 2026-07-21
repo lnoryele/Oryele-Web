@@ -21,30 +21,30 @@ const {
   type = "website",
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, 'https://www.oryele.ai');
-const ogImageURL = new URL(ogImage, 'https://www.oryele.ai');
+const canonicalURL = new URL(Astro.url.pathname, 'https://oryele.ai');
+const ogImageURL = new URL(ogImage, 'https://oryele.ai');
 
 const orgSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
   "name": "Oryele",
-  "url": "https://www.oryele.ai",
-  "logo": "https://www.oryele.ai/logo-dark.png",
+  "url": "https://oryele.ai",
+  "logo": "https://oryele.ai/logo-dark.png",
   "description": "AI-powered workflow automation and digital workers platform for professional services firms.",
-  "email": "info@oryele.com",
+  "email": "info@oryele.ai",
   "sameAs": [
     "https://www.linkedin.com/company/oryele",
-    "https://www.youtube.com/@oryele"
+    "https://www.youtube.com/@Oryele"
   ],
   "contactPoint": [
     {
       "@type": "ContactPoint",
-      "email": "support@oryele.com",
+      "email": "support@oryele.ai",
       "contactType": "customer support"
     },
     {
       "@type": "ContactPoint",
-      "email": "sales@oryele.com",
+      "email": "sales@oryele.ai",
       "contactType": "sales"
     }
   ]
@@ -54,17 +54,17 @@ const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   "name": "Oryele",
-  "url": "https://www.oryele.ai",
+  "url": "https://oryele.ai",
 };
 
 const pathParts = Astro.url.pathname.split("/").filter(Boolean);
 const breadcrumbItems = [
-  { "@type": "ListItem", position: 1, name: "Home", item: "https://www.oryele.ai/" },
+  { "@type": "ListItem", position: 1, name: "Home", item: "https://oryele.ai/" },
   ...pathParts.map((part, index) => ({
     "@type": "ListItem",
     position: index + 2,
     name: part.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
-    item: `https://www.oryele.ai/${pathParts.slice(0, index + 1).join("/")}/`,
+    item: `https://oryele.ai/${pathParts.slice(0, index + 1).join("/")}/`,
   })),
 ];
 const breadcrumbSchema = {
