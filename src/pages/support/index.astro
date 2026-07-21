@@ -634,9 +634,9 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     }
     var bubble = document.createElement('div');
     bubble.className = 'ai-bubble';
-    var p = document.createElement('p');
+    var p = document.createElement('div');
     p.textContent = text;
-    p.style.cssText = 'margin:0;font-size:13px;line-height:1.6;border-radius:10px;padding:8px 11px;white-space:pre-wrap;display:block;';
+    p.style.cssText = 'margin:0;font-size:13px;line-height:1.6;border-radius:10px;padding:8px 11px;white-space:pre-wrap;display:block;font-family:inherit;';
     if (role === 'user') { p.style.background = '#e8f0fe'; p.style.color = '#1a2a4a'; p.style.border = '1px solid #c7d9fd'; p.style.borderRadius = '10px 10px 2px 10px'; } else { p.style.background = 'var(--paper-2)'; p.style.color = 'var(--text)'; p.style.border = '1px solid var(--line)'; p.style.borderRadius = '2px 10px 10px 10px'; }
     bubble.appendChild(p);
     wrap.appendChild(header);
