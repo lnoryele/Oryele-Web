@@ -702,7 +702,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     if (!aiWidget || !aiPanel || !aiToggle) return;
     aiWidget.classList.add('is-open');
     aiPanel.classList.remove('ai-panel--hidden');
-    if (chatHistory.length === 0) { showTyping(); fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ system: SYSTEM_PROMPT, messages: [{ role: 'user', content: '__greeting__' }] }) }).then(r => r.json()).then(d => { hideTyping(); var t = (d.content && d.content[0] && d.content[0].text) ? d.content[0].text : 'Hi! How can I help you today?'; addBubble('assistant', t); }).catch(() => { hideTyping(); addBubble('assistant', 'Hi! How can I help you today?'); }); }
+    if (chatHistory.length === 0 && !document.getElementById('ai-greeted')) { var greetFlag = document.createElement('span'); greetFlag.id = 'ai-greeted'; document.body.appendChild(greetFlag); showTyping(); fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ system: SYSTEM_PROMPT, messages: [{ role: 'user', content: '__greeting__' }] }) }).then(r => r.json()).then(d => { hideTyping(); var t = (d.content && d.content[0] && d.content[0].text) ? d.content[0].text : 'Hi! How can I help you today?'; addBubble('assistant', t); chatHistory.push({ role: 'assistant', content: t }); }).catch(() => { hideTyping(); addBubble('assistant', 'Hi! How can I help you today?'); }); }
     aiToggle.setAttribute('aria-expanded', 'true');
     if (aiUnread) aiUnread.hidden = true;
     if (aiInput) { setTimeout(function () { aiInput.focus(); }, 120); }
