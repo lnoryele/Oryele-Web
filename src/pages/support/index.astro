@@ -903,7 +903,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   .ai-msg--user { flex-direction: row-reverse; }
   .ai-avatar { width: 26px; height: 26px; flex-shrink: 0; border-radius: 50%; display: grid; place-items: center; }
   .ai-msg--assistant .ai-avatar { background: var(--navy); color: #60a5fa; }
-  .ai-msg--user .ai-avatar { background: var(--blue); color: #fff; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; flex-shrink: 0; }
+  .ai-msg--user .ai-avatar { background: var(--blue); color: #fff; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; flex-shrink: 0; overflow: hidden; } .ai-msg--user .ai-avatar svg { width: 14px; height: 14px; }
   .ai-bubble { max-width: 85%; }
   .ai-sender-label { font-size: 10px; font-weight: 700; color: #60a5fa; margin: 0 0 4px 2px; background: none; border: none; padding: 0; border-radius: 0; } .ai-bubble p { margin: 0; font-size: 13px; line-height: 1.6; color: var(--text); background: var(--paper-2); border: 1px solid var(--line); border-radius: 10px; padding: 8px 11px; white-space: pre-wrap; }
   .ai-msg--user .ai-bubble p { background: var(--blue); color: #fff; border-color: var(--blue); border-radius: 10px 10px 2px 10px; }
