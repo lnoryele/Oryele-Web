@@ -1,0 +1,48 @@
+name: Validate Elle Release
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches:
+      - feature/elle-knowledge-v1
+      - launch-hardening-2026-07-22
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-elle-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Show runtime versions
+        run: |
+          node --version
+          npm --version
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Verify Elle production files
+        run: |
+          test -f src/components/ElleAssistant.astro
+          test -f functions/api/chat.js
+          test -f functions/api/elle-feedback.js
+          grep -q 'ElleAssistant' src/layouts/BaseLayout.astro
+
+      - name: Build Astro site
+        run: npm run build
