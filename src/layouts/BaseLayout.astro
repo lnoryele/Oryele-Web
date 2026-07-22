@@ -24,15 +24,16 @@ const {
   type = "website",
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, 'https://oryele.com');
-const ogImageURL = new URL(ogImage, 'https://oryele.com');
+const siteURL = "https://oryele.ai";
+const canonicalURL = new URL(Astro.url.pathname, siteURL);
+const ogImageURL = new URL(ogImage, siteURL);
 
 const orgSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
   "name": "Oryele",
-  "url": "https://oryele.com",
-  "logo": "https://oryele.com/logo-dark.png",
+  "url": siteURL,
+  "logo": `${siteURL}/logo-dark.png`,
   "description": "AI-powered workflow automation and digital workers platform for professional services firms.",
   "email": "info@oryele.com",
   "sameAs": [
@@ -57,17 +58,17 @@ const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   "name": "Oryele",
-  "url": "https://oryele.com",
+  "url": siteURL,
 };
 
 const pathParts = Astro.url.pathname.split("/").filter(Boolean);
 const breadcrumbItems = [
-  { "@type": "ListItem", position: 1, name: "Home", item: "https://oryele.com/" },
+  { "@type": "ListItem", position: 1, name: "Home", item: `${siteURL}/` },
   ...pathParts.map((part, index) => ({
     "@type": "ListItem",
     position: index + 2,
     name: part.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
-    item: `https://oryele.com/${pathParts.slice(0, index + 1).join("/")}/`,
+    item: `${siteURL}/${pathParts.slice(0, index + 1).join("/")}/`,
   })),
 ];
 const breadcrumbSchema = {
