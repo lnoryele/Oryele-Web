@@ -26,4 +26,12 @@
 {
   "name": "oryele-website",
   "compatibility_date": "2026-07-01",
-  "pages_build_output_dir": "./dist",}
+  "pages_build_output_dir": "./dist",
+  "assets": { "directory": "./dist" },
+  "kv_namespaces": [
+    {
+      "binding": "SUBSCRIBERS",
+      "id": "REPLACE_WITH_YOUR_KV_NAMESPACE_ID"
+    }
+  ]
+}
