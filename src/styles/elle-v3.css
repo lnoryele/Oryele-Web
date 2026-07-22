@@ -4,7 +4,7 @@
 }
 
 .elle .elle-messages {
-  padding: 10px 16px 18px !important;
+  padding: 10px 14px 18px !important;
   font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
 }
 
@@ -12,7 +12,7 @@
   display: block !important;
   width: 100% !important;
   margin: 0 !important;
-  padding: 14px 0 !important;
+  padding: 16px 0 !important;
   border: 0 !important;
   border-bottom: 1px solid #e6ebf2 !important;
   background: transparent !important;
@@ -20,12 +20,12 @@
 }
 
 .elle .elle-turn--assistant {
-  margin-top: 2px !important;
+  margin-top: 3px !important;
   padding: 14px !important;
   border: 1px solid #dde5ef !important;
-  border-radius: 12px !important;
+  border-radius: 13px !important;
   background: #fff !important;
-  box-shadow: 0 5px 18px rgba(16, 38, 75, 0.04) !important;
+  box-shadow: 0 6px 20px rgba(16, 38, 75, 0.045) !important;
 }
 
 .elle .elle-turn-head {
@@ -85,12 +85,12 @@
 
 .elle .elle-user-text {
   display: block !important;
-  margin: 7px 0 0 31px !important;
+  margin: 9px 0 0 31px !important;
   padding: 0 !important;
   color: #17263f !important;
   font-size: 10.5px !important;
   font-weight: 400 !important;
-  line-height: 1.45 !important;
+  line-height: 1.5 !important;
 }
 
 .elle .elle-answer {
@@ -107,7 +107,7 @@
 .elle .elle-answer-content span,
 .elle .elle-answer-content strong {
   font-size: 10.5px !important;
-  line-height: 1.5 !important;
+  line-height: 1.55 !important;
 }
 
 .elle .elle-answer-content {
@@ -162,7 +162,7 @@
 .elle .elle-answer-content pre {
   overflow: auto !important;
   margin: 8px 0 !important;
-  padding: 8px !important;
+  padding: 9px !important;
   border-radius: 8px !important;
   background: #0e1b2e !important;
   color: #eef4ff !important;
@@ -197,8 +197,9 @@
 .elle .elle-citations a {
   display: inline-flex !important;
   align-items: center !important;
+  gap: 4px !important;
   margin: 0 !important;
-  padding: 5px 7px !important;
+  padding: 5px 8px !important;
   border: 1px solid #d8e2f0 !important;
   border-radius: 999px !important;
   background: #f8faff !important;
@@ -206,6 +207,18 @@
   font-size: 8.75px !important;
   line-height: 1.2 !important;
   text-decoration: none !important;
+  transition: border-color .16s ease, background .16s ease, transform .16s ease !important;
+}
+
+.elle .elle-citations a::before {
+  content: "📄";
+  font-size: 9px;
+}
+
+.elle .elle-citations a:hover {
+  border-color: #aebfde !important;
+  background: #f1f6ff !important;
+  transform: translateY(-1px) !important;
 }
 
 .elle .elle-tools {
@@ -297,27 +310,111 @@
   font-size: 9.5px !important;
 }
 
+.elle .elle-error {
+  position: relative !important;
+  margin: 14px 0 !important;
+  padding: 13px 13px 13px 42px !important;
+  border: 1px solid #efcaca !important;
+  border-radius: 12px !important;
+  background: #fff8f7 !important;
+  color: #7d3030 !important;
+  font-size: 10px !important;
+  line-height: 1.5 !important;
+  box-shadow: 0 4px 14px rgba(118, 40, 40, .05) !important;
+}
+
+.elle .elle-error::before {
+  content: "!";
+  position: absolute;
+  left: 13px;
+  top: 12px;
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 7px;
+  background: #f7dede;
+  color: #9a3232;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.elle .elle-error::after {
+  content: "Unable to contact Elle";
+  display: block;
+  margin-bottom: 3px;
+  color: #5e2424;
+  font-size: 10.5px;
+  font-weight: 700;
+  line-height: 1.25;
+  order: -1;
+}
+
 .elle .elle-footer {
   position: relative !important;
   z-index: 3 !important;
   flex: 0 0 auto !important;
+  padding: 9px 11px 8px !important;
   background: #fff !important;
+}
+
+.elle .elle-footer::after {
+  content: "Hudson\A Elle v3.2.14";
+  position: absolute;
+  right: 13px;
+  bottom: 7px;
+  white-space: pre;
+  text-align: right;
+  color: #a1acbc;
+  font-size: 7.5px;
+  font-weight: 500;
+  line-height: 1.25;
+  pointer-events: none;
+}
+
+.elle .elle-footer > p {
+  padding-right: 72px !important;
+  text-align: left !important;
 }
 
 .elle .elle-body {
   min-height: 0 !important;
   overflow-y: auto !important;
   overscroll-behavior: contain !important;
+  scroll-behavior: smooth !important;
+}
+
+.elle .elle-composer {
+  gap: 6px !important;
+  padding: 5px 5px 5px 10px !important;
+  border-width: 1px !important;
+  border-color: #6f95df !important;
+  border-radius: 12px !important;
+  box-shadow: 0 0 0 2px rgba(65, 111, 207, .06) !important;
+}
+
+.elle .elle-composer:focus-within {
+  border-color: #3f6dc5 !important;
+  box-shadow: 0 0 0 3px rgba(65, 111, 207, .09) !important;
 }
 
 .elle .elle-composer textarea {
+  min-height: 20px !important;
+  padding: 3px 0 !important;
   font-size: 10px !important;
   line-height: 1.4 !important;
 }
 
+.elle .elle-send,
+.elle .elle-stop {
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 9px !important;
+}
+
 @media (max-width: 600px) {
   .elle .elle-messages { padding: 8px 10px 14px !important; }
-  .elle .elle-turn { padding: 11px 0 !important; }
+  .elle .elle-turn { padding: 12px 0 !important; }
   .elle .elle-turn--assistant { padding: 11px !important; }
   .elle .elle-user-text,
   .elle .elle-answer,
@@ -333,4 +430,5 @@
   .elle .elle-answer-content h3 { font-size: 11px !important; }
   .elle .elle-answer-content h4 { font-size: 10.5px !important; }
   .elle .elle-tools time { width: auto !important; margin-left: auto !important; }
+  .elle .elle-footer::after { right: 10px; }
 }
