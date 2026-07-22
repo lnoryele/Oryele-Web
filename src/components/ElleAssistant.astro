@@ -33,7 +33,7 @@
         <button type="button" data-elle-stop class="elle-stop" aria-label="Stop generating" hidden>■</button>
         <button type="submit" class="elle-send" aria-label="Send" disabled>➤</button>
       </form>
-      <p>Elle can make mistakes. Verify important information.</p>
+      <p><span data-elle-status>Elle can make mistakes. Verify important information.</span></p>
     </footer>
   </section>
 </div>
@@ -53,6 +53,8 @@
   var input = root.querySelector('[data-elle-input]');
   var send = root.querySelector('.elle-send');
   var stop = root.querySelector('[data-elle-stop]');
+  var statusEl = root.querySelector('[data-elle-status]');
+  var defaultStatus = 'Elle can make mistakes. Verify important information.';
   var pending = false;
   var controller = null;
   var messages = load();
@@ -101,7 +103,10 @@
     welcome.hidden = true;
     removeFollowups();
     updateComposer();
+    setStatus('Connecting…');
+    var startedAt = performance.now();
     var card = appendAssistant('', Date.now(), true);
+    var thinkingTimer = setTimeout(function () { showThinking(card); }, 700);
 
     try {
       var response = await fetch('/api/chat', {
@@ -116,21 +121,36 @@
       });
       if (!response.ok) throw new Error(await response.text());
 
-      var answer = await streamResponse(response, function (text) { updateAssistant(card, text, true); });
+      var firstToken = true;
+      var answer = await streamResponse(response, function (text) {
+        if (firstToken && text) {
+          firstToken = false;
+          clearTimeout(thinkingTimer);
+          setStatus('Streaming…');
+        }
+        updateAssistant(card, text, true);
+      });
+      clearTimeout(thinkingTimer);
       if (!answer.trim()) answer = 'I could not generate a response.';
       updateAssistant(card, answer, false);
       messages.push({ role: 'assistant', content: answer, at: Date.now() });
       save();
       appendFollowups(answer);
+      setStatus('Completed in ' + ((performance.now() - startedAt) / 1000).toFixed(1) + 's');
+      setTimeout(function () { if (!pending) setStatus(defaultStatus); }, 2600);
     } catch (error) {
+      clearTimeout(thinkingTimer);
       if (error && error.name === 'AbortError') {
         var partial = card.dataset.raw || '';
         updateAssistant(card, partial || 'Response stopped.', false);
+        addStoppedState(card);
         if (partial) messages.push({ role: 'assistant', content: partial, at: Date.now() });
         save();
+        setStatus('Response stopped');
       } else {
         card.remove();
-        appendError('Elle is temporarily unavailable. Please try again in a moment.');
+        appendError('I’m having trouble reaching the AI service. Please try again in a few moments.');
+        setStatus('Unable to contact Elle');
       }
     } finally {
       pending = false;
@@ -150,10 +170,7 @@
     var buffer = '';
     var full = '';
     var scheduled = false;
-    function paint() {
-      scheduled = false;
-      onUpdate(full);
-    }
+    function paint() { scheduled = false; onUpdate(full); }
     while (true) {
       var result = await reader.read();
       if (result.done) break;
@@ -192,33 +209,48 @@
     item.className = 'elle-turn elle-turn--assistant' + (streaming ? ' is-streaming' : '');
     item.dataset.at = String(at || Date.now());
     item.dataset.raw = text || '';
-    item.innerHTML = '<div class="elle-turn-head"><span class="elle-mini-orb">E</span><strong>Elle</strong><time>' + timeLabel(at) + '</time></div><div class="elle-answer"><span class="elle-thinking">Thinking</span><span class="elle-cursor"></span></div>';
+    item.innerHTML = '<div class="elle-turn-head"><span class="elle-mini-orb">E</span><strong>Elle</strong><time>' + timeLabel(at) + '</time></div><div class="elle-answer"><span class="elle-stream-placeholder" aria-hidden="true"></span></div>';
     messagesEl.appendChild(item);
     scrollBottom();
     return item;
+  }
+
+  function showThinking(item) {
+    if (!item || item.dataset.raw) return;
+    var answer = item.querySelector('.elle-answer');
+    answer.innerHTML = '<span class="elle-thinking-dots" aria-label="Elle is thinking"><i></i><i></i><i></i></span>';
   }
 
   function updateAssistant(item, text, streaming) {
     item.dataset.raw = text;
     item.classList.toggle('is-streaming', streaming);
     var answer = item.querySelector('.elle-answer');
+    if (streaming) {
+      answer.innerHTML = '<div class="elle-answer-content elle-stream-text">' + escapeHtml(text).replace(/\n/g, '<br>') + '<span class="elle-cursor"></span></div>';
+      scrollBottom();
+      return;
+    }
     var rendered = renderMarkdown(text);
     var long = text.length > 1100;
-    answer.innerHTML = long && !streaming
+    answer.innerHTML = long
       ? '<div class="elle-collapsible is-collapsed"><div class="elle-answer-content">' + rendered + '</div><button type="button" data-expand>Show more</button></div>'
-      : '<div class="elle-answer-content">' + rendered + (streaming ? '<span class="elle-cursor"></span>' : '') + '</div>';
-
-    if (!streaming) {
-      addCitations(item, text);
-      addTools(item, text);
-      var expand = item.querySelector('[data-expand]');
-      if (expand) expand.onclick = function () {
-        var wrap = expand.parentElement;
-        var collapsed = wrap.classList.toggle('is-collapsed');
-        expand.textContent = collapsed ? 'Show more' : 'Show less';
-      };
-    }
+      : '<div class="elle-answer-content">' + rendered + '</div>';
+    addCitations(item, text);
+    addTools(item, text);
+    var expand = item.querySelector('[data-expand]');
+    if (expand) expand.onclick = function () {
+      var wrap = expand.parentElement;
+      var collapsed = wrap.classList.toggle('is-collapsed');
+      expand.textContent = collapsed ? 'Show more' : 'Show less';
+    };
     scrollBottom();
+  }
+
+  function addStoppedState(item) {
+    var note = document.createElement('div');
+    note.className = 'elle-stopped';
+    note.textContent = 'Response stopped';
+    item.appendChild(note);
   }
 
   function addCitations(item, text) {
@@ -242,7 +274,6 @@
     tools.className = 'elle-tools';
     tools.innerHTML = '<button data-copy>▣ Copy</button><button data-feedback="yes">♡ Helpful</button><button data-feedback="no">♢ Not helpful</button><button data-regenerate>↻ Regenerate</button><time>' + timeLabel(Number(item.dataset.at)) + '</time>';
     item.appendChild(tools);
-
     tools.querySelector('[data-copy]').onclick = async function () {
       try { await navigator.clipboard.writeText(text); this.textContent = '✓ Copied'; } catch (_) { this.textContent = 'Copy failed'; }
     };
@@ -310,8 +341,10 @@
     item.className = 'elle-error';
     item.textContent = text;
     messagesEl.appendChild(item);
+    scrollBottom();
   }
 
+  function setStatus(text) { if (statusEl) statusEl.textContent = text; }
   function updateComposer() {
     input.style.height = 'auto';
     input.style.height = Math.min(input.scrollHeight, 120) + 'px';
@@ -319,7 +352,6 @@
     send.hidden = pending;
     stop.hidden = !pending;
   }
-
   function reset() {
     if (controller) controller.abort();
     messages = [];
@@ -327,9 +359,9 @@
     welcome.hidden = false;
     localStorage.removeItem(STORAGE_KEY);
     pending = false;
+    setStatus(defaultStatus);
     updateComposer();
   }
-
   function load() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch (_) { return []; } }
   function save() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(messages.slice(-20))); } catch (_) {} }
   function restore() {
@@ -337,10 +369,7 @@
     welcome.hidden = true;
     messages.forEach(function (message) {
       if (message.role === 'user') appendUser(message.content, message.at);
-      else {
-        var card = appendAssistant(message.content, message.at, false);
-        updateAssistant(card, message.content, false);
-      }
+      else { var card = appendAssistant(message.content, message.at, false); updateAssistant(card, message.content, false); }
     });
     var last = messages[messages.length - 1];
     if (last && last.role === 'assistant') appendFollowups(last.content);
@@ -351,15 +380,14 @@
     if (seconds < 60) return 'Just now';
     var minutes = Math.floor(seconds / 60);
     if (minutes < 60) return minutes + ' min ago';
-    var hours = Math.floor(minutes / 60);
-    return hours + ' hr ago';
+    return Math.floor(minutes / 60) + ' hr ago';
   }
-  function scrollBottom() { requestAnimationFrame(function () { root.querySelector('.elle-body').scrollTop = root.querySelector('.elle-body').scrollHeight; }); }
+  function scrollBottom() { requestAnimationFrame(function () { var body = root.querySelector('.elle-body'); body.scrollTop = body.scrollHeight; }); }
   function escapeHtml(value) { return String(value || '').replace(/[&<>"']/g, function (c) { return ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;' })[c]; }); }
   function escapeAttr(value) { return escapeHtml(value); }
 }());
 </script>
 
 <style>
-.elle{position:fixed;right:24px;bottom:24px;z-index:1000;font-family:Inter,system-ui,-apple-system,sans-serif;color:#13233d}.elle-launcher{display:flex;align-items:center;gap:10px;padding:9px 13px 9px 9px;border:0;border-radius:17px;background:#0b2348;color:#fff;box-shadow:0 18px 50px rgba(8,28,61,.3);cursor:pointer}.elle-launcher>span:nth-child(2){display:flex;flex-direction:column;align-items:flex-start}.elle-launcher strong{font-size:13px}.elle-launcher small{font-size:10px;color:#adc0df}.elle-launcher>i{width:7px;height:7px;border-radius:50%;background:#45d39a}.elle-orb,.elle-mini-orb,.elle-welcome-orb{display:grid;place-items:center;background:linear-gradient(145deg,#5f8fff,#2953d1);color:#fff;font-weight:800}.elle-orb{width:38px;height:38px;border-radius:13px}.elle-panel{position:absolute;right:0;bottom:0;display:grid;grid-template-rows:auto minmax(0,1fr) auto;width:min(430px,calc(100vw - 24px));height:min(700px,calc(100vh - 24px));overflow:hidden;border:1px solid #dbe4f1;border-radius:22px;background:#fff;box-shadow:0 28px 90px rgba(7,25,55,.3);opacity:0;visibility:hidden;transform:translateY(12px) scale(.98);transition:.2s}.elle.is-open .elle-panel{opacity:1;visibility:visible;transform:none}.elle.is-open .elle-launcher{visibility:hidden;opacity:0}.elle-header{display:flex;align-items:center;justify-content:space-between;padding:13px 15px;background:linear-gradient(135deg,#071d3e,#102d5a);color:#fff}.elle-brand{display:flex;align-items:center;gap:10px}.elle-brand>span:last-child{display:flex;flex-direction:column}.elle-brand strong{font-size:14px}.elle-brand small{font-size:10px;color:#b8cae5}.elle-brand small i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#45d39a;margin-right:4px}.elle-header>div:last-child{display:flex;gap:7px}.elle-header button{width:34px;height:34px;border:0;border-radius:10px;background:rgba(255,255,255,.1);color:#fff;font-size:20px;cursor:pointer}.elle-body{min-height:0;overflow-y:auto;background:#fff}.elle-welcome{padding:30px 22px;text-align:center}.elle-welcome-orb{width:54px;height:54px;margin:0 auto 14px;border-radius:18px}.elle-welcome h2{margin:0;font-size:22px}.elle-welcome p{margin:8px auto 18px;max-width:320px;color:#66758d;font-size:12px;line-height:1.5}.elle-prompts{display:grid;grid-template-columns:1fr 1fr;gap:8px}.elle-prompts button{padding:11px;border:1px solid #dfe7f3;border-radius:12px;background:#fff;color:#244f9e;font-size:11px;cursor:pointer}.elle-messages{padding:0 16px 18px}.elle-turn{padding:16px 0;border-bottom:1px solid #e5ebf3}.elle-turn-head{display:flex;align-items:center;gap:8px;font-size:11px}.elle-turn-head strong{font-size:12px}.elle-turn-head time{color:#7787a0}.elle-user-icon,.elle-mini-orb{width:24px;height:24px;border-radius:8px}.elle-user-icon{display:grid;place-items:center;background:#eef2f8;color:#17325c;font-size:8px}.elle-mini-orb{font-size:10px}.elle-user-text{margin:8px 0 0 32px;color:#16263f;font-size:12px;line-height:1.45}.elle-answer{margin:10px 0 0 32px}.elle-answer-content{color:#17263f;font-size:11.5px;line-height:1.55}.elle-answer-content p{margin:0 0 9px}.elle-answer-content p:last-child{margin-bottom:0}.elle-answer-content h2,.elle-answer-content h3,.elle-answer-content h4{display:flex;align-items:center;gap:7px;margin:13px 0 7px;color:#10213d}.elle-answer-content h2{font-size:14px}.elle-answer-content h3{font-size:13px}.elle-answer-content h4{font-size:12px}.elle-answer-content h2 span,.elle-answer-content h3 span,.elle-answer-content h4 span{color:#3565d5}.elle-answer-content ul{margin:7px 0;padding-left:18px}.elle-answer-content li{margin:4px 0}.elle-answer-content pre{overflow:auto;padding:9px;border-radius:8px;background:#0e1b2e;color:#eef4ff;font-size:10px}.elle-answer-content code{padding:1px 4px;border-radius:4px;background:#edf2f8}.elle-answer-content a{color:#2d5fc5}.elle-collapsible.is-collapsed .elle-answer-content{max-height:240px;overflow:hidden;mask-image:linear-gradient(#000 70%,transparent)}.elle-collapsible>[data-expand]{margin-top:8px;padding:0;border:0;background:none;color:#2e5fbd;font-size:10.5px;font-weight:700;cursor:pointer}.elle-citations{margin:12px 0 0 32px}.elle-citations>strong{display:block;margin-bottom:7px;font-size:10.5px}.elle-citations>div{display:flex;flex-wrap:wrap;gap:6px}.elle-citations a{padding:6px 8px;border:1px solid #d9e3f2;border-radius:8px;background:#f8faff;color:#2d5fc5;text-decoration:none;font-size:9.5px}.elle-tools{display:flex;align-items:center;flex-wrap:wrap;gap:3px;margin:12px 0 0 32px;padding-top:9px;border-top:1px solid #edf1f6}.elle-tools button{padding:5px 7px;border:0;background:none;color:#61718a;font-size:9.5px;cursor:pointer}.elle-tools button:hover{color:#285ab6;background:#f1f5fb;border-radius:6px}.elle-tools time{margin-left:auto;color:#8a98ab;font-size:9px}.elle-thinking{font-size:11px;color:#7b8ba2;font-style:italic}.elle-cursor{display:inline-block;width:2px;height:1em;margin-left:3px;vertical-align:-2px;background:#2e5fc5;animation:blink .8s step-end infinite}@keyframes blink{50%{opacity:0}}.elle-followups{margin:14px 0 0 32px;padding:11px;border:1px solid #dce6f3;border-radius:12px;background:#f8faff}.elle-followups>strong{font-size:10.5px}.elle-followups>div{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.elle-followups button{padding:7px 9px;border:1px solid #d5e0f0;border-radius:999px;background:#fff;color:#2d5fc5;font-size:9.5px;cursor:pointer}.elle-error{margin:14px;padding:10px;border-radius:9px;background:#fff4f4;color:#9b3030;font-size:11px}.elle-footer{padding:10px 12px 8px;border-top:1px solid #e4ebf4;background:#fff}.elle-composer{display:flex;align-items:flex-end;gap:7px;padding:7px 7px 7px 11px;border:1.5px solid #5d88e6;border-radius:14px;box-shadow:0 0 0 3px rgba(65,111,207,.08)}.elle-composer textarea{flex:1;min-height:22px;max-height:120px;padding:4px 0;border:0;outline:0;resize:none;color:#17263f;font:11.5px/1.45 Inter,system-ui,sans-serif}.elle-send,.elle-stop{display:grid;place-items:center;width:34px;height:34px;border:0;border-radius:10px;background:#0e315f;color:#fff;cursor:pointer}.elle-send:disabled{background:#dce4ef}.elle-footer>p{margin:6px 0 0;text-align:center;color:#98a5b7;font-size:8.5px}@media(max-width:600px){.elle{right:8px;bottom:8px}.elle-panel{position:fixed;inset:4px;width:auto;height:auto;border-radius:16px}.elle-answer-content{font-size:11px}.elle-prompts{grid-template-columns:1fr}.elle-tools time{width:100%;margin:3px 0 0 7px}.elle-followups{margin-left:0}}
+.elle{position:fixed;right:24px;bottom:24px;z-index:1000;font-family:Inter,system-ui,-apple-system,sans-serif;color:#13233d}.elle-launcher{display:flex;align-items:center;gap:10px;padding:9px 13px 9px 9px;border:0;border-radius:17px;background:#0b2348;color:#fff;box-shadow:0 18px 50px rgba(8,28,61,.3);cursor:pointer}.elle-launcher>span:nth-child(2){display:flex;flex-direction:column;align-items:flex-start}.elle-launcher strong{font-size:13px}.elle-launcher small{font-size:10px;color:#adc0df}.elle-launcher>i{width:7px;height:7px;border-radius:50%;background:#45d39a}.elle-orb,.elle-mini-orb,.elle-welcome-orb{display:grid;place-items:center;background:linear-gradient(145deg,#5f8fff,#2953d1);color:#fff;font-weight:800}.elle-orb{width:38px;height:38px;border-radius:13px}.elle-panel{position:absolute;right:0;bottom:0;display:grid;grid-template-rows:auto minmax(0,1fr) auto;width:min(430px,calc(100vw - 24px));height:min(700px,calc(100vh - 24px));overflow:hidden;border:1px solid #dbe4f1;border-radius:22px;background:#fff;box-shadow:0 28px 90px rgba(7,25,55,.3);opacity:0;visibility:hidden;transform:translateY(12px) scale(.98);transition:.2s}.elle.is-open .elle-panel{opacity:1;visibility:visible;transform:none}.elle.is-open .elle-launcher{visibility:hidden;opacity:0}.elle-header{display:flex;align-items:center;justify-content:space-between;padding:13px 15px;background:linear-gradient(135deg,#071d3e,#102d5a);color:#fff}.elle-brand{display:flex;align-items:center;gap:10px}.elle-brand>span:last-child{display:flex;flex-direction:column}.elle-brand strong{font-size:14px}.elle-brand small{font-size:10px;color:#b8cae5}.elle-brand small i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#45d39a;margin-right:4px}.elle-header>div:last-child{display:flex;gap:7px}.elle-header button{width:34px;height:34px;border:0;border-radius:10px;background:rgba(255,255,255,.1);color:#fff;font-size:20px;cursor:pointer}.elle-body{min-height:0;overflow-y:auto;background:#fff}.elle-welcome{padding:30px 22px;text-align:center}.elle-welcome-orb{width:54px;height:54px;margin:0 auto 14px;border-radius:18px}.elle-welcome h2{margin:0;font-size:22px}.elle-welcome p{margin:8px auto 18px;max-width:320px;color:#66758d;font-size:12px;line-height:1.5}.elle-prompts{display:grid;grid-template-columns:1fr 1fr;gap:8px}.elle-prompts button{padding:11px;border:1px solid #dfe7f3;border-radius:12px;background:#fff;color:#244f9e;font-size:11px;cursor:pointer}.elle-messages{padding:0 16px 18px}.elle-turn{padding:16px 0;border-bottom:1px solid #e5ebf3}.elle-turn-head{display:flex;align-items:center;gap:8px;font-size:11px}.elle-turn-head strong{font-size:12px}.elle-turn-head time{color:#7787a0}.elle-user-icon,.elle-mini-orb{width:24px;height:24px;border-radius:8px}.elle-user-icon{display:grid;place-items:center;background:#eef2f8;color:#17325c;font-size:8px}.elle-mini-orb{font-size:10px}.elle-user-text{margin:8px 0 0 32px;color:#16263f;font-size:12px;line-height:1.45}.elle-answer{margin:10px 0 0 32px}.elle-answer-content{color:#17263f;font-size:11.5px;line-height:1.55}.elle-answer-content p{margin:0 0 9px}.elle-answer-content p:last-child{margin-bottom:0}.elle-answer-content h2,.elle-answer-content h3,.elle-answer-content h4{display:flex;align-items:center;gap:7px;margin:13px 0 7px;color:#10213d}.elle-answer-content h2{font-size:14px}.elle-answer-content h3{font-size:13px}.elle-answer-content h4{font-size:12px}.elle-answer-content h2 span,.elle-answer-content h3 span,.elle-answer-content h4 span{color:#3565d5}.elle-answer-content ul{margin:7px 0;padding-left:18px}.elle-answer-content li{margin:4px 0}.elle-answer-content pre{overflow:auto;padding:9px;border-radius:8px;background:#0e1b2e;color:#eef4ff;font-size:10px}.elle-answer-content code{padding:1px 4px;border-radius:4px;background:#edf2f8}.elle-answer-content a{color:#2d5fc5}.elle-collapsible.is-collapsed .elle-answer-content{max-height:240px;overflow:hidden;mask-image:linear-gradient(#000 70%,transparent)}.elle-collapsible>[data-expand]{margin-top:8px;padding:0;border:0;background:none;color:#2e5fbd;font-size:10.5px;font-weight:700;cursor:pointer}.elle-citations{margin:12px 0 0 32px}.elle-citations>strong{display:block;margin-bottom:7px;font-size:10.5px}.elle-citations>div{display:flex;flex-wrap:wrap;gap:6px}.elle-citations a{padding:6px 8px;border:1px solid #d9e3f2;border-radius:8px;background:#f8faff;color:#2d5fc5;text-decoration:none;font-size:9.5px}.elle-tools{display:flex;align-items:center;flex-wrap:wrap;gap:3px;margin:12px 0 0 32px;padding-top:9px;border-top:1px solid #edf1f6}.elle-tools button{padding:5px 7px;border:0;background:none;color:#61718a;font-size:9.5px;cursor:pointer}.elle-tools button:hover{color:#285ab6;background:#f1f5fb;border-radius:6px}.elle-tools time{margin-left:auto;color:#8a98ab;font-size:9px}.elle-cursor{display:inline-block;width:2px;height:1em;margin-left:3px;vertical-align:-2px;background:#2e5fc5;animation:blink .8s step-end infinite}@keyframes blink{50%{opacity:0}}.elle-thinking-dots{display:inline-flex;gap:4px;align-items:center;height:18px}.elle-thinking-dots i{width:5px;height:5px;border-radius:50%;background:#6f8098;animation:elleDot 1.1s infinite ease-in-out}.elle-thinking-dots i:nth-child(2){animation-delay:.15s}.elle-thinking-dots i:nth-child(3){animation-delay:.3s}@keyframes elleDot{0%,70%,100%{opacity:.25;transform:translateY(0)}35%{opacity:1;transform:translateY(-2px)}}.elle-stopped{margin:8px 0 0 32px;color:#8a6b34;font-size:9px;font-weight:700}.elle-followups{margin:14px 0 0 32px;padding:11px;border:1px solid #dce6f3;border-radius:12px;background:#f8faff}.elle-followups>strong{font-size:10.5px}.elle-followups>div{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.elle-followups button{padding:7px 9px;border:1px solid #d5e0f0;border-radius:999px;background:#fff;color:#2d5fc5;font-size:9.5px;cursor:pointer}.elle-error{margin:14px;padding:10px;border-radius:9px;background:#fff4f4;color:#9b3030;font-size:11px}.elle-footer{padding:10px 12px 8px;border-top:1px solid #e4ebf4;background:#fff}.elle-composer{display:flex;align-items:flex-end;gap:7px;padding:7px 7px 7px 11px;border:1.5px solid #5d88e6;border-radius:14px;box-shadow:0 0 0 3px rgba(65,111,207,.08)}.elle-composer textarea{flex:1;min-height:22px;max-height:120px;padding:4px 0;border:0;outline:0;resize:none;color:#17263f;font:11.5px/1.45 Inter,system-ui,sans-serif}.elle-send,.elle-stop{display:grid;place-items:center;width:34px;height:34px;border:0;border-radius:10px;background:#0e315f;color:#fff;cursor:pointer}.elle-send:disabled{background:#dce4ef}.elle-footer>p{margin:6px 0 0;text-align:center;color:#98a5b7;font-size:8.5px}@media(max-width:600px){.elle{right:8px;bottom:8px}.elle-panel{position:fixed;inset:4px;width:auto;height:auto;border-radius:16px}.elle-answer-content{font-size:11px}.elle-prompts{grid-template-columns:1fr}.elle-tools time{width:100%;margin:3px 0 0 7px}.elle-followups{margin-left:0}}
 </style>
