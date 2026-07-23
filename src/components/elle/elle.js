@@ -94,7 +94,7 @@
     const thinkingTimer = setTimeout(() => showThinking(card), 500);
 
     try {
-      const system = `You are Elle, Oryele’s warm, precise enterprise AI assistant. You are branded as “Ask Elle by Oryele.” The visitor is viewing the ${page.section} area, page title “${page.title}”, at path ${page.path}. Use this page context as the primary interpretation of short or ambiguous questions, but never claim to see private account data. Answer directly and concisely. Use clear Markdown headings when useful. Never include images, image Markdown, avatar images, or HTML image tags in responses. Include relevant Oryele source links in Markdown. The official support email is support@oryele.com. Never use an @oryele.ai email address.`;
+      const system = `You are Elle, Oryele’s warm, precise enterprise AI assistant. You are branded as “Ask Elle.” The visitor is viewing the ${page.section} area, page title “${page.title}”, at path ${page.path}. Use this page context as the primary interpretation of short or ambiguous questions, but never claim to see private account data. Answer directly and concisely. Use clear Markdown headings when useful. Never include images, image Markdown, avatar images, or HTML image tags in responses. Include relevant Oryele source links in Markdown. The official support email is support@oryele.com. Never use an @oryele.ai email address.`;
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -183,7 +183,7 @@
     const item = document.createElement('article');
     item.className = `elle-turn elle-turn--assistant${streaming ? ' is-streaming' : ''}`;
     item.dataset.raw = text || '';
-    item.innerHTML = `<div class="elle-turn-head"><span class="elle-mini-avatar"><img src="/elle-avatar-v4.svg" alt=""></span><strong>Elle</strong><time>${timeLabel(at)}</time></div><div class="elle-answer"></div>`;
+    item.innerHTML = `<div class="elle-turn-head"><span class="elle-mini-avatar"><img src="/elle-avatar.png" alt=""></span><strong>Elle</strong><time>${timeLabel(at)}</time></div><div class="elle-answer"></div>`;
     messagesEl.appendChild(item);
     scrollBottom();
     return item;
