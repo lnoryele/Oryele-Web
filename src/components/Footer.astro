@@ -4,22 +4,23 @@ const year = new Date().getFullYear();
 const links = [
   ['Home','/'], ['Solutions','/solutions/'], ['Platform','/platform/'], ['Why Oryele','/company/'],
   ['Resources','/resources/'], ['Contact','/contact/'], ['Privacy Policy','/privacy/'],
-  ['Terms & Conditions','/terms/'], ['SMS Consent','/sms-consent/'], ['Help Center','/support/'],
-  ['Cookie Policy','/cookie-policy/'], ['Sitemap','/sitemap/']
+  ['Terms & Conditions','/terms/'], ['SMS Consent','/sms-consent/'], ['Help Center','/resources/help-center/'],
+  ['Cookie Policy','/cookie-policy/'], ['Sitemap','/sitemap.xml']
 ];
 ---
 <footer class="footer">
   <div class="wrap footer-newsletter">
     <div class="nl-copy">
       <p class="nl-heading">Stay in the loop</p>
-      <p class="nl-sub">Product updates, insights, and resources for accounting firms. No spam, unsubscribe anytime.</p>
+      <p class="nl-sub">Product updates, insights, and resources for professional services firms.</p>
     </div>
     <form class="nl-form" id="nl-form" novalidate>
       <div class="nl-input-wrap">
-        <input id="nl-email" type="email" placeholder="Enter your email address" autocomplete="email" aria-label="Email address for newsletter" required />
+        <input id="nl-email" name="Email" type="email" placeholder="Enter your email address" autocomplete="email" aria-label="Email address for newsletter" required />
         <button type="submit" class="nl-btn" id="nl-btn">Subscribe</button>
       </div>
-      <p class="nl-msg" id="nl-msg" hidden></p>
+      <p class="nl-consent">By subscribing, you agree to receive product news and updates from Oryele. You may unsubscribe at any time. <a href="/privacy/">Privacy Policy</a>.</p>
+      <p class="nl-msg" id="nl-msg" role="status" aria-live="polite" hidden></p>
     </form>
   </div>
   <div class="wrap footer-main">
@@ -56,6 +57,7 @@ const links = [
     var email = (input ? input.value : '').trim();
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       showMsg('Please enter a valid email address.', 'error');
+      if (input) input.focus();
       return;
     }
     btn.disabled = true;
@@ -66,6 +68,7 @@ const links = [
       fd.append('_captcha', 'false');
       fd.append('Email', email);
       fd.append('Source', 'Newsletter footer');
+      fd.append('Consent', 'Product news and updates; unsubscribe at any time');
       var res = await fetch('https://formsubmit.co/ajax/info@oryele.com', {
         method: 'POST',
         headers: { 'Accept': 'application/json' },
@@ -97,28 +100,13 @@ const links = [
 
 <style>
 .footer{background:#071528;color:#c7d2e4;border-top:1px solid rgba(255,255,255,.1)}
-
-/* Newsletter strip */
 .footer-newsletter{display:flex;align-items:center;justify-content:space-between;gap:32px;padding-block:32px 28px;border-bottom:1px solid rgba(255,255,255,.08);flex-wrap:wrap}
-.nl-copy{flex:1;min-width:220px}
-.nl-heading{font-size:16px;font-weight:800;color:#fff;margin:0 0 5px;letter-spacing:-.01em}
-.nl-sub{font-size:13px;color:#7a8fa8;margin:0;line-height:1.55}
-.nl-form{flex:0 0 auto;min-width:320px}
-.nl-input-wrap{display:flex;border-radius:9px;overflow:hidden;border:1.5px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);transition:border-color 140ms}
-.nl-input-wrap:focus-within{border-color:#4e7fee}
-#nl-email{flex:1;padding:11px 14px;background:transparent;border:none;font-size:14px;font-family:inherit;color:#fff;outline:none;min-width:0}
-#nl-email::placeholder{color:#4e6682}
-.nl-btn{padding:11px 20px;background:#2351c1;color:#fff;border:none;font-size:13.5px;font-weight:700;font-family:inherit;cursor:pointer;white-space:nowrap;transition:background 140ms;flex-shrink:0}
-.nl-btn:hover{background:#3461d6}
-.nl-btn:disabled{opacity:.6;cursor:not-allowed}
-.nl-msg{font-size:12.5px;margin:8px 0 0;padding:0}
-.nl-msg--ok{color:#34d399}
-.nl-msg--error{color:#f87171}
-
-.footer-main{display:flex;align-items:center;gap:26px;padding-block:25px 20px}.brand{flex:0 0 auto}.footer-links{display:flex;align-items:center;justify-content:flex-end;flex-wrap:nowrap;margin-left:auto;white-space:nowrap;min-width:0}
-.footer-links a{position:relative;color:#d5deec;text-decoration:none;font-size:clamp(10px,.88vw,13px);font-weight:600;padding:5px clamp(7px,.75vw,13px);transition:color .18s ease}
-.footer-links a:not(:last-child)::after{content:"";position:absolute;right:0;top:6px;width:1px;height:17px;background:#35506f}.footer-links a:hover,.footer-links a:focus-visible{color:#fff}.footer-links a:focus-visible{outline:2px solid #69a0ff;outline-offset:3px;border-radius:3px}
+.nl-copy{flex:1;min-width:220px}.nl-heading{font-size:16px;font-weight:800;color:#fff;margin:0 0 5px;letter-spacing:-.01em}.nl-sub{font-size:13px;color:#7a8fa8;margin:0;line-height:1.55}
+.nl-form{flex:0 0 auto;min-width:360px;max-width:520px}.nl-input-wrap{display:flex;border-radius:9px;overflow:hidden;border:1.5px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);transition:border-color 140ms}.nl-input-wrap:focus-within{border-color:#4e7fee}
+#nl-email{flex:1;padding:11px 14px;background:transparent;border:none;font-size:14px;font-family:inherit;color:#fff;outline:none;min-width:0}#nl-email::placeholder{color:#4e6682}.nl-btn{padding:11px 20px;background:#2351c1;color:#fff;border:none;font-size:13.5px;font-weight:700;font-family:inherit;cursor:pointer;white-space:nowrap;transition:background 140ms;flex-shrink:0}.nl-btn:hover{background:#3461d6}.nl-btn:disabled{opacity:.6;cursor:not-allowed}
+.nl-consent{font-size:11.5px;line-height:1.5;color:#71859f;margin:8px 2px 0}.nl-consent a{color:#a8bad1}.nl-consent a:hover{color:#fff}.nl-msg{font-size:12.5px;margin:8px 0 0;padding:0}.nl-msg--ok{color:#34d399}.nl-msg--error{color:#f87171}
+.footer-main{display:flex;align-items:center;gap:26px;padding-block:25px 20px}.brand{flex:0 0 auto}.footer-links{display:flex;align-items:center;justify-content:flex-end;flex-wrap:nowrap;margin-left:auto;white-space:nowrap;min-width:0}.footer-links a{position:relative;color:#d5deec;text-decoration:none;font-size:clamp(10px,.88vw,13px);font-weight:600;padding:5px clamp(7px,.75vw,13px);transition:color .18s ease}.footer-links a:not(:last-child)::after{content:"";position:absolute;right:0;top:6px;width:1px;height:17px;background:#35506f}.footer-links a:hover,.footer-links a:focus-visible{color:#fff}.footer-links a:focus-visible{outline:2px solid #69a0ff;outline-offset:3px;border-radius:3px}
 .footer-bottom{display:flex;align-items:center;justify-content:space-between;gap:24px;border-top:1px solid rgba(255,255,255,.1);padding-block:16px 22px;font-size:12px;color:#93a4bd}.footer-bottom p{margin:0}.footer-bottom a{color:#b9c7da;text-decoration:none}.footer-bottom a:hover{color:#fff}.footer-social{display:flex;align-items:center;gap:18px}.footer-social a{display:grid;place-items:center;color:#b9c7da;transition:color 140ms}.footer-social a:hover{color:#fff}
-@media(max-width:1120px){.footer-main{align-items:flex-start;flex-direction:column}.footer-links{justify-content:flex-start;margin-left:-8px;flex-wrap:wrap;white-space:normal}.footer-links a{font-size:12px;padding-inline:9px}.footer-newsletter{flex-direction:column;align-items:flex-start}.nl-form{min-width:0;width:100%}}
+@media(max-width:1120px){.footer-main{align-items:flex-start;flex-direction:column}.footer-links{justify-content:flex-start;margin-left:-8px;flex-wrap:wrap;white-space:normal}.footer-links a{font-size:12px;padding-inline:9px}.footer-newsletter{flex-direction:column;align-items:flex-start}.nl-form{min-width:0;width:100%;max-width:none}}
 @media(max-width:640px){.footer-bottom{align-items:flex-start;flex-direction:column;gap:7px}.nl-input-wrap{flex-direction:column;border-radius:9px}.nl-btn{border-radius:0 0 7px 7px;text-align:center}}
 </style>
