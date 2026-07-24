@@ -92,7 +92,7 @@ export const modules: Module[] = [
     slug: 'governance', icon: 'shield', title: 'Governance',
     body: 'Policies, compliance, audit trails, and role-based controls.',
     summary: 'Build security, accountability, compliance, and evidence into daily execution instead of treating governance as a separate after-the-fact exercise.',
-    points: ['Role-based access and least-privilege permissions', 'Policy-driven approvals and operating controls', 'Immutable activity and decision histories', 'Legal hold and retention support', 'Exception tracking and remediation workflows', 'Evidence-ready reporting for reviews and audits'],
+    points: ['Role-based access and least-privilege permissions', 'Policy-driven approvals and operating controls', 'Immutable activity and decision histories', 'Policy-based retention support', 'Exception tracking and remediation workflows', 'Evidence-ready reporting for reviews and audits'],
     outcomes: ['Reduce operational and compliance risk', 'Make accountability visible', 'Accelerate audit and review preparation', 'Apply controls consistently at scale'],
     workflow: [
       {step:'01', title:'Set the rules', body:'Define permissions, approvals, retention, evidence, and escalation requirements.'},
@@ -102,10 +102,10 @@ export const modules: Module[] = [
     useCases: [
       {title:'Access governance', body:'Control who can view, change, approve, export, or share sensitive information.'},
       {title:'Audit readiness', body:'Maintain the evidence needed to demonstrate consistent operation of controls.'},
-      {title:'Legal hold', body:'Preserve relevant records and suspend normal disposition according to instruction.'},
+      {title:'Retention policies', body:'Manage record retention and disposition using defined organizational policies.'},
       {title:'Policy exceptions', body:'Route exceptions for approval, record rationale, and track corrective action.'}
     ],
-    controls: ['RBAC', 'File-level encryption', 'Legal hold', 'Full audit trails']
+    controls: ['RBAC', 'File-level encryption', 'Retention policies', 'Full audit trails']
   },
   {
     slug: 'analytics', icon: 'analytics', title: 'Analytics',
