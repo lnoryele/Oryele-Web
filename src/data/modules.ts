@@ -16,7 +16,7 @@ export const modules: Module[] = [
     slug: 'digital-workforce', icon: 'person', title: 'Digital Workforce',
     body: 'AI-powered workers that get things done.',
     summary: 'Deploy governed digital workers that take ownership of repeatable work across email, documents, systems, voice, SMS, and calendars while keeping people in control.',
-    points: ['Role-based digital workers with defined responsibilities', 'Human review and approval checkpoints', 'Multi-channel work across email, SMS, voice, and calendar', 'Consistent execution using approved policies and playbooks', 'Escalation paths for exceptions and sensitive decisions', 'Complete activity history and measurable performance'],
+    points: ['Role based digital workers with defined responsibilities', 'Human review and approval checkpoints', 'Multi-channel work across email, SMS, voice, and calendar', 'Consistent execution using approved policies and playbooks', 'Escalation paths for exceptions and sensitive decisions', 'Complete activity history and measurable performance'],
     outcomes: ['Increase capacity without adding repetitive workload', 'Reduce handoffs and follow-up delays', 'Deliver a more consistent client experience', 'Give teams time back for judgment and relationship work'],
     workflow: [
       {step:'01', title:'Define the role', body:'Set objectives, permissions, boundaries, escalation rules, and the systems the digital worker may use.'},
@@ -40,7 +40,7 @@ export const modules: Module[] = [
     workflow: [
       {step:'01', title:'Model the process', body:'Translate the real operating process into stages, decisions, owners, deadlines, and evidence requirements.'},
       {step:'02', title:'Automate coordination', body:'Trigger tasks, messages, document requests, approvals, and system actions from a single workflow.'},
-      {step:'03', title:'Measure and optimize', body:'Use cycle-time, exception, and completion data to remove bottlenecks and strengthen control.'}
+      {step:'03', title:'Measure and optimize', body:'Use cycle time, exception, and completion data to remove bottlenecks and strengthen control.'}
     ],
     useCases: [
       {title:'Onboarding', body:'Coordinate internal teams, clients, documents, approvals, and system setup from a single plan.'},
@@ -53,9 +53,9 @@ export const modules: Module[] = [
   {
     slug: 'communications', icon: 'chat', title: 'Communications',
     body: 'Email, SMS, voice, calendar, and team collaboration.',
-    summary: 'Bring operational communications into the process so messages, appointments, decisions, and follow-ups are connected to the work they support.',
+    summary: 'Bring operational communications into the process so messages, appointments, decisions, and follow ups are connected to the work they support.',
     points: ['Unified email, SMS, voice, and calendar orchestration', 'Templates with governed personalization', 'Automatic reminders and response tracking', 'Shared communication history by client or matter', 'Calendar scheduling and appointment workflows', 'Escalation when communications are unanswered'],
-    outcomes: ['Reduce inbox-driven operations', 'Improve response rates and client clarity', 'Keep communication history connected to execution', 'Prevent follow-ups from falling through the cracks'],
+    outcomes: ['Reduce inbox-driven operations', 'Improve response rates and client clarity', 'Keep communication history connected to execution', 'Prevent follow ups from falling through the cracks'],
     workflow: [
       {step:'01', title:'Trigger the right message', body:'Launch communications from workflow events, deadlines, client actions, or business rules.'},
       {step:'02', title:'Track engagement', body:'Capture delivery, response, scheduling, and completion status alongside the underlying work.'},
@@ -67,7 +67,7 @@ export const modules: Module[] = [
       {title:'Status updates', body:'Keep clients and stakeholders informed without manual status chasing.'},
       {title:'Internal coordination', body:'Route decisions and handoffs to the right people with shared context.'}
     ],
-    controls: ['Approved templates', 'Consent-aware channel rules', 'Message audit history', 'Role-based visibility']
+    controls: ['Approved templates', 'Consent-aware channel rules', 'Message audit history', 'Role based visibility']
   },
   {
     slug: 'knowledge', icon: 'document', title: 'Knowledge',
@@ -90,9 +90,9 @@ export const modules: Module[] = [
   },
   {
     slug: 'governance', icon: 'shield', title: 'Governance',
-    body: 'Policies, compliance, audit trails, and role-based controls.',
+    body: 'Policies, compliance, audit trails, and role based controls.',
     summary: 'Build security, accountability, compliance, and evidence into daily execution instead of treating governance as a separate after-the-fact exercise.',
-    points: ['Role-based access and least-privilege permissions', 'Policy-driven approvals and operating controls', 'Immutable activity and decision histories', 'Legal hold and retention support', 'Exception tracking and remediation workflows', 'Evidence-ready reporting for reviews and audits'],
+    points: ['Role based access and least-privilege permissions', 'Policy-driven approvals and operating controls', 'Immutable activity and decision histories', 'Legal hold and retention support', 'Exception tracking and remediation workflows', 'Evidence-ready reporting for reviews and audits'],
     outcomes: ['Reduce operational and compliance risk', 'Make accountability visible', 'Accelerate audit and review preparation', 'Apply controls consistently at scale'],
     workflow: [
       {step:'01', title:'Set the rules', body:'Define permissions, approvals, retention, evidence, and escalation requirements.'},
@@ -109,9 +109,9 @@ export const modules: Module[] = [
   },
   {
     slug: 'analytics', icon: 'analytics', title: 'Analytics',
-    body: 'Real-time insight that drives performance and results.',
+    body: 'Real time insight that drives performance and results.',
     summary: 'See how work moves, where it slows, what it costs, and which outcomes are being achieved with operational analytics connected directly to execution.',
-    points: ['Real-time workload, status, and throughput dashboards', 'Cycle-time and bottleneck analysis', 'Digital-worker and workflow performance metrics', 'SLA, exception, and escalation reporting', 'Outcome and capacity trend analysis', 'Exportable reports for leadership and governance'],
+    points: ['Real time workload, status, and throughput dashboards', 'Cycle time and bottleneck analysis', 'Digital-worker and workflow performance metrics', 'SLA, exception, and escalation reporting', 'Outcome and capacity trend analysis', 'Exportable reports for leadership and governance'],
     outcomes: ['Make decisions using live operating evidence', 'Identify bottlenecks before they become client issues', 'Improve capacity planning and accountability', 'Connect activity to business outcomes'],
     workflow: [
       {step:'01', title:'Capture execution data', body:'Record task, workflow, communication, document, and decision events as work happens.'},
