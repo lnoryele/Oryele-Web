@@ -12,6 +12,7 @@ interface Props {
   datePublished?: string;
   dateModified?: string;
   type?: "website" | "article";
+  showElle?: boolean;
 }
 
 const {
@@ -21,10 +22,14 @@ const {
   datePublished,
   dateModified,
   type = "website",
+  showElle = true,
 } = Astro.props;
 
 const siteURL = "https://oryele.ai";
-const canonicalURL = new URL(Astro.url.pathname, siteURL);
+const normalizedPath = Astro.url.pathname
+  .replace(/\/index\.html$/i, "/")
+  .replace(/\.html$/i, "/");
+const canonicalURL = new URL(normalizedPath, siteURL);
 const ogImageURL = new URL(ogImage, siteURL);
 
 const orgSchema = {
@@ -60,7 +65,7 @@ const websiteSchema = {
   "url": siteURL,
 };
 
-const pathParts = Astro.url.pathname.split("/").filter(Boolean);
+const pathParts = normalizedPath.split("/").filter(Boolean);
 const breadcrumbItems = [
   { "@type": "ListItem", position: 1, name: "Home", item: `${siteURL}/` },
   ...pathParts.map((part, index) => ({
@@ -123,20 +128,34 @@ const breadcrumbSchema = {
     <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)}></script>
     <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)}></script>
   </head>
-  <body data-page-path={Astro.url.pathname} data-page-title={title}>
+  <body data-page-path={normalizedPath} data-page-title={title}>
     <a href="#main-content" class="skip-nav">Skip to main content</a>
     <Navbar />
     <main id="main-content">
       <slot />
     </main>
     <Footer />
-    <ElleAssistant />
+    {showElle && <ElleAssistant />}
     <script>
       const observer = new IntersectionObserver(
         (entries) => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } }),
         { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
       );
       document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+      if (window.location.pathname.startsWith('/support')) {
+        document.querySelectorAll('a[href*="app.oryele.com"]').forEach((link) => {
+          link.setAttribute('href', link.getAttribute('href').replace('app.oryele.com', 'app.oryele.ai'));
+        });
+        const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+        const nodes = [];
+        while (walker.nextNode()) nodes.push(walker.currentNode);
+        nodes.forEach((node) => {
+          if (node.nodeValue && node.nodeValue.includes('app.oryele.com')) {
+            node.nodeValue = node.nodeValue.replaceAll('app.oryele.com', 'app.oryele.ai');
+          }
+        });
+      }
     </script>
   </body>
 </html>
