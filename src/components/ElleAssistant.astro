@@ -147,7 +147,7 @@
   function appendTyping() {
     var item = document.createElement('div');
     item.className = 'elle-message elle-message--assistant';
-    item.innerHTML = '<div class="elle-avatar">E</div><div class="elle-bubble elle-typing"><i></i><i></i><i></i></div>';
+    item.innerHTML = '<div class="elle-avatar"><img src="/elle-avatar-v5.png" alt="Elle" /></div><div class="elle-bubble elle-typing"><i></i><i></i><i></i></div>';
     messagesEl.appendChild(item);
     scrollBottom();
     return item;
@@ -161,7 +161,7 @@
     if (role === 'user') {
       item.innerHTML = '<div class="elle-bubble">' + safe + '</div>';
     } else if (role === 'error') {
-      item.innerHTML = '<div class="elle-avatar">!</div><div class="elle-bubble elle-bubble--error">' + safe + '</div>';
+      item.innerHTML = '<div class="elle-avatar"><img src="/elle-avatar-v5.png" alt="Elle" /></div><div class="elle-bubble elle-bubble--error">' + safe + '</div>';
     } else {
       var confidence = typeof meta.confidence === 'number' ? Math.round(meta.confidence * 100) : null;
       var sources = Array.isArray(meta.sources) ? meta.sources : [];
@@ -170,7 +170,7 @@
         return source.url ? '<a href="' + escapeAttr(source.url) + '" target="_blank" rel="noopener">' + title + ' ↗</a>' : '<span>' + title + '</span>';
       }).join('') + '</div>' : '';
       var confidenceHtml = confidence !== null ? '<span class="elle-confidence"><i></i>' + confidence + '% confidence</span>' : '';
-      item.innerHTML = '<div class="elle-avatar">E</div><div class="elle-response"><div class="elle-bubble">' + safe + '</div>' + sourceHtml + '<div class="elle-meta">' + confidenceHtml + '<span>' + escapeHtml(formatRoute(meta.route)) + '</span><span>' + ((meta.response_time_ms || 0) / 1000).toFixed(1) + 's</span></div><div class="elle-tools"><button type="button" data-copy>Copy</button><button type="button" data-feedback="true">Helpful</button><button type="button" data-feedback="false">Not helpful</button></div></div>';
+      item.innerHTML = '<div class="elle-avatar"><img src="/elle-avatar-v5.png" alt="Elle" /></div><div class="elle-response"><div class="elle-bubble">' + safe + '</div>' + sourceHtml + '<div class="elle-meta">' + confidenceHtml + '<span>' + escapeHtml(formatRoute(meta.route)) + '</span><span>' + ((meta.response_time_ms || 0) / 1000).toFixed(1) + 's</span></div><div class="elle-tools"><button type="button" data-copy>Copy</button><button type="button" data-feedback="true">Helpful</button><button type="button" data-feedback="false">Not helpful</button></div></div>';
       bindMessageTools(item, text, meta.interaction_id);
     }
 
@@ -218,7 +218,7 @@
 .elle-composer-wrap{padding:12px 14px 10px;border-top:1px solid #e5ebf3;background:#fff}.elle-composer{display:flex;align-items:flex-end;gap:8px;padding:8px 8px 8px 13px;border:1.5px solid #d5dfed;border-radius:15px;background:#fff;transition:border-color .15s,box-shadow .15s}.elle-composer:focus-within{border-color:#7197e9;box-shadow:0 0 0 3px rgba(65,111,207,.1)}.elle-composer textarea{flex:1;min-height:24px;max-height:120px;padding:4px 0;border:0;outline:0;resize:none;color:#1d2e49;font:13px/1.45 Inter,system-ui,sans-serif}.elle-composer textarea::placeholder{color:#91a0b4}.elle-send{display:grid;place-items:center;flex:0 0 34px;width:34px;height:34px;border:0;border-radius:10px;background:#2759c7;color:#fff;font-size:20px;font-weight:700;cursor:pointer}.elle-send:disabled{background:#d8e0ec;cursor:default}.elle-composer-wrap>p{margin:7px 0 0;text-align:center;color:#9aa7b8;font-size:9px}
 @media(max-width:600px){.elle{right:12px;bottom:var(--elle-bottom,12px)}.elle-panel{position:fixed;inset:8px;width:auto;height:auto;border-radius:20px}.elle-suggestions{grid-template-columns:1fr}.elle-launcher{min-width:142px}.elle-welcome{padding-top:24px}}
 @media(prefers-reduced-motion:reduce){.elle-panel,.elle-launcher,.elle-suggestions button{transition:none}.elle-typing i{animation:none}}
-</style>
+.elle-orb img,.elle-avatar img{width:100%;height:100%;display:block;object-fit:cover;border-radius:inherit}</style>
 
 <script is:inline>
   document.addEventListener('DOMContentLoaded', () => {
