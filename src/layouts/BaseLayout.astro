@@ -143,6 +143,24 @@ const breadcrumbSchema = {
         { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
       );
       document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+      // Keep one assistant experience on the Help Center page.
+      if (window.location.pathname.startsWith('/resources/help-center')) {
+        const legacyPanel = document.getElementById('ai-panel');
+        const legacyToggle = document.querySelector('.ai-toggle');
+        legacyPanel?.remove();
+        legacyToggle?.remove();
+
+        const openGlobalElle = (event) => {
+          event.preventDefault();
+          const launcher = document.querySelector('[data-elle] .elle-launcher');
+          if (launcher instanceof HTMLElement) launcher.click();
+        };
+
+        document.querySelectorAll('a[href="#ai-assistant"], #nav-ai-link').forEach((link) => {
+          link.addEventListener('click', openGlobalElle);
+        });
+      }
     </script>
   </body>
 </html>
