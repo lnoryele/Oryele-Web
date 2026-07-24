@@ -9,23 +9,26 @@ const values = [
 ];
 
 const benefits = [
-  { title: 'Competitive Opportunity', body: 'We aim to recognize talent, contribution, and impact.', icon: '<line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>' },
-  { title: 'Wellbeing as We Grow', body: 'Our people experience will continue to evolve as Oryele grows.', icon: '<path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>' },
-  { title: 'Flexible Collaboration', body: 'We value thoughtful collaboration and practical flexibility.', icon: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>' },
+  { title: 'Competitive Compensation', body: 'We reward your talent and contributions.', icon: '<line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>' },
+  { title: 'Health and Wellness', body: 'Comprehensive benefits to support you and your loved ones.', icon: '<path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>' },
+  { title: 'Flexible Work', body: 'Hybrid-first culture with flexibility that works for you.', icon: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>' },
   { title: 'Purpose-Driven Work', body: 'Solve meaningful problems and create real impact.', icon: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>' },
-  { title: 'Growth and Learning', body: 'Build new skills through ambitious work and shared experience.', icon: '<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>' },
-  { title: 'Inclusive Culture', body: 'We want different perspectives to be heard, respected, and valued.', icon: '<circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/>' },
+  { title: 'Growth and Learning', body: 'Continuous learning, mentorship, and career advancement.', icon: '<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>' },
+  { title: 'Inclusive Culture', body: 'Diversity, equity, and belonging are in our DNA.', icon: '<circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/>' },
 ];
 ---
-<BaseLayout title="Careers at Oryele | Build Meaningful Work" description="Join Oryele and help build the digital workforce foundation for smarter organizations.">
+<BaseLayout title="Careers at Oryele | Build Meaningful Work" description="Join Oryele and help build the AI foundation for smarter organizations.">
+
+  <!-- HERO with background image -->
   <section class="career-hero">
     <div class="hero-bg"></div>
     <div class="wrap hero-layout">
       <div class="hero-copy">
         <h1>Build the Future.<br/>Make It Meaningful.</h1>
-        <p>At Oryele, we are building the digital workforce foundation for smarter organizations. Join a team driven by purpose, collaboration, and meaningful impact.</p>
+        <p>At Oryele, we are building the AI foundation for smarter organizations and a better world. Join a team of innovators driven by purpose, collaboration, and impact.</p>
         <div class="hero-btns">
           <a class="btn btn-blue" href="#vision">Our Culture &#9654;</a>
+          
         </div>
       </div>
       <div class="hero-form" id="apply">
@@ -33,9 +36,9 @@ const benefits = [
           <p class="form-title">Join Our Team</p>
           <p class="form-sub">Ready to build the future with us? Fill out the form below and attach your resume.</p>
           <form action="https://formsubmit.co/hr@oryele.com" method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="_subject" value="New job application from oryele.com" />
+            <input type="hidden" name="_subject" value="New job application from oryele.ai" />
             <input type="hidden" name="_captcha" value="false" />
-            <input type="hidden" name="_next" value="https://oryele.com/careers/?applied=true" />
+            <input type="hidden" name="_next" value="https://oryele.ai/careers/?applied=true" />
             <div class="ff"><label>Full Name *</label><input type="text" name="Name" placeholder="Your full name" required /></div>
             <div class="ff"><label>Email *</label><input type="email" name="Email" placeholder="you@example.com" required /></div>
             <div class="ff-row">
@@ -79,6 +82,7 @@ const benefits = [
     </div>
   </section>
 
+  <!-- VISION -->
   <section class="vision-section" id="vision">
     <div class="wrap vision-wrap">
       <p class="eyebrow-blue">Our Vision</p>
@@ -87,7 +91,9 @@ const benefits = [
       <div class="values-grid">
         {values.map(v => (
           <div class="value-card">
-            <div class="value-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true" set:html={v.icon}></svg></div>
+            <div class="value-icon">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true" set:html={v.icon}></svg>
+            </div>
             <p class="value-title">{v.title}</p>
             <p class="value-body">{v.body}</p>
           </div>
@@ -96,39 +102,56 @@ const benefits = [
     </div>
   </section>
 
+  <!-- WHY ORYELE -->
   <section class="why-section">
     <div class="wrap why-grid">
       <div class="why-copy">
         <p class="eyebrow-light">Why Oryele</p>
         <h2>More Than a Job.<br/>A Launchpad for Impact.</h2>
-        <p>We are building an environment where talented people can do ambitious work, grow with the company, and contribute to outcomes that matter.</p>
+        <p>We invest in our people, their growth, well-being, and success. Because when you thrive, we all thrive.</p>
       </div>
       <div class="benefits-grid">
         {benefits.map(b => (
           <div class="benefit-item">
-            <div class="benefit-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" set:html={b.icon}></svg></div>
-            <div><p class="benefit-title">{b.title}</p><p class="benefit-body">{b.body}</p></div>
+            <div class="benefit-icon">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" set:html={b.icon}></svg>
+            </div>
+            <div>
+              <p class="benefit-title">{b.title}</p>
+              <p class="benefit-body">{b.body}</p>
+            </div>
           </div>
         ))}
       </div>
     </div>
   </section>
 
+  <!-- LIFE AT ORYELE -->
   <section class="life-section">
     <div class="wrap">
-      <p class="eyebrow-blue">Life at Oryele</p>
+      <p class="eyebrow-blue">Why Oryele</p>
       <h2>People. Purpose. Progress.</h2>
-      <p class="vision-lede">We are bringing together thinkers, builders, and operators who want to shape how organizations use trusted AI and digital workers.</p>
+      <p class="vision-lede">We are a global team of thinkers, builders, and dreamers. Here is a glimpse of life at Oryele.</p>
+      <div class="team-photo">
+        <img src="/careers-team.png" alt="Life at Oryele" />
+      </div>
     </div>
   </section>
 
+  <!-- DONT SEE A ROLE -->
   <section class="no-role">
     <div class="wrap no-role-inner">
-      <div class="no-role-icon"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></div>
-      <div><p class="no-role-title">Don't See the Right Role?</p><p class="no-role-sub">We are always interested in hearing from exceptional talent. Send us your resume and start a conversation.</p></div>
+      <div class="no-role-icon">
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </div>
+      <div>
+        <p class="no-role-title">Don't See the Right Role?</p>
+        <p class="no-role-sub">We are always looking for exceptional talent. Send us your resume and let's start a conversation.</p>
+      </div>
       <a class="btn btn-outline-blue" href="#apply">Send General Application &#8594;</a>
     </div>
   </section>
+
 </BaseLayout>
 
 <script is:inline>
@@ -144,6 +167,7 @@ const benefits = [
 </script>
 
 <style>
+  /* HERO */
   .career-hero { position: relative; min-height: 100vh; color: #fff; overflow: hidden; }
   .hero-bg { position: absolute; inset: 0; background: url('/careers-hero.png') 80% 15% / cover no-repeat; }
   .hero-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(5,12,30,.85) 0%, rgba(5,12,30,.6) 50%, rgba(5,12,30,.3) 100%); }
@@ -151,6 +175,8 @@ const benefits = [
   .hero-copy h1 { font-size: clamp(40px, 5.5vw, 72px); font-weight: 900; line-height: 1.04; margin: 0 0 22px; letter-spacing: -.025em; }
   .hero-copy p { font-size: clamp(15px, 1.4vw, 18px); color: rgba(255,255,255,.8); line-height: 1.7; margin: 0 0 32px; max-width: 480px; }
   .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  /* FORM CARD */
   .form-card { background: #fff; border-radius: 16px; padding: 28px; box-shadow: 0 24px 64px rgba(0,0,0,.3); }
   .form-title { font-size: 19px; font-weight: 800; margin: 0 0 5px; color: var(--navy); }
   .form-sub { font-size: 13px; color: var(--text-2); margin: 0 0 20px; line-height: 1.5; }
@@ -172,6 +198,8 @@ const benefits = [
   .submit-btn { width: 100%; justify-content: center; padding: 12px; font-size: 14px; margin-top: 4px; }
   .success-msg { display: flex; align-items: center; gap: 8px; margin-top: 14px; padding: 12px 14px; background: #ecfdf5; border: 1px solid #6ee7b7; border-radius: 8px; font-size: 13px; font-weight: 600; color: #065f46; }
   .success-msg svg { stroke: #059669; flex-shrink: 0; }
+
+  /* VISION */
   .vision-section { padding-block: clamp(64px, 7vw, 100px); }
   .vision-wrap { text-align: left; }
   .eyebrow-blue { font-size: 11px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: var(--blue); margin: 0 0 14px; }
@@ -184,6 +212,8 @@ const benefits = [
   .value-icon svg { stroke: var(--blue); }
   .value-title { font-size: 14.5px; font-weight: 700; margin: 0 0 8px; color: var(--text); }
   .value-body { font-size: 13px; color: #44526a; line-height: 1.6; margin: 0; }
+
+  /* WHY */
   .why-section { background: var(--navy); color: #fff; padding-block: clamp(64px, 7vw, 100px); }
   .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; }
   .why-copy h2 { color: #fff; }
@@ -194,8 +224,14 @@ const benefits = [
   .benefit-icon svg { stroke: #60a5fa; }
   .benefit-title { font-size: 13.5px; font-weight: 700; margin: 0 0 3px; color: #fff; }
   .benefit-body { font-size: 12.5px; color: #9aa9c3; line-height: 1.55; margin: 0; }
+
+  /* LIFE */
   .life-section { padding-block: clamp(64px, 7vw, 100px); }
-  .life-section .vision-lede { margin-bottom: 0; }
+  .life-section .vision-lede { margin-bottom: 36px; }
+  .team-photo { border-radius: 16px; overflow: hidden; box-shadow: 0 20px 60px rgba(11,21,38,.12); }
+  .team-photo img { width: 100%; display: block; }
+
+  /* NO ROLE */
   .no-role { background: var(--paper-2); border-top: 1px solid var(--line); padding-block: 40px; }
   .no-role-inner { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
   .no-role-icon { width: 52px; height: 52px; background: var(--blue-soft); border-radius: 12px; display: grid; place-items: center; flex-shrink: 0; }
@@ -203,6 +239,8 @@ const benefits = [
   .no-role-title { font-size: 16px; font-weight: 700; margin: 0 0 4px; }
   .no-role-sub { font-size: 13.5px; color: var(--text-2); margin: 0; }
   .no-role-inner .btn { margin-left: auto; flex-shrink: 0; white-space: nowrap; }
+
+  /* RESPONSIVE */
   @media (max-width: 1024px) { .hero-layout { grid-template-columns: 1fr; } .hero-form { max-width: 480px; } .values-grid { grid-template-columns: 1fr 1fr; } .why-grid { grid-template-columns: 1fr; gap: 40px; } }
   @media (max-width: 640px) { .values-grid, .benefits-grid, .ff-row { grid-template-columns: 1fr; } .no-role-inner .btn { margin-left: 0; } }
 </style>

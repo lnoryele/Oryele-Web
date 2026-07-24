@@ -1,51 +1,87 @@
-export async function onRequestPost({ request, env }) {
+// Cloudflare Pages Function: /api/elle-feedback
+// Records helpful / not helpful feedback against a prior Elle interaction.
+
+export async function onRequestPost(context) {
+  const { request, env } = context;
+
+  let body;
   try {
-    const body = await request.json();
+    body = await request.json();
+  } catch {
+    return json({ error: 'Invalid request body' }, 400);
+  }
 
-    const interactionId = body?.interaction_id;
-    const helpful = body?.helpful;
+  const interactionId = String(body.interaction_id || '').trim();
+  const helpful = body.helpful;
+  const comment = String(body.comment || '').trim().slice(0, 1000);
 
-    if (!interactionId || typeof helpful !== "boolean") {
-      return new Response(
-        JSON.stringify({
-          error: "interaction_id and helpful are required",
-        }),
-        {
-          status: 400,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+  if (!/^[0-9a-f-]{36}$/i.test(interactionId)) {
+    return json({ error: 'A valid interaction_id is required' }, 400);
+  }
+
+  if (typeof helpful !== 'boolean') {
+    return json({ error: 'helpful must be true or false' }, 400);
+  }
+
+  const store = env.ELLE_ANALYTICS || env.SUBSCRIBERS;
+  if (!store) {
+    return json({ error: 'Elle analytics storage is not configured' }, 503);
+  }
+
+  const interactionKey = `elle:interaction:${interactionId}`;
+  const feedbackKey = `elle:feedback:${interactionId}`;
+
+  try {
+    const rawInteraction = await store.get(interactionKey);
+    if (!rawInteraction) {
+      return json({ error: 'Interaction not found' }, 404);
     }
 
-    // Feedback is accepted even when no persistence layer is configured.
-    // Add database, analytics, or logging integration here when available.
-    console.log("Elle feedback received", {
+    const feedback = {
       interaction_id: interactionId,
       helpful,
-      feedback: body?.feedback ?? null,
-      created_at: new Date().toISOString(),
-    });
+      comment: comment || null,
+      submitted_at: new Date().toISOString(),
+    };
 
-    return new Response(
-      JSON.stringify({
-        success: true,
-      }),
-      {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    let interaction;
+    try {
+      interaction = JSON.parse(rawInteraction);
+    } catch {
+      interaction = { id: interactionId };
+    }
+
+    interaction.helpful = helpful;
+    interaction.feedback_comment = comment || null;
+    interaction.feedback_submitted_at = feedback.submitted_at;
+
+    await Promise.all([
+      store.put(interactionKey, JSON.stringify(interaction), { expirationTtl: 31536000 }),
+      store.put(feedbackKey, JSON.stringify(feedback), { expirationTtl: 31536000 }),
+    ]);
+
+    return json({ ok: true }, 200);
   } catch (error) {
-    console.error("Elle feedback error", error);
-
-    return new Response(
-      JSON.stringify({
-        error: "Unable to process feedback",
-      }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    console.error('Unable to store Elle feedback:', error);
+    return json({ error: 'Unable to save feedback' }, 500);
   }
+}
+
+export async function onRequestOptions() {
+  return new Response(null, { status: 204, headers: corsHeaders() });
+}
+
+function json(data, status) {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: { ...corsHeaders(), 'Content-Type': 'application/json' },
+  });
+}
+
+function corsHeaders() {
+  return {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+  };
 }
