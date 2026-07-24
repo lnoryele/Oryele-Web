@@ -399,7 +399,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
   <div id="ai-panel" class="ai-panel ai-panel--hidden" role="dialog" aria-label="Oryele AI Assistant">
     <div class="ai-panel-header">
       <div class="ai-panel-title">
-        <div class="ai-panel-avatar"><img src="/elle-avatar.png" alt="Elle" style="width:34px;height:34px;border-radius:50%;object-fit:cover;"/></div>
+        <div class="ai-panel-avatar"><span class="ai-avatar-mark" aria-hidden="true">E</span></div>
         <div>
           <p class="ai-panel-name">Elle</p>
           <p class="ai-panel-status"><span class="ai-online-dot"></span>Online</p>
@@ -424,7 +424,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
       </button>
     </div>
-    <p class="ai-disclaimer">For account-specific issues contact <a href="mailto:support@oryele.ai">support@oryele.ai</a>.</p>
+    <p class="ai-disclaimer">Elle is an AI assistant and may occasionally provide inaccurate information. Do not share sensitive personal, financial, or confidential information. For account-specific support, contact <a href="mailto:support@oryele.ai">support@oryele.ai</a>.</p>
   </div>
 </div>
 
@@ -489,7 +489,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
     searchInput.addEventListener('keydown', function (e) {
       if (e.key === 'Enter' && searchInput.value.trim()) {
         e.preventDefault();
-        window.location.href = '/support/search/?q=' + encodeURIComponent(searchInput.value.trim());
+        runSearch(searchInput.value.trim());
         return;
       }
       if (e.key === 'Escape') { searchResults.classList.remove('is-open'); searchInput.blur(); }
@@ -505,7 +505,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 
   document.querySelectorAll('.chip').forEach(function (chip) {
     chip.addEventListener('click', function () {
-      window.location.href = '/support/search/?q=' + encodeURIComponent(chip.dataset.query || '');
+      searchInput.value = chip.dataset.query || ''; runSearch(searchInput.value); searchInput.focus();
     });
   });
 
@@ -619,7 +619,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
     avatar.className = 'ai-avatar';
     avatar.setAttribute('aria-hidden', 'true');
     avatar.innerHTML = role === 'assistant'
-      ? '<img src="/elle-avatar.png" alt="Elle" style="width:26px;height:26px;border-radius:50%;object-fit:cover;"/>'
+      ? '<span class="ai-avatar-mark ai-avatar-mark--small" aria-hidden="true">E</span>'
       : '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
     header.appendChild(avatar);
 
@@ -931,6 +931,9 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
     .ai-toggle { padding: 13px; border-radius: 50%; }
   }
 
+
+.ai-avatar-mark{display:inline-flex;width:34px;height:34px;align-items:center;justify-content:center;border-radius:50%;font-weight:700;background:#fff;color:#0b1f3a}
+.ai-avatar-mark--small{width:26px;height:26px;font-size:12px}
 </style>
 
 </BaseLayout>

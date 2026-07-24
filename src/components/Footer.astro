@@ -19,6 +19,7 @@ const links = [
         <input id="nl-email" type="email" placeholder="Enter your email address" autocomplete="email" aria-label="Email address for newsletter" required />
         <button type="submit" class="nl-btn" id="nl-btn">Subscribe</button>
       </div>
+      <p class="nl-consent">By subscribing, you consent to receive Oryele product updates and marketing communications. You may unsubscribe at any time. See our <a href="/privacy/">Privacy Policy</a>.</p>
       <p class="nl-msg" id="nl-msg" hidden></p>
     </form>
   </div>
@@ -99,6 +100,8 @@ const links = [
 .footer{background:#071528;color:#c7d2e4;border-top:1px solid rgba(255,255,255,.1)}
 
 /* Newsletter strip */
+.nl-consent{max-width:540px;margin:8px 0 0;font-size:11px;line-height:1.5;color:rgba(255,255,255,.65)}
+.nl-consent a{color:inherit;text-decoration:underline}
 .footer-newsletter{display:flex;align-items:center;justify-content:space-between;gap:32px;padding-block:32px 28px;border-bottom:1px solid rgba(255,255,255,.08);flex-wrap:wrap}
 .nl-copy{flex:1;min-width:220px}
 .nl-heading{font-size:16px;font-weight:800;color:#fff;margin:0 0 5px;letter-spacing:-.01em}
