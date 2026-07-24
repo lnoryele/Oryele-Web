@@ -17,6 +17,10 @@ export async function onRequestPost({ request }) {
       return json({ ok: false, error: 'Please complete all required fields and attach your resume.' }, 400);
     }
 
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      return json({ ok: false, error: 'Please enter a valid email address.' }, 400);
+    }
+
     if (resume.size > 5 * 1024 * 1024) {
       return json({ ok: false, error: 'Your resume must be 5 MB or smaller.' }, 400);
     }
@@ -29,6 +33,8 @@ export async function onRequestPost({ request }) {
     outgoing.append('_subject', `New Oryele job application: ${name} - ${area}`);
     outgoing.append('_captcha', 'false');
     outgoing.append('_template', 'table');
+    outgoing.append('_url', 'https://oryele.ai/careers');
+    outgoing.append('_replyto', email);
     outgoing.append('Name', name);
     outgoing.append('Email', email);
     outgoing.append('Phone', String(incoming.get('Phone') || '').trim() || 'Not provided');
@@ -37,25 +43,35 @@ export async function onRequestPost({ request }) {
     outgoing.append('About the applicant', message);
     outgoing.append('Resume', resume, resume.name);
 
-    const upstream = await fetch('https://formsubmit.co/ajax/hr@oryele.com', {
+    // FormSubmit documents file uploads on its standard multipart endpoint.
+    // The AJAX endpoint is intended for JSON payloads and can reject attachments.
+    const upstream = await fetch('https://formsubmit.co/hr@oryele.com', {
       method: 'POST',
-      headers: { Accept: 'application/json' },
+      headers: {
+        Accept: 'text/html,application/xhtml+xml,application/json',
+        'User-Agent': 'Oryele-Careers-Form/1.0',
+      },
       body: outgoing,
+      redirect: 'follow',
     });
 
     const raw = await upstream.text();
-    let data = {};
-    try { data = JSON.parse(raw); } catch (_) {}
 
-    if (!upstream.ok || !(data.success === true || data.success === 'true')) {
-      console.error('Careers FormSubmit failure', upstream.status, raw);
-      return json({ ok: false, error: 'We could not send your application. Please email hr@oryele.com.' }, 502);
+    if (!upstream.ok) {
+      console.error('Careers FormSubmit failure', upstream.status, raw.slice(0, 1000));
+      return json({
+        ok: false,
+        error: 'We could not deliver your application. Please email your resume to hr@oryele.com.',
+      }, 502);
     }
 
     return json({ ok: true });
   } catch (error) {
     console.error('Careers application error', error);
-    return json({ ok: false, error: 'We could not send your application. Please email hr@oryele.com.' }, 500);
+    return json({
+      ok: false,
+      error: 'We could not deliver your application. Please email your resume to hr@oryele.com.',
+    }, 500);
   }
 }
 
@@ -69,6 +85,7 @@ function json(body, status = 200) {
     headers: {
       'content-type': 'application/json; charset=utf-8',
       'cache-control': 'no-store',
+      'x-content-type-options': 'nosniff',
     },
   });
 }
