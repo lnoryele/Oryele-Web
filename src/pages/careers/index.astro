@@ -35,10 +35,7 @@ const benefits = [
         <div class="form-card">
           <p class="form-title">Join Our Team</p>
           <p class="form-sub">Ready to build the future with us? Fill out the form below and attach your resume.</p>
-          <form action="https://formsubmit.co/hr@oryele.com" method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="_subject" value="New job application from oryele.ai" />
-            <input type="hidden" name="_captcha" value="false" />
-            <input type="hidden" name="_next" value="https://oryele.ai/careers/?applied=true" />
+          <form id="career-form" action="/api/careers-application" method="POST" enctype="multipart/form-data" novalidate>
             <div class="ff"><label>Full Name *</label><input type="text" name="Name" placeholder="Your full name" required /></div>
             <div class="ff"><label>Email *</label><input type="email" name="Email" placeholder="you@example.com" required /></div>
             <div class="ff-row">
@@ -69,7 +66,10 @@ const benefits = [
               </label>
               <p class="file-name" id="file-name"></p>
             </div>
-            <button type="submit" class="btn btn-blue submit-btn">Submit Application &#8594;</button>
+            <button type="submit" class="btn btn-blue submit-btn" id="career-submit">
+              Submit Application <span aria-hidden="true">&#8594;</span>
+            </button>
+            <p class="career-form-status" id="career-form-status" role="status" aria-live="polite"></p>
           </form>
           {Astro.url.searchParams.get('applied') === 'true' && (
             <div class="success-msg">
@@ -156,13 +156,103 @@ const benefits = [
 
 <script is:inline>
 (function () {
-  var input = document.getElementById('resume-input');
-  var name  = document.getElementById('file-name');
-  if (input && name) {
-    input.addEventListener('change', function () {
-      if (input.files && input.files[0]) name.textContent = input.files[0].name;
+  var form = document.getElementById('career-form');
+  var fileInput = document.getElementById('resume-input');
+  var fileName = document.getElementById('file-name');
+  var submit = document.getElementById('career-submit');
+  var status = document.getElementById('career-form-status');
+
+  if (fileInput && fileName) {
+    fileInput.addEventListener('change', function () {
+      var file = fileInput.files && fileInput.files[0];
+
+      if (!file) {
+        fileName.textContent = '';
+        return;
+      }
+
+      var allowedExtensions = /\.(pdf|doc|docx)$/i;
+
+      if (!allowedExtensions.test(file.name)) {
+        fileInput.value = '';
+        fileName.textContent = 'Please select a PDF, DOC, or DOCX file.';
+        fileName.className = 'file-name file-name--error';
+        return;
+      }
+
+      if (file.size > 5 * 1024 * 1024) {
+        fileInput.value = '';
+        fileName.textContent = 'The resume must be 5 MB or smaller.';
+        fileName.className = 'file-name file-name--error';
+        return;
+      }
+
+      fileName.textContent = file.name;
+      fileName.className = 'file-name';
     });
   }
+
+  if (!form || !submit || !status) return;
+
+  form.addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    status.textContent = '';
+    status.className = 'career-form-status';
+
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    var file = fileInput && fileInput.files && fileInput.files[0];
+
+    if (!file) {
+      status.textContent = 'Please attach your resume.';
+      status.className = 'career-form-status career-form-status--error';
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      status.textContent = 'The resume must be 5 MB or smaller.';
+      status.className = 'career-form-status career-form-status--error';
+      return;
+    }
+
+    submit.disabled = true;
+    submit.textContent = 'Submitting application...';
+
+    try {
+      var response = await fetch('/api/careers-application', {
+        method: 'POST',
+        body: new FormData(form)
+      });
+
+      var data = await response.json().catch(function () {
+        return {};
+      });
+
+      if (!response.ok || !data.ok) {
+        throw new Error(data.error || 'We could not submit your application.');
+      }
+
+      form.reset();
+
+      if (fileName) {
+        fileName.textContent = '';
+        fileName.className = 'file-name';
+      }
+
+      status.textContent = 'Application received. Thank you for your interest in Oryele.';
+      status.className = 'career-form-status career-form-status--success';
+      submit.textContent = 'Application Submitted';
+    } catch (error) {
+      submit.disabled = false;
+      submit.innerHTML = 'Submit Application <span aria-hidden="true">&#8594;</span>';
+      status.textContent = error.message || 'We could not submit your application. Please email hr@oryele.com.';
+      status.className = 'career-form-status career-form-status--error';
+    }
+  });
 }());
 </script>
 
@@ -243,4 +333,28 @@ const benefits = [
   /* RESPONSIVE */
   @media (max-width: 1024px) { .hero-layout { grid-template-columns: 1fr; } .hero-form { max-width: 480px; } .values-grid { grid-template-columns: 1fr 1fr; } .why-grid { grid-template-columns: 1fr; gap: 40px; } }
   @media (max-width: 640px) { .values-grid, .benefits-grid, .ff-row { grid-template-columns: 1fr; } .no-role-inner .btn { margin-left: 0; } }
+
+  .career-form-status {
+    min-height: 20px;
+    margin: 2px 0 0;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .career-form-status--success {
+    color: #087f5b;
+    font-weight: 700;
+  }
+
+  .career-form-status--error,
+  .file-name--error {
+    color: #b42318;
+    font-weight: 600;
+  }
+
+  .submit-btn:disabled {
+    cursor: wait;
+    opacity: .7;
+  }
+
 </style>
