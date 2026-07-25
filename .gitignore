@@ -9,3 +9,8 @@ dist/
 .wrangler/
 
 *.backup-*
+
+.wrangler/
+elle-final-fix-bundle/
+*.zip
+*.backup-*
