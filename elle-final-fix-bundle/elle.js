@@ -215,10 +215,9 @@
   function extractLinks(text) {
     const links = [];
     const seen = {};
-    const body = String(text || '');
-    body.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, (_, title, url) => {
+    const body = String(text || '').replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, (_, title, url) => {
       if (!seen[url]) { seen[url] = true; links.push({ title, url }); }
-      return _;
+      return title;
     });
     links.sort((a, b) => a.title.localeCompare(b.title));
     return { body, links: links.slice(0, 6) };
@@ -256,10 +255,6 @@
 
   function renderMarkdown(value) {
     let safe = escapeHtml(stripImages(value));
-    safe = safe.replace(
-      /\[([^\]]+)\]\(((?:https?:\/\/|mailto:)[^)]+)\)/g,
-      (_, title, url) => `<a href="${escapeAttr(url)}"${url.startsWith('mailto:') ? '' : ' target="_blank" rel="noopener noreferrer"'}>${title}</a>`
-    );
     safe = safe.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
     safe = safe.replace(/`([^`]+)`/g, '<code>$1</code>');
     safe = safe.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
@@ -267,7 +262,6 @@
     safe = safe.replace(/^## (.+)$/gm, '<h3>$1</h3>');
     safe = safe.replace(/^# (.+)$/gm, '<h2>$1</h2>');
     safe = safe.replace(/^[-*] (.+)$/gm, '<li>$1</li>');
-    safe = safe.replace(/((?:<li>.*?<\/li>\s*)+)/gs, '<ul>$1</ul>');
     safe = safe.replace(/\n{2,}/g, '</p><p>').replace(/\n/g, '<br>');
     return `<p>${safe}</p>`;
   }

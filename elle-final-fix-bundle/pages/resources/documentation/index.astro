@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+const docs = [
+  {title:'Getting Started', body:'Platform orientation, organization setup, access control, and first integrations.', href:'/docs/oryele-getting-started.pdf', meta:'5-page PDF'},
+  {title:'Digital Workforce', body:'Create, configure, govern, and audit AI-powered digital workers.', href:'/docs/oryele-digital-workforce.pdf', meta:'4-page PDF'},
+  {title:'Workflow Engine', body:'Build workflows, conditional logic, approval gates, and real time monitoring.', href:'/docs/oryele-workflow-engine.pdf', meta:'5-page PDF'},
+  {title:'Communications', body:'Configure SMS, email, voice, consent management, and calendar synchronization.', href:'/docs/oryele-communications.pdf', meta:'4-page PDF'},
+  {title:'Security & Compliance', body:'Encryption, audit exports, role-based access, SSO, and multi-factor authentication.', href:'/docs/oryele-security-compliance.pdf', meta:'4-page PDF'}
+];
+---
+<BaseLayout title="Oryele Documentation" description="Access Oryele product, implementation, communications, workflow, and security documentation.">
+<section class="docs-hero"><div class="wrap"><p class="eyebrow">Resources</p><h1>Documentation</h1><p>Practical guides for configuring, governing, and operating the Oryele platform.</p></div></section>
+<section class="docs"><div class="wrap docs-grid">{docs.map(doc => <a class="doc-card" href={doc.href} target="_blank" rel="noopener"><span class="pdf">PDF</span><div><h2>{doc.title}</h2><p>{doc.body}</p><small>{doc.meta} · Opens in a new tab</small></div><b aria-hidden="true">↗</b></a>)}</div></section>
+</BaseLayout>
+<style>
+.docs-hero{padding-block:85px;background:linear-gradient(135deg,var(--navy),#11336e);color:#fff}.docs-hero h1{font-size:clamp(42px,5vw,68px);margin:0 0 18px}.docs-hero p:not(.eyebrow){max-width:720px;color:#cad6e8;font-size:19px;line-height:1.65}.docs{padding-block:80px;background:#f7f9fc}.docs-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.doc-card{display:grid;grid-template-columns:52px 1fr auto;gap:18px;align-items:start;padding:25px;border:1px solid var(--line);border-radius:17px;background:#fff;text-decoration:none;box-shadow:var(--shadow-card);transition:.2s}.doc-card:hover,.doc-card:focus-visible{transform:translateY(-4px);border-color:#8cb2f2;box-shadow:0 20px 46px rgba(19,58,127,.14);outline:none}.pdf{width:52px;height:52px;border-radius:13px;display:grid;place-items:center;background:#eaf2ff;color:var(--blue);font-size:12px;font-weight:900}.doc-card h2{margin:0 0 8px;color:var(--navy);font-size:20px}.doc-card p{margin:0 0 12px;color:#465670;line-height:1.6}.doc-card small{color:#718099}.doc-card b{color:var(--blue);font-size:20px}@media(max-width:760px){.docs-grid{grid-template-columns:1fr}}
+</style>

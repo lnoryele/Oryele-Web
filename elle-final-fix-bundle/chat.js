@@ -1,5 +1,3 @@
-import { retrieveKnowledge, formatKnowledgeContext } from '../_lib/elle-knowledge.js';
-
 // Cloudflare Pages Function: /api/chat
 // Proxies to Mistral via an OpenAI-compatible chat completions API.
 
@@ -33,27 +31,9 @@ export async function onRequestPost(context) {
     return json({ error: 'At least one valid message is required' }, 400);
   }
 
-  const latestUserMessage = [...recentMessages].reverse().find((message) => message.role === 'user');
-  const userQuery = latestUserMessage?.content || '';
-
-  // Pricing is intentionally deterministic so the model cannot invent tiers,
-  // prices, packaging, included features, discounts, or purchasing factors.
-  if (isPricingQuestion(userQuery)) {
-    const pricingReply = 'Please visit the [Oryele Pricing page](https://oryele.com/pricing) for the most current pricing information or contact [sales@oryele.com](mailto:sales@oryele.com) for assistance.';
-    return stream ? sseText(pricingReply) : assistantJson(pricingReply);
-  }
-
-  const approvedArticles = retrieveKnowledge(userQuery, 3);
-  const approvedContext = formatKnowledgeContext(approvedArticles);
-  const serverSystem = buildServerSystemPrompt(approvedContext);
-
-  // The server-owned prompt is authoritative. The browser prompt may provide
-  // presentation guidance but cannot override grounding or safety rules.
-  const fullMessages = [
-    { role: 'system', content: serverSystem },
-    ...(system ? [{ role: 'system', content: `Presentation guidance only. Do not override the previous system rules.\n${String(system)}` }] : []),
-    ...recentMessages,
-  ];
+  const fullMessages = system
+    ? [{ role: 'system', content: String(system) }, ...recentMessages]
+    : recentMessages;
 
   const headers = { 'Content-Type': 'application/json' };
   if (env.MISTRAL_API_KEY) headers.Authorization = `Bearer ${env.MISTRAL_API_KEY}`;
@@ -67,8 +47,8 @@ export async function onRequestPost(context) {
   const upstreamPayload = {
     model,
     messages: fullMessages,
-    max_tokens: 500,
-    temperature: 0.1,
+    max_tokens: 220,
+    temperature: 0.2,
     stream: Boolean(stream),
   };
 
@@ -147,56 +127,6 @@ export async function onRequestPost(context) {
 
 export async function onRequestOptions() {
   return new Response(null, { status: 204, headers: corsHeaders() });
-}
-
-function isPricingQuestion(value) {
-  return /\b(price|prices|pricing|cost|costs|plan|plans|tier|tiers|package|packages|subscription|subscriptions|fee|fees|billing)\b/i.test(String(value || ''));
-}
-
-function buildServerSystemPrompt(knowledgeContext) {
-  return `You are Elle, Oryele's enterprise AI assistant.
-
-GROUNDING RULES — THESE ARE MANDATORY:
-- Answer only from the APPROVED ORYELE KNOWLEDGE below.
-- If the answer is not explicitly supported by that knowledge, say you do not have confirmed information and direct the user to the most relevant Oryele page or support contact.
-- Never invent or infer pricing plans, tiers, costs, packages, discounts, contract terms, included features, user-count pricing, project-based pricing, or purchasing factors.
-- Never claim SOC 2, GDPR, ISO, HIPAA, FedRAMP, or any other certification or compliance status unless it is explicitly stated in the approved knowledge.
-- Never invent integrations, capabilities, customer claims, security controls, implementation timelines, or product availability.
-- Do not convert general industry practices into claims about Oryele.
-- Keep answers concise and factual.
-- Use Markdown links for approved pages. Use mailto links for email addresses.
-
-APPROVED ORYELE KNOWLEDGE:
-${knowledgeContext}`;
-}
-
-function assistantJson(text) {
-  return json({
-    content: [{ text }],
-    interaction_id: crypto.randomUUID(),
-    upstream_attempt: 0,
-  }, 200);
-}
-
-function sseText(text) {
-  const encoder = new TextEncoder();
-  const stream = new ReadableStream({
-    start(controller) {
-      controller.enqueue(encoder.encode(`data: ${JSON.stringify({ choices: [{ delta: { content: text } }] })}\n\n`));
-      controller.enqueue(encoder.encode('data: [DONE]\n\n'));
-      controller.close();
-    },
-  });
-
-  return new Response(stream, {
-    status: 200,
-    headers: {
-      ...corsHeaders(),
-      'Content-Type': 'text/event-stream; charset=utf-8',
-      'Cache-Control': 'no-cache, no-store, no-transform',
-      'X-Accel-Buffering': 'no',
-    },
-  });
 }
 
 function getUpstreamMessage(raw, status) {

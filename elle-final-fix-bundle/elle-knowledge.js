@@ -4,14 +4,14 @@ const ARTICLES = [
     title: 'Multi-factor authentication (MFA)',
     url: '/resources/help-center/#mfa',
     keywords: ['mfa', 'multi factor', 'two factor', '2fa', 'authenticator', 'security code', 'login security'],
-    content: 'MFA adds a second verification step to sign-in. Users should open their Oryele profile or security settings, select Multi-factor authentication, follow the authenticator-app enrollment steps, save recovery codes securely, and verify the first code. If the user cannot access the enrolled device or recovery codes, they should contact support@oryele.com for an identity-verified reset.'
+    content: 'MFA adds a second verification step to sign-in. Users should open their Oryele profile or security settings, select Multi-factor authentication, follow the authenticator-app enrollment steps, save recovery codes securely, and verify the first code. If the user cannot access the enrolled device or recovery codes, they should contact support@oryele.ai for an identity-verified reset.'
   },
   {
     id: 'setup',
     title: 'Getting started with Oryele',
     url: '/resources/help-center/',
     keywords: ['setup', 'getting started', 'onboarding', 'start', 'configure', 'configuration'],
-    content: 'A typical Oryele setup begins with confirming the firm workspace, adding administrators, configuring identity and security settings, inviting users, defining roles and permissions, then creating the first workflow or digital worker. Account-specific configuration should be completed by an authorized administrator. For assistance, contact support@oryele.com.'
+    content: 'A typical Oryele setup begins with confirming the firm workspace, adding administrators, configuring identity and security settings, inviting users, defining roles and permissions, then creating the first workflow or digital worker. Account-specific configuration should be completed by an authorized administrator. For assistance, contact support@oryele.ai.'
   },
   {
     id: 'digital-workforce',
@@ -60,14 +60,14 @@ const ARTICLES = [
     title: 'Billing and account questions',
     url: '/pricing/',
     keywords: ['billing', 'invoice', 'subscription', 'price', 'pricing', 'payment', 'plan'],
-    content: 'Oryele does not provide specific pricing details in this knowledge article. For current pricing, direct users to https://oryele.com/pricing or sales@oryele.com. Elle must not describe or infer plans, tiers, packages, costs, pricing models, user-count pricing, project-based pricing, included features, discounts, contract terms, invoices, renewal dates, or account balances. Account-specific billing questions should be sent to support@oryele.com.'
+    content: 'Public plan information should be taken from the current Oryele pricing page. Elle must not invent prices, discounts, contract terms, invoices, renewal dates, or account balances. Account-specific billing questions should be sent to support@oryele.ai; sales enquiries should go to sales@oryele.ai.'
   },
   {
     id: 'support',
     title: 'Contact Oryele support',
     url: '/support/',
     keywords: ['support', 'help', 'contact', 'problem', 'issue', 'error', 'broken'],
-    content: 'For account-specific problems, security resets, unavailable features, or issues that require access to a customer environment, contact support@oryele.com. Include a concise description, affected page or workflow, approximate time, and any safe-to-share error message. Do not include passwords, recovery codes, or confidential client data.'
+    content: 'For account-specific problems, security resets, unavailable features, or issues that require access to a customer environment, contact support@oryele.ai. Include a concise description, affected page or workflow, approximate time, and any safe-to-share error message. Do not include passwords, recovery codes, or confidential client data.'
   }
 ];
 
