@@ -99,3 +99,5 @@ h1, h2, h3 { font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; margin
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; transition: none; }
 }
+
+/* cache-bust-20260724 */
