@@ -39,7 +39,7 @@ export async function onRequestPost(context) {
   // Pricing is intentionally deterministic so the model cannot invent tiers,
   // prices, packaging, included features, discounts, or purchasing factors.
   if (isPricingQuestion(userQuery)) {
-    const pricingReply = 'Please visit the [Oryele Pricing page](https://oryele.com/pricing) for the most current pricing information or contact [sales@oryele.com](mailto:sales@oryele.com) for assistance.';
+    const pricingReply = `Please visit the [Oryele Pricing page](${siteOrigin(env)}/pricing) for the most current pricing information or contact [sales@oryele.com](mailto:sales@oryele.com) for assistance.`;
     return stream ? sseText(pricingReply) : assistantJson(pricingReply);
   }
 
@@ -147,6 +147,10 @@ export async function onRequestPost(context) {
 
 export async function onRequestOptions() {
   return new Response(null, { status: 204, headers: corsHeaders() });
+}
+
+function siteOrigin(env) {
+  return String(env?.SITE_ORIGIN || 'https://oryele.ai').replace(/\/+$/, '');
 }
 
 function isPricingQuestion(value) {

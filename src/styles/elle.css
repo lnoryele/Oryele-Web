@@ -1,0 +1,17 @@
+/* Elle widget fixes. Append to the widget stylesheet. */
+
+/* The stop and send buttons are toggled via the hidden attribute in elle.js.
+   A display rule on either button overrides it, which is why both appeared
+   at once. This restores the attribute's authority. */
+.elle-panel [hidden],
+.elle-composer [hidden],
+.elle-send[hidden],
+.elle-stop[hidden] { display: none !important; }
+
+/* Answer list spacing. The markup is now clean, so these are the only
+   margins in play. */
+.elle-answer ul { margin: 8px 0; padding-left: 20px; }
+.elle-answer li { margin: 2px 0; line-height: 1.5; }
+.elle-answer p { margin: 8px 0; }
+.elle-answer p:first-child { margin-top: 0; }
+.elle-answer p:last-child { margin-bottom: 0; }

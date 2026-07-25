@@ -3,7 +3,7 @@
   if (!root || root.dataset.ready) return;
   root.dataset.ready = '1';
 
-  const STORAGE_KEY = 'oryele-elle-conversation-v4';
+  const STORAGE_KEY = 'oryele-elle-conversation-v5';
   const panel = root.querySelector('.elle-panel');
   const launcher = root.querySelector('.elle-launcher');
   const messagesEl = root.querySelector('[data-elle-messages]');
@@ -129,6 +129,7 @@
         setStatus('Response stopped');
       } else {
         card.remove();
+        console.error('[Elle] /api/chat failed:', error && error.message ? error.message : error);
         appendError('I’m having trouble reaching the AI service. Please try again in a few moments.');
         setStatus('Unable to contact Elle');
       }
@@ -216,7 +217,7 @@
     const links = [];
     const seen = {};
     const body = String(text || '');
-    body.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, (_, title, url) => {
+    body.replace(/\[([^\]]+)\]\s*\(\s*(https?:\/\/[^)\s]+)\s*\)/g, (_, title, url) => {
       if (!seen[url]) { seen[url] = true; links.push({ title, url }); }
       return _;
     });
@@ -256,20 +257,52 @@
 
   function renderMarkdown(value) {
     let safe = escapeHtml(stripImages(value));
+
+    // Anchors are stashed as placeholders so later passes (bare email/URL
+    // linkifying, <br> insertion) cannot match inside generated markup.
+    const anchors = [];
+    const stash = (html) => `\u0000A${anchors.push(html) - 1}\u0000`;
+
+    // Markdown links. \s* absorbs the stray space some models emit between
+    // the closing bracket and the opening parenthesis, which previously left
+    // the whole link rendering as literal text.
     safe = safe.replace(
-      /\[([^\]]+)\]\(((?:https?:\/\/|mailto:)[^)]+)\)/g,
-      (_, title, url) => `<a href="${escapeAttr(url)}"${url.startsWith('mailto:') ? '' : ' target="_blank" rel="noopener noreferrer"'}>${title}</a>`
+      /\[([^\]]+)\]\s*\(\s*((?:https?:\/\/|mailto:)[^)\s]+)\s*\)/g,
+      (_, title, url) => stash(`<a href="${escapeAttr(url)}"${url.startsWith('mailto:') ? '' : ' target="_blank" rel="noopener noreferrer"'}>${title}</a>`)
     );
-    safe = safe.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
+
+    // Bare addresses and URLs, for when the model skips link syntax entirely.
+    safe = safe.replace(
+      /(^|[\s(])([\w.+-]+@[\w-]+\.[\w.]+)(?=[\s).,;:]|$)/g,
+      (_, lead, addr) => lead + stash(`<a href="mailto:${escapeAttr(addr)}">${addr}</a>`)
+    );
+    safe = safe.replace(
+      /(^|[\s(])(https?:\/\/[^\s<)]+)/g,
+      (_, lead, url) => lead + stash(`<a href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer">${url}</a>`)
+    );
+
+    safe = safe.replace(/```([\s\S]*?)```/g, (_, code) => `<pre><code>${stash(code.replace(/^\n+|\n+$/g, ''))}</code></pre>`);
     safe = safe.replace(/`([^`]+)`/g, '<code>$1</code>');
     safe = safe.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
     safe = safe.replace(/^### (.+)$/gm, '<h4>$1</h4>');
     safe = safe.replace(/^## (.+)$/gm, '<h3>$1</h3>');
     safe = safe.replace(/^# (.+)$/gm, '<h2>$1</h2>');
     safe = safe.replace(/^[-*] (.+)$/gm, '<li>$1</li>');
-    safe = safe.replace(/((?:<li>.*?<\/li>\s*)+)/gs, '<ul>$1</ul>');
+
+    // Collapse the newlines inside a list block before <br> insertion runs,
+    // otherwise every item is separated by a stray <br> between </li> and <li>.
+    safe = safe.replace(/((?:<li>.*?<\/li>\s*)+)/gs, (block) => `<ul>${block.replace(/\s*\n\s*/g, '')}</ul>`);
+
+    // Block elements cannot sit inside <p>. Left nested, the browser
+    // auto-closes the paragraph and adds its own margin, which is the
+    // remaining source of the oversized gaps.
+    safe = safe.replace(/\n*<(ul|pre|h2|h3|h4)>/g, '</p><$1>');
+    safe = safe.replace(/<\/(ul|pre|h2|h3|h4)>\n*/g, '</$1><p>');
+
     safe = safe.replace(/\n{2,}/g, '</p><p>').replace(/\n/g, '<br>');
-    return `<p>${safe}</p>`;
+    safe = safe.replace(/\u0000A(\d+)\u0000/g, (_, index) => anchors[Number(index)]);
+
+    return `<p>${safe}</p>`.replace(/<p>\s*(<br>\s*)*<\/p>/g, '');
   }
 
   function appendError(text) { const item = document.createElement('div'); item.className = 'elle-error'; item.textContent = text; messagesEl.appendChild(item); scrollBottom(); }
