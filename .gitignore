@@ -14,3 +14,4 @@ dist/
 elle-final-fix-bundle/
 *.zip
 *.backup-*
+*.deb
