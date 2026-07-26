@@ -1,5 +1,19 @@
 const ARTICLES = [
   {
+    id: 'about',
+    title: 'About Oryele',
+    url: '/',
+    keywords: ['hi', 'hello', 'hey', 'greetings', 'oryele', 'about', 'overview', 'what is oryele', 'who are you', 'elle', 'platform'],
+    content: 'Oryele is the Enterprise Execution Platform for professional services firms. It unifies digital workers, workflow automation, communications, knowledge, governance, and analytics in one governed platform, initially focused on accounting firms. Elle is the Oryele assistant on this website and can explain platform capabilities, help with getting started, and direct visitors to the right page or contact. To see the platform in action, visitors can request a demo at /contact/.'
+  },
+  {
+    id: 'sales',
+    title: 'Contact Oryele sales and request a demo',
+    url: '/contact/',
+    keywords: ['sales', 'sales team', 'contact sales', 'demo', 'request a demo', 'talk to sales', 'buy', 'purchase', 'evaluate', 'trial'],
+    content: 'To speak with the Oryele sales team, email sales@oryele.com or use the Request a Demo form at /contact/. Sales can cover platform capabilities, implementation, evaluation for a firm, and current pricing. Elle should route all purchasing, evaluation, and demo requests to sales rather than answering them from general knowledge.'
+  },
+  {
     id: 'mfa',
     title: 'Multi-factor authentication (MFA)',
     url: '/resources/help-center/#mfa',
@@ -32,7 +46,7 @@ const ARTICLES = [
     title: 'Communications',
     url: '/platform/communications/',
     keywords: ['communications', 'email', 'message', 'client communication', 'notification'],
-    content: 'Oryele Communications supports controlled, workflow-aware communications. Templates, recipient rules, approvals, and escalation paths should be reviewed before use. Sensitive or account-specific communications should follow the firm’s approved security and governance procedures.'
+    content: 'Oryele Communications supports controlled, workflow-aware communications. Templates, recipient rules, approvals, and escalation paths should be reviewed before use. Sensitive or account-specific communications should follow the firm\u2019s approved security and governance procedures.'
   },
   {
     id: 'knowledge',
@@ -60,7 +74,7 @@ const ARTICLES = [
     title: 'Billing and account questions',
     url: '/pricing/',
     keywords: ['billing', 'invoice', 'subscription', 'price', 'pricing', 'payment', 'plan'],
-    content: 'Oryele does not provide specific pricing details in this knowledge article. For current pricing, direct users to https://oryele.com/pricing or sales@oryele.com. Elle must not describe or infer plans, tiers, packages, costs, pricing models, user-count pricing, project-based pricing, included features, discounts, contract terms, invoices, renewal dates, or account balances. Account-specific billing questions should be sent to support@oryele.com.'
+    content: 'Oryele does not provide specific pricing details in this knowledge article. For current pricing, direct users to https://oryele.ai/pricing or sales@oryele.com. Elle must not describe or infer plans, tiers, packages, costs, pricing models, user-count pricing, project-based pricing, included features, discounts, contract terms, invoices, renewal dates, or account balances. Account-specific billing questions should be sent to support@oryele.com.'
   },
   {
     id: 'support',
@@ -71,6 +85,8 @@ const ARTICLES = [
   }
 ];
 
+const STOPWORDS = new Set(['the', 'and', 'for', 'you', 'your', 'with', 'how', 'what', 'who', 'can', 'does', 'are', 'this', 'that', 'about', 'have', 'has', 'was', 'will', 'our', 'out', 'get', 'not', 'but', 'all', 'any', 'they', 'them', 'their', 'from', 'into', 'when', 'where', 'why', 'much', 'many', 'more', 'some', 'tell', 'need', 'want', 'know', 'like', 'use', 'using']);
+
 function normalise(value) {
   return String(value || '').toLowerCase().replace(/[^a-z0-9\s-]/g, ' ').replace(/\s+/g, ' ').trim();
 }
@@ -78,8 +94,8 @@ function normalise(value) {
 function scoreArticle(article, query) {
   const q = normalise(query);
   if (!q) return 0;
-  const tokens = new Set(q.split(' ').filter(token => token.length > 1));
-  const haystack = normalise([article.title, article.content, ...article.keywords].join(' '));
+  const tokens = new Set(q.split(' ').filter(token => token.length > 2 && !STOPWORDS.has(token)));
+  const haystackWords = new Set(normalise([article.title, article.content, ...article.keywords].join(' ')).split(' '));
   let score = 0;
 
   for (const keyword of article.keywords) {
@@ -89,7 +105,7 @@ function scoreArticle(article, query) {
   }
 
   for (const token of tokens) {
-    if (haystack.includes(token)) score += token.length > 5 ? 3 : 1;
+    if (haystackWords.has(token)) score += token.length > 5 ? 3 : 1;
   }
 
   return score;
