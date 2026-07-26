@@ -1,17 +1,57 @@
+# Dependencies
 node_modules/
-dist/
+
+# Build output
 .astro/
+dist/
+.wrangler/
+coverage/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
 .dev.vars
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.jks
+*.keystore
+
+# Cloud and infrastructure credentials
+.aws/
+.gcloud/
+.azure/
+.terraform/
+*.tfstate
+*.tfstate.*
+
+# Logs and temporary files
 *.log
-.DS_Store
-
-.wrangler/
-.wrangler/
-
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.tmp
+*.temp
+*.swp
+*.swo
 *.backup-*
 
-.wrangler/
-elle-final-fix-bundle/
+# Archives and installers
 *.zip
-*.backup-*
+*.tar
+*.tar.gz
+*.tgz
 *.deb
+elle-final-fix-bundle/
+
+# Operating system and editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.code-workspace
