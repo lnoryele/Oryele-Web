@@ -217,7 +217,7 @@
     const links = [];
     const seen = {};
     const body = String(text || '');
-    body.replace(/\[([^\]]+)\]\s*\(\s*(https?:\/\/[^)\s]+)\s*\)/g, (_, title, url) => {
+    body.replace(/\[([^\]]+)\]\s*\(\s*((?:https?:\/\/|\/)[^)\s]+)\s*\)/g, (_, title, url) => {
       if (!seen[url]) { seen[url] = true; links.push({ title, url }); }
       return _;
     });
@@ -267,7 +267,7 @@
     // the closing bracket and the opening parenthesis, which previously left
     // the whole link rendering as literal text.
     safe = safe.replace(
-      /\[([^\]]+)\]\s*\(\s*((?:https?:\/\/|mailto:)[^)\s]+)\s*\)/g,
+      /\[([^\]]+)\]\s*\(\s*((?:https?:\/\/|mailto:|\/)[^)\s]+)\s*\)/g,
       (_, title, url) => stash(`<a href="${escapeAttr(url)}"${url.startsWith('mailto:') ? '' : ' target="_blank" rel="noopener noreferrer"'}>${title}</a>`)
     );
 
