@@ -4,14 +4,14 @@ const ARTICLES = [
     title: 'About Oryele',
     url: '/',
     keywords: ['hi', 'hello', 'hey', 'greetings', 'oryele', 'about', 'overview', 'what is oryele', 'who are you', 'elle', 'platform'],
-    content: 'Oryele is the Enterprise Execution Platform for professional services firms. It unifies digital workers, workflow automation, communications, knowledge, governance, and analytics in one governed platform, initially focused on accounting firms. Elle is the Oryele assistant on this website and can explain platform capabilities, help with getting started, and direct visitors to the right page or contact. To see the platform in action, visitors can request a demo at /contact/.'
+    content: 'Oryele is the Enterprise Execution Platform for professional services firms. It unifies digital workers, workflow automation, communications, knowledge, governance, and analytics in one governed platform, initially focused on accounting firms. Elle is the Oryele assistant on this website and can explain platform capabilities, help with getting started, and direct visitors to the right page or contact. To see the platform in action, visitors can request a demo at https://oryele.ai/contact/.'
   },
   {
     id: 'sales',
     title: 'Contact Oryele sales and request a demo',
     url: '/contact/',
     keywords: ['sales', 'sales team', 'contact sales', 'demo', 'request a demo', 'talk to sales', 'buy', 'purchase', 'evaluate', 'trial'],
-    content: 'To speak with the Oryele sales team, email sales@oryele.com or use the Request a Demo form at /contact/. Sales can cover platform capabilities, implementation, evaluation for a firm, and current pricing. Elle should route all purchasing, evaluation, and demo requests to sales rather than answering them from general knowledge.'
+    content: 'To speak with the Oryele sales team, email sales@oryele.com or use the Request a Demo form at https://oryele.ai/contact/. Sales can cover platform capabilities, implementation, evaluation for a firm, and current pricing. Elle should route all purchasing, evaluation, and demo requests to sales rather than answering them from general knowledge.'
   },
   {
     id: 'mfa',
