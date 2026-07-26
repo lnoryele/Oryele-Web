@@ -3,7 +3,7 @@
   if (!root || root.dataset.ready) return;
   root.dataset.ready = '1';
 
-  const STORAGE_KEY = 'oryele-elle-conversation-v4';
+  const STORAGE_KEY = 'oryele-elle-conversation-v5';
   const panel = root.querySelector('.elle-panel');
   const launcher = root.querySelector('.elle-launcher');
   const messagesEl = root.querySelector('[data-elle-messages]');
@@ -94,7 +94,7 @@
     const thinkingTimer = setTimeout(() => showThinking(card), 500);
 
     try {
-      const system = `You are Elle, Oryele’s warm, precise enterprise AI assistant. You are branded as “Ask Elle.” The visitor is viewing the ${page.section} area, page title “${page.title}”, at path ${page.path}. Use this page context as the primary interpretation of short or ambiguous questions, but never claim to see private account data. Answer directly and concisely. Use clear Markdown headings when useful. Never include images, image Markdown, avatar images, or HTML image tags in responses. Include relevant Oryele source links in Markdown. The official support email is support@oryele.com. Never use an @oryele.ai email address. Never claim Oryele is GDPR compliant, SOC 2 compliant, certified, accredited, or compliant with any regulatory framework unless explicitly confirmed by official Oryele documentation. If asked about compliance, explain that Oryele is built with security, privacy, governance, and responsible data handling practices, and direct users to official documentation.`;
+      const system = `You are Elle, Oryele’s warm, precise enterprise AI assistant. You are branded as “Ask Elle.” The visitor is viewing the ${page.section} area, page title “${page.title}”, at path ${page.path}. Use this page context as the primary interpretation of short or ambiguous questions, but never claim to see private account data. Answer directly and concisely. Use clear Markdown headings when useful. Never include images, image Markdown, avatar images, or HTML image tags in responses. Include relevant Oryele source links in Markdown. The official support email is support@oryele.com. Never use an @oryele.ai email address.`;
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -129,6 +129,7 @@
         setStatus('Response stopped');
       } else {
         card.remove();
+        console.error('[Elle] /api/chat failed:', error && error.message ? error.message : error);
         appendError('I’m having trouble reaching the AI service. Please try again in a few moments.');
         setStatus('Unable to contact Elle');
       }
@@ -215,9 +216,10 @@
   function extractLinks(text) {
     const links = [];
     const seen = {};
-    const body = String(text || '').replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, (_, title, url) => {
+    const body = String(text || '');
+    body.replace(/\[([^\]]+)\]\s*\(\s*((?:https?:\/\/|\/)[^)\s]+)\s*\)/g, (_, title, url) => {
       if (!seen[url]) { seen[url] = true; links.push({ title, url }); }
-      return title;
+      return _;
     });
     links.sort((a, b) => a.title.localeCompare(b.title));
     return { body, links: links.slice(0, 6) };
@@ -255,15 +257,52 @@
 
   function renderMarkdown(value) {
     let safe = escapeHtml(stripImages(value));
-    safe = safe.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
+
+    // Anchors are stashed as placeholders so later passes (bare email/URL
+    // linkifying, <br> insertion) cannot match inside generated markup.
+    const anchors = [];
+    const stash = (html) => `\u0000A${anchors.push(html) - 1}\u0000`;
+
+    // Markdown links. \s* absorbs the stray space some models emit between
+    // the closing bracket and the opening parenthesis, which previously left
+    // the whole link rendering as literal text.
+    safe = safe.replace(
+      /\[([^\]]+)\]\s*\(\s*((?:https?:\/\/|mailto:|\/)[^)\s]+)\s*\)/g,
+      (_, title, url) => stash(`<a href="${escapeAttr(url)}"${url.startsWith('mailto:') ? '' : ' target="_blank" rel="noopener noreferrer"'}>${title}</a>`)
+    );
+
+    // Bare addresses and URLs, for when the model skips link syntax entirely.
+    safe = safe.replace(
+      /(^|[\s(])([\w.+-]+@[\w-]+\.[\w.]+)(?=[\s).,;:]|$)/g,
+      (_, lead, addr) => lead + stash(`<a href="mailto:${escapeAttr(addr)}">${addr}</a>`)
+    );
+    safe = safe.replace(
+      /(^|[\s(])(https?:\/\/[^\s<)]+)/g,
+      (_, lead, url) => lead + stash(`<a href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer">${url}</a>`)
+    );
+
+    safe = safe.replace(/```([\s\S]*?)```/g, (_, code) => `<pre><code>${stash(code.replace(/^\n+|\n+$/g, ''))}</code></pre>`);
     safe = safe.replace(/`([^`]+)`/g, '<code>$1</code>');
     safe = safe.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
     safe = safe.replace(/^### (.+)$/gm, '<h4>$1</h4>');
     safe = safe.replace(/^## (.+)$/gm, '<h3>$1</h3>');
     safe = safe.replace(/^# (.+)$/gm, '<h2>$1</h2>');
     safe = safe.replace(/^[-*] (.+)$/gm, '<li>$1</li>');
+
+    // Collapse the newlines inside a list block before <br> insertion runs,
+    // otherwise every item is separated by a stray <br> between </li> and <li>.
+    safe = safe.replace(/((?:<li>.*?<\/li>\s*)+)/gs, (block) => `<ul>${block.replace(/\s*\n\s*/g, '')}</ul>`);
+
+    // Block elements cannot sit inside <p>. Left nested, the browser
+    // auto-closes the paragraph and adds its own margin, which is the
+    // remaining source of the oversized gaps.
+    safe = safe.replace(/\n*<(ul|pre|h2|h3|h4)>/g, '</p><$1>');
+    safe = safe.replace(/<\/(ul|pre|h2|h3|h4)>\n*/g, '</$1><p>');
+
     safe = safe.replace(/\n{2,}/g, '</p><p>').replace(/\n/g, '<br>');
-    return `<p>${safe}</p>`;
+    safe = safe.replace(/\u0000A(\d+)\u0000/g, (_, index) => anchors[Number(index)]);
+
+    return `<p>${safe}</p>`.replace(/<p>\s*(<br>\s*)*<\/p>/g, '');
   }
 
   function appendError(text) { const item = document.createElement('div'); item.className = 'elle-error'; item.textContent = text; messagesEl.appendChild(item); scrollBottom(); }
