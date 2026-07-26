@@ -268,12 +268,12 @@
     // the whole link rendering as literal text.
     safe = safe.replace(
       /\[([^\]]+)\]\s*\(\s*((?:https?:\/\/|mailto:|\/)[^)\s]+)\s*\)/g,
-      (_, title, url) => stash(`<a href="${escapeAttr(url)}"${url.startsWith('mailto:') ? '' : ' target="_blank" rel="noopener noreferrer"'}>${title}</a>`)
+      (_, title, url) => { const tail = url.match(/[.,;:]+$/); if (tail) { url = url.slice(0, url.length - tail[0].length); title = title.replace(/[.,;:]+\s*$/, ''); } return stash(`<a href="${escapeAttr(url)}"${url.startsWith('mailto:') ? '' : ' target="_blank" rel="noopener noreferrer"'}>${title}</a>`) + (tail ? tail[0] : ''); }
     );
 
     // Bare addresses and URLs, for when the model skips link syntax entirely.
     safe = safe.replace(
-      /(^|[\s(])([\w.+-]+@[\w-]+\.[\w.]+)(?=[\s).,;:]|$)/g,
+      /(^|[\s(])([\w.+-]+@[\w-]+(?:\.[\w-]+)+)(?=[\s).,;:]|$)/g,
       (_, lead, addr) => lead + stash(`<a href="mailto:${escapeAttr(addr)}">${addr}</a>`)
     );
     safe = safe.replace(
