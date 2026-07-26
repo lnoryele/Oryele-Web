@@ -60,7 +60,7 @@ const isActive = (href: string) => href === "/" ? currentPath === "/" : currentP
 
 <style>
   .nav { position: sticky; top: 0; z-index: 50; background: var(--navy); color: #fff; border-bottom: 1px solid rgba(255,255,255,.04); }
-  .nav-inner { display: flex; align-items: center; height: 80px; gap: 20px; }
+  .nav-inner { display: flex; align-items: center; height: 80px; gap: 20px; max-width: none; }
   .brand { text-decoration: none; color: #fff; display: inline-flex; align-items: center; flex-shrink: 0; }
   .nav-menu { display: flex; align-items: center; flex: 1; gap: 24px; }
   .nav-links { display: flex; align-items: center; gap: 24px; margin-inline: auto; }
