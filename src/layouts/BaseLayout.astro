@@ -130,68 +130,6 @@ const breadcrumbSchema = {
       );
       document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-      if (window.location.pathname.startsWith('/careers')) {
-        const careersForm = document.getElementById('career-form');
-        const careersSubmit = document.getElementById('career-submit');
-        const careersStatus = document.getElementById('career-form-status');
-        const careersFile = document.getElementById('resume-input');
-        const careersFileName = document.getElementById('file-name');
-
-        if (careersFile instanceof HTMLInputElement && careersFileName instanceof HTMLElement) {
-          careersFile.addEventListener('change', () => {
-            const file = careersFile.files?.[0];
-            careersFileName.className = 'file-name';
-            if (!file) { careersFileName.textContent = ''; return; }
-            if (!/\.(pdf|doc|docx)$/i.test(file.name)) {
-              careersFile.value = '';
-              careersFileName.textContent = 'Please choose a PDF, DOC, or DOCX file.';
-              careersFileName.className = 'file-name error';
-              return;
-            }
-            if (file.size > 5 * 1024 * 1024) {
-              careersFile.value = '';
-              careersFileName.textContent = 'Your resume must be 5 MB or smaller.';
-              careersFileName.className = 'file-name error';
-              return;
-            }
-            careersFileName.textContent = file.name;
-          });
-        }
-
-        if (careersForm instanceof HTMLFormElement && careersSubmit instanceof HTMLButtonElement && careersStatus instanceof HTMLElement) {
-          careersForm.removeAttribute('novalidate');
-          document.addEventListener('submit', async (event) => {
-            if (event.target !== careersForm) return;
-            event.preventDefault();
-            event.stopImmediatePropagation();
-            careersStatus.textContent = '';
-            careersStatus.className = 'career-form-status';
-            if (!careersForm.reportValidity()) return;
-            careersSubmit.disabled = true;
-            careersSubmit.textContent = 'Submitting...';
-            try {
-              const response = await fetch('/api/careers-application', {
-                method: 'POST',
-                body: new FormData(careersForm),
-                headers: { Accept: 'application/json' },
-              });
-              const data = await response.json().catch(() => ({}));
-              if (!response.ok || !data.ok) throw new Error(data.error || 'We could not submit your application.');
-              careersForm.reset();
-              if (careersFileName) careersFileName.textContent = '';
-              careersStatus.textContent = 'Application received. Thank you for your interest in Oryele.';
-              careersStatus.className = 'career-form-status success';
-              careersSubmit.textContent = 'Application submitted';
-            } catch (error) {
-              careersSubmit.disabled = false;
-              careersSubmit.innerHTML = 'Submit application <span aria-hidden="true">→</span>';
-              careersStatus.textContent = error instanceof Error ? error.message : 'We could not submit your application. Please email hr@oryele.com.';
-              careersStatus.className = 'career-form-status error';
-            }
-          }, true);
-        }
-      }
-
       if (window.location.pathname.startsWith('/resources/help-center')) {
         document.documentElement.classList.add('help-center-page');
 
