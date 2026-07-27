@@ -4,7 +4,7 @@ const ARTICLES = [
     title: 'About Oryele',
     url: '/',
     keywords: ['hi', 'hello', 'hey', 'greetings', 'oryele', 'about', 'overview', 'what is oryele', 'who are you', 'elle', 'platform'],
-    content: 'Oryele is the Enterprise Execution Platform for professional services firms. It unifies digital workers, workflow automation, communications, knowledge, governance, and analytics in one governed platform, initially focused on accounting firms. Elle is the Oryele assistant on this website and can explain platform capabilities, help with getting started, and direct visitors to the right page or contact. To see the platform in action, visitors can request a demo at https://oryele.ai/contact/.'
+    content: 'Oryele is the Enterprise Execution Platform for professional services firms. It unifies Digital Workforce, Workflow Engine, Communications, Knowledge, Governance, and Analytics in one governed platform, initially focused on accounting firms. Elle is the Oryele assistant on this website and can explain platform capabilities, help with getting started, and direct visitors to the right page or contact. To see the platform in action, visitors can request a demo at https://oryele.ai/contact/.'
   },
   {
     id: 'sales',
