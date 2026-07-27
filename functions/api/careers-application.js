@@ -15,6 +15,22 @@ export async function onRequestPost({ request, env }) {
     }
 
     const form = await request.formData();
+
+    if (!env.TURNSTILE_SECRET_KEY) {
+      return json({
+        ok: false,
+        error: 'Spam protection is not configured. Please email your resume to hr@oryele.com.',
+      }, 503);
+    }
+    const turnstileOk = await verifyTurnstile(
+      env.TURNSTILE_SECRET_KEY,
+      clean(form.get('cf-turnstile-response')),
+      request.headers.get('CF-Connecting-IP') || ''
+    );
+    if (!turnstileOk) {
+      return json({ ok: false, error: 'Spam check failed. Please reload and try again.' }, 400);
+    }
+
     const name = clean(form.get('Name'));
     const email = clean(form.get('Email'));
     const phone = clean(form.get('Phone')) || 'Not provided';
@@ -103,6 +119,21 @@ async function send(key, payload) {
     console.error('Resend failure', response.status, JSON.stringify(body));
   }
   return { ok: response.ok && Boolean(body.id), status: response.status, body };
+}
+
+async function verifyTurnstile(secret, token, ip) {
+  if (!token) return false;
+  const body = new FormData();
+  body.append('secret', secret);
+  body.append('response', token);
+  if (ip) body.append('remoteip', ip);
+  const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+    method: 'POST',
+    body,
+  });
+  const out = await res.json().catch(() => ({}));
+  if (!out.success) console.warn('Careers turnstile rejected', out['error-codes']);
+  return Boolean(out.success);
 }
 
 function resendError(body) {

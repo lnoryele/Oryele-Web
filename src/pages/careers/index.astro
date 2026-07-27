@@ -72,6 +72,7 @@ const process = [
               </label>
               <p class="file-name" id="file-name"></p>
             </div>
+            <div class="cf-turnstile" data-sitekey="0x4AAAAAAD_Hy_4_lGdOYfR0" data-theme="light"></div>
             <button class="btn btn-blue submit-btn" id="career-submit" type="submit">Submit application <span>→</span></button>
             <p class="privacy-note">By submitting, you agree that Oryele may use your information to evaluate employment opportunities.</p>
             <p class="career-form-status" id="career-form-status" role="status" aria-live="polite"></p>
@@ -119,6 +120,7 @@ const process = [
   </main>
 </BaseLayout>
 
+<script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <script is:inline>
 (function () {
   var form = document.getElementById('career-form');

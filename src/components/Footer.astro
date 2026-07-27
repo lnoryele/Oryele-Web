@@ -107,27 +107,26 @@ const linkGroups = [
     btn.textContent = 'Subscribing...';
     try {
       var fd = new FormData();
-      fd.append('_subject', 'New newsletter subscriber: ' + email);
-      fd.append('_captcha', 'false');
+      fd.append('formType', 'newsletter');
       fd.append('Email', email);
       fd.append('Source', 'Newsletter footer');
-      var res = await fetch('https://formsubmit.co/ajax/info@oryele.com', {
+      var res = await fetch('/api/form', {
         method: 'POST',
         headers: { 'Accept': 'application/json' },
         body: fd,
       });
       var data = await res.json();
-      if (data.success === 'true' || data.success === true) {
-        showMsg('You are subscribed. Welcome aboard.', 'ok');
+      if (data.ok) {
+        showMsg(data.message || 'You are subscribed. Welcome aboard.', 'ok');
         if (input) input.value = '';
         btn.textContent = 'Subscribed';
       } else {
-        throw new Error('Failed');
+        throw new Error(data.error || 'Failed');
       }
     } catch (err) {
       btn.disabled = false;
       btn.textContent = 'Subscribe';
-      showMsg('Something went wrong. Please try again or email info@oryele.com.', 'error');
+      showMsg((err && err.message) || 'Something went wrong. Please try again or email info@oryele.com.', 'error');
     }
   });
 

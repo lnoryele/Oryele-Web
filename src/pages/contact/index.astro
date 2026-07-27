@@ -68,6 +68,7 @@ const reasons = [
             <label for="message">Message</label>
             <textarea id="message" name="Message" rows="5" placeholder="Tell us about your firm and what you are looking to solve..."></textarea>
           </div>
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAAD_Hy_4_lGdOYfR0" data-theme="light"></div>
           <p id="contact-error" class="contact-error" hidden></p>
           <button type="submit" class="btn btn-blue submit-btn" id="contact-submit">Send Message <span class="arrow">&#8594;</span></button>
         </form>
@@ -188,6 +189,7 @@ const reasons = [
   }
 </style>
 
+<script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <script is:inline>
 (function () {
   var form    = document.getElementById('contact-form');
@@ -214,22 +216,23 @@ const reasons = [
 
     try {
       var formData = new FormData(form);
-      var res = await fetch('https://formsubmit.co/ajax/info@oryele.com', {
+      formData.append('formType', 'contact');
+      var res = await fetch('/api/form', {
         method: 'POST',
         headers: { 'Accept': 'application/json' },
         body: formData,
       });
       var data = await res.json();
-      if (data.success === 'true' || data.success === true) {
+      if (data.ok) {
         form.style.display = 'none';
         if (success) success.classList.remove('contact-success--hidden');
       } else {
-        throw new Error('Submission failed');
+        throw new Error(data.error || 'Submission failed');
       }
     } catch (err) {
       submit.disabled = false;
       submit.innerHTML = 'Send Message <span class="arrow">&#8594;</span>';
-      showError('Something went wrong. Please email info@oryele.com directly.');
+      showError((err && err.message) || 'Something went wrong. Please email info@oryele.com directly.');
     }
   });
 
