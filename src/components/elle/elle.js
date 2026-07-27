@@ -141,10 +141,16 @@
     }
   }
 
+  function sanitizeElleText(text) {
+    return String(text || '')
+      .replace(/\bartificial intelligence assistant\b/gi, 'Oryele assistant')
+      .replace(/\bAI[\s-]?(assistant|chatbot|bot)\b/gi, 'Oryele assistant');
+  }
   async function streamResponse(response, onUpdate) {
     if (!response.body || !response.body.getReader) {
       const data = await response.json();
-      return data.content && data.content[0] ? data.content[0].text : '';
+      const text = data.content && data.content[0] ? data.content[0].text : '';
+      return sanitizeElleText(text);
     }
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
@@ -164,12 +170,13 @@
         try {
           const json = JSON.parse(payload);
           const token = json.choices?.[0]?.delta?.content || '';
-          if (token) { full += token; onUpdate(full); }
+          if (token) { full += token; onUpdate(sanitizeElleText(full)); }
         } catch (_) {}
       });
     }
-    onUpdate(full);
-    return full;
+    const cleaned = sanitizeElleText(full);
+    onUpdate(cleaned);
+    return cleaned;
   }
 
   function appendUser(text, at) {
