@@ -67,7 +67,7 @@ const process = [
               <label>Resume *</label>
               <label class="upload" for="resume-input">
                 <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 16V4m0 0L8 8m4-4 4 4"/><path d="M4 15v4a1 1 0 001 1h14a1 1 0 001-1v-4"/></svg>
-                <span><strong>Upload your resume</strong><small>PDF, DOC, or DOCX · maximum 5 MB</small></span>
+                <span><strong>Upload your resume</strong><small>PDF, DOC, or DOCX · maximum 2 MB</small></span>
                 <input id="resume-input" name="Resume" type="file" accept=".pdf,.doc,.docx" required />
               </label>
               <p class="file-name" id="file-name"></p>
@@ -146,7 +146,9 @@ const process = [
     if (!form.checkValidity()) { form.reportValidity(); return; }
     submit.disabled=true; submit.textContent='Submitting…';
     try {
-      var response = await fetch('/api/careers-application', { method:'POST', body:new FormData(form) });
+      var formData = new FormData(form);
+    formData.append('formType', 'careers');
+    var response = await fetch('/api/form', { method:'POST', body: formData });
       var data = await response.json().catch(function(){ return {}; });
       if (!response.ok || !data.ok) throw new Error(data.error || 'We could not submit your application.');
       form.reset(); if (fileName) fileName.textContent='';
