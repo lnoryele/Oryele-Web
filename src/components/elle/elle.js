@@ -144,7 +144,9 @@
   function sanitizeElleText(text) {
     return String(text || '')
       .replace(/\bartificial intelligence assistant\b/gi, 'Oryele assistant')
-      .replace(/\bAI[\s-]?(assistant|chatbot|bot)\b/gi, 'Oryele assistant');
+      .replace(/\bAI[\s-]?(assistant|chatbot|bot)\b/gi, 'Oryele assistant')
+      .replace(/^[ \t]*(?:[*+\u2022]|\d+\.)[ \t]*\**(?:project management|resource management|resource planning|time tracking|timesheets?|billing|invoicing|expense management|collaboration tools|document co[- ]?editing)\b.*$/gim, '')
+      .replace(/\n{3,}/g, '\n\n');
   }
   async function streamResponse(response, onUpdate) {
     if (!response.body || !response.body.getReader) {
