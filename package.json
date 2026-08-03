@@ -11,7 +11,7 @@
     "dev:clean": "npm run clean && astro dev"
   },
   "dependencies": {
-    "astro": "5.18.2",
+    "astro": "7.1.6",
     "@astrojs/sitemap": "^3.0.0"
   }
 }
